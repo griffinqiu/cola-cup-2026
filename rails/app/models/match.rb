@@ -13,8 +13,8 @@ class Match < ApplicationRecord
   # truth for both validation and the picker UI.
   STAKE_OPTIONS_BY_STAGE = {
     "group" => [ 1.0 ],
-    "r32" => [ 2.0, 4.0, 6.0 ], "r16" => [ 2.0, 4.0, 6.0 ], "qf" => [ 2.0, 4.0, 6.0 ],
-    "sf" => [ 3.0, 6.0, 9.0 ], "third" => [ 3.0, 6.0, 9.0 ], "final" => [ 3.0, 6.0, 9.0 ]
+    "r32" => [ 2.0, 3.0 ], "r16" => [ 2.0, 3.0 ], "qf" => [ 2.0, 3.0 ],
+    "sf" => [ 3.0, 5.0 ], "third" => [ 3.0, 5.0 ], "final" => [ 3.0, 5.0 ]
   }.freeze
 
   # Voting opens by calendar day (Beijing midnight), not kickoff-minus-7-days:

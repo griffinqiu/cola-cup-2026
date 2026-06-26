@@ -108,23 +108,24 @@ RSpec.describe Match do
       expect(group.stake).to eq(1.0)
 
       r16 = build(:match, stage: "r16")
-      expect(r16.stake_options).to eq([ 2.0, 4.0, 6.0 ])
-      expect(r16.default_stake).to eq(4.0)
+      expect(r16.stake_options).to eq([ 2.0, 3.0 ])
+      expect(r16.default_stake).to eq(3.0)
 
       final = build(:match, stage: "final")
-      expect(final.stake_options).to eq([ 3.0, 6.0, 9.0 ])
-      expect(final.default_stake).to eq(6.0)
+      expect(final.stake_options).to eq([ 3.0, 5.0 ])
+      expect(final.default_stake).to eq(5.0)
     end
 
     it "accepts only stakes within the stage's options" do
       r16 = build(:match, stage: "r16")
       expect(r16.valid_stake?(2.0)).to be(true)
-      expect(r16.valid_stake?(4)).to be(true)
-      expect(r16.valid_stake?(5.0)).to be(false)
+      expect(r16.valid_stake?(3)).to be(true)
+      expect(r16.valid_stake?(4.0)).to be(false)
       expect(r16.valid_stake?(999)).to be(false)
 
-      expect(build(:match, stage: "sf").valid_stake?(9.0)).to be(true)
-      expect(build(:match, stage: "third").valid_stake?(9.0)).to be(true)
+      expect(build(:match, stage: "sf").valid_stake?(5.0)).to be(true)
+      expect(build(:match, stage: "third").valid_stake?(5.0)).to be(true)
+      expect(build(:match, stage: "sf").valid_stake?(9.0)).to be(false)
       expect(build(:match, stage: "group").valid_stake?(1.0)).to be(true)
       expect(build(:match, stage: "group").valid_stake?(2.0)).to be(false)
     end

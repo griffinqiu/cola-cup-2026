@@ -15,17 +15,17 @@ RSpec.describe "Votes", type: :request do
 
     it "records a vote with a stake the player chose from the stage's options" do
       sign_in user
-      match = create(:match, :knockout) # r16 -> options [2, 4, 6]
-      post match_vote_path(match), params: { pick: "home", stake: "6" }, as: :turbo_stream
+      match = create(:match, :knockout) # r16 -> options [2, 3]
+      post match_vote_path(match), params: { pick: "home", stake: "3" }, as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
       vote = Vote.sole
-      expect(vote).to have_attributes(user_id: user.id, match_id: match.id, pick: "home", stake: 6.0)
+      expect(vote).to have_attributes(user_id: user.id, match_id: match.id, pick: "home", stake: 3.0)
     end
 
     it "rejects a stake outside the stage's options (422, no vote written)" do
       sign_in user
-      match = create(:match, :knockout) # r16 -> options [2, 4, 6], so 5 is invalid
+      match = create(:match, :knockout) # r16 -> options [2, 3], so 5 is invalid
       post match_vote_path(match), params: { pick: "home", stake: "5" }, as: :turbo_stream
 
       expect(response).to have_http_status(:unprocessable_content)
@@ -37,9 +37,9 @@ RSpec.describe "Votes", type: :request do
       sign_in user
       match = create(:match, :knockout)
       post match_vote_path(match), params: { pick: "home", stake: "2" }, as: :turbo_stream
-      expect { post match_vote_path(match), params: { pick: "home", stake: "6" }, as: :turbo_stream }
+      expect { post match_vote_path(match), params: { pick: "home", stake: "3" }, as: :turbo_stream }
         .not_to change(Vote, :count)
-      expect(user.votes.find_by(match: match).stake).to eq(6.0)
+      expect(user.votes.find_by(match: match).stake).to eq(3.0)
     end
 
     it "upserts in place when the pick changes" do
@@ -82,12 +82,12 @@ RSpec.describe "Votes", type: :request do
 
     it "renders the bottle-amount selector for a knockout match" do
       sign_in user
-      match = create(:match, :knockout) # r16 -> options [2, 4, 6], default 4
+      match = create(:match, :knockout) # r16 -> options [2, 3], default 3
       get match_path(match)
       expect(response.body).to include('data-vote-panel-target="stake"')
       expect(response.body).to include('data-stake="2.0"')
-      expect(response.body).to include('data-stake="6.0"')
-      expect(response.body).to include('data-vote-panel-default-stake-value="4.0"')
+      expect(response.body).to include('data-stake="3.0"')
+      expect(response.body).to include('data-vote-panel-default-stake-value="3.0"')
       expect(response.body).not_to include("本场固定下注")
     end
 
