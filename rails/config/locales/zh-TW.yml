@@ -1,0 +1,20 @@
+# Traditional Chinese. Mirrors the zh-CN key tree (config/locales/zh-CN.yml).
+# Times render in Beijing time; %a resolves to the zh-TW weekday (週四 etc.).
+zh-TW:
+  time:
+    formats:
+      day_label: "%-m月%-d日 %a"
+      kickoff: "%-m/%-d %H:%M %a"
+      snapshot: "%-m/%-d %H:%M"
+      reset: "%-m月%-d日 %H:%M"
+
+  format:
+    countdown:
+      started: "已開賽"
+      days_hours: "%{days}天%{hours}小時後"
+      hours_minutes: "%{hours}小時%{minutes}分後"
+      minutes: "%{minutes}分鐘後"
+    relative_day:
+      today: "今天"
+      tomorrow: "明天"
+      yesterday: "昨天"

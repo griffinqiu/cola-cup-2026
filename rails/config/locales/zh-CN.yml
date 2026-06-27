@@ -1,0 +1,26 @@
+# Simplified Chinese — the authored source of truth for every app string.
+# Other locales (zh-TW, en, ja) mirror this key tree; the i18n completeness
+# spec fails if any locale drifts. Times render in Beijing time (see
+# FormatHelper); %a/%b resolve to the locale's day/month names from rails-i18n.
+zh-CN:
+  time:
+    formats:
+      # Schedule day heading, e.g. "6月11日 周四" (month/day unpadded).
+      day_label: "%-m月%-d日 %a"
+      # Match-detail kickoff line, e.g. "6/11 11:00 周四".
+      kickoff: "%-m/%-d %H:%M %a"
+      # Odds-snapshot timestamp, e.g. "6/13 08:00" (no weekday).
+      snapshot: "%-m/%-d %H:%M"
+      # Rate-limit reset, e.g. "6月11日 11:00".
+      reset: "%-m月%-d日 %H:%M"
+
+  format:
+    countdown:
+      started: "已开赛"
+      days_hours: "%{days}天%{hours}小时后"
+      hours_minutes: "%{hours}小时%{minutes}分后"
+      minutes: "%{minutes}分钟后"
+    relative_day:
+      today: "今天"
+      tomorrow: "明天"
+      yesterday: "昨天"

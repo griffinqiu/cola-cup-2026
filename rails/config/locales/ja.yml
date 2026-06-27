@@ -1,0 +1,20 @@
+# Japanese. Mirrors the zh-CN key tree (config/locales/zh-CN.yml). Times render
+# in Beijing time; %a resolves to the Japanese weekday (木 etc.).
+ja:
+  time:
+    formats:
+      day_label: "%-m月%-d日(%a)"
+      kickoff: "%-m/%-d %H:%M(%a)"
+      snapshot: "%-m/%-d %H:%M"
+      reset: "%-m月%-d日 %H:%M"
+
+  format:
+    countdown:
+      started: "試合開始"
+      days_hours: "%{days}日%{hours}時間後"
+      hours_minutes: "%{hours}時間%{minutes}分後"
+      minutes: "%{minutes}分後"
+    relative_day:
+      today: "今日"
+      tomorrow: "明日"
+      yesterday: "昨日"

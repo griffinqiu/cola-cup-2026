@@ -98,4 +98,30 @@ RSpec.describe FormatHelper, type: :helper do
       expect(helper.day_key_offset("2026-01-01", -1)).to eq("2025-12-31")
     end
   end
+
+  describe "localized rendering" do
+    let(:now) { Time.utc(2026, 6, 11, 3, 0) }
+
+    it "renders the day label per locale" do
+      expect(I18n.with_locale(:"zh-TW") { helper.format_day_label(thu_morning) }).to eq("6月11日 週四")
+      expect(I18n.with_locale(:en) { helper.format_day_label(thu_morning) }).to eq("Thu, Jun 11")
+      expect(I18n.with_locale(:ja) { helper.format_day_label(thu_morning) }).to eq("6月11日(木)")
+    end
+
+    it "renders kickoff per locale" do
+      expect(I18n.with_locale(:en) { helper.format_kickoff(thu_morning) }).to eq("Thu 6/11 11:00")
+      expect(I18n.with_locale(:ja) { helper.format_kickoff(thu_morning) }).to eq("6/11 11:00(木)")
+    end
+
+    it "renders countdown per locale" do
+      expect(I18n.with_locale(:en) { helper.format_countdown(now + 86_400 + 3_600, now) }).to eq("1d 1h left")
+      expect(I18n.with_locale(:ja) { helper.format_countdown(now + 300, now) }).to eq("5分後")
+      expect(I18n.with_locale(:"zh-TW") { helper.format_countdown(now, now) }).to eq("已開賽")
+    end
+
+    it "renders relative day headings per locale" do
+      expect(I18n.with_locale(:en) { helper.relative_day_heading("2026-06-11", "2026-06-11") }).to eq([ "Today", true ])
+      expect(I18n.with_locale(:ja) { helper.relative_day_heading("2026-06-12", "2026-06-11") }).to eq([ "明日", false ])
+    end
+  end
 end

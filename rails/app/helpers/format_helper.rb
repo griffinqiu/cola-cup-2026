@@ -4,10 +4,6 @@ module FormatHelper
   # legacy src/lib/format.ts (+ decimalOdds.formatDecimal, ScheduleTimeline.dayHeading).
   DISPLAY_TIME_ZONE = "Asia/Shanghai".freeze
 
-  # zh-CN short weekday, indexed by Time#wday (0 = Sunday). Matches the output of
-  # Intl.DateTimeFormat("zh-CN", { weekday: "short" }).
-  WEEKDAY_NAMES = %w[周日 周一 周二 周三 周四 周五 周六].freeze
-
   EM_DASH = "—".freeze
 
   # Stable YYYY-MM-DD key in Beijing time, used to group matches by day.
@@ -15,16 +11,15 @@ module FormatHelper
     in_display_zone(time).strftime("%Y-%m-%d")
   end
 
-  # Schedule day heading, e.g. "6月11日 周四" (month/day are not zero-padded).
+  # Schedule day heading. Per-locale format (zh-CN "6月11日 周四", en "Thu, Jun
+  # 11"); %a resolves to the locale's abbreviated weekday.
   def format_day_label(time)
-    t = in_display_zone(time)
-    "#{t.month}月#{t.day}日 #{WEEKDAY_NAMES[t.wday]}"
+    I18n.l(in_display_zone(time), format: :day_label)
   end
 
-  # Match-detail kickoff line, e.g. "6/11 11:00 周四".
+  # Match-detail kickoff line, per-locale (zh-CN "6/11 11:00 周四").
   def format_kickoff(time)
-    t = in_display_zone(time)
-    "#{t.month}/#{t.day} #{t.strftime('%H:%M')} #{WEEKDAY_NAMES[t.wday]}"
+    I18n.l(in_display_zone(time), format: :kickoff)
   end
 
   # 24h, zero-padded, e.g. "11:00" / "00:00".
@@ -32,18 +27,19 @@ module FormatHelper
     in_display_zone(time).strftime("%H:%M")
   end
 
-  # Countdown copy relative to now. "已开赛" once the kickoff has passed.
+  # Countdown copy relative to now, localized. Reads "已开赛" / "Kicked off" once
+  # the kickoff has passed.
   def format_countdown(time, now = Time.current)
     seconds = time.to_i - now.to_i
-    return "已开赛" if seconds <= 0
+    return I18n.t("format.countdown.started") if seconds <= 0
 
     days = seconds / 86_400
     hours = (seconds % 86_400) / 3_600
     minutes = (seconds % 3_600) / 60
-    return "#{days}天#{hours}小时后" if days.positive?
-    return "#{hours}小时#{minutes}分后" if hours.positive?
+    return I18n.t("format.countdown.days_hours", days: days, hours: hours) if days.positive?
+    return I18n.t("format.countdown.hours_minutes", hours: hours, minutes: minutes) if hours.positive?
 
-    "#{minutes}分钟后"
+    I18n.t("format.countdown.minutes", minutes: minutes)
   end
 
   # Net bottles with an explicit "+" for positive balances. "+2.50" / "-1.00" /
@@ -75,22 +71,21 @@ module FormatHelper
   # Odds-snapshot timestamp, e.g. "6/13 08:00" — the date keeps a stale market
   # line honest, no weekday so it stays tag-sized.
   def format_snapshot_time(time)
-    t = in_display_zone(time)
-    "#{t.month}/#{t.day} #{t.strftime('%H:%M')}"
+    I18n.l(in_display_zone(time), format: :snapshot)
   end
 
   # Beijing date + time (no weekday) for the rate-limit reset, e.g. "6月11日 11:00".
   def format_reset_time(epoch_seconds)
     t = Time.zone.at(epoch_seconds.to_i).in_time_zone(DISPLAY_TIME_ZONE)
-    "#{t.month}月#{t.day}日 #{t.strftime('%H:%M')}"
+    I18n.l(t, format: :reset)
   end
 
   # Relative day heading mirroring the legacy ScheduleTimeline.dayHeading.
   # Returns [primary_label_or_nil, is_today]; nil primary means "use the date label".
   def relative_day_heading(date_key, today_key)
-    return [ "今天", true ]  if date_key == today_key
-    return [ "明天", false ] if date_key == day_key_offset(today_key, 1)
-    return [ "昨天", false ] if date_key == day_key_offset(today_key, -1)
+    return [ I18n.t("format.relative_day.today"), true ]      if date_key == today_key
+    return [ I18n.t("format.relative_day.tomorrow"), false ]  if date_key == day_key_offset(today_key, 1)
+    return [ I18n.t("format.relative_day.yesterday"), false ] if date_key == day_key_offset(today_key, -1)
 
     [ nil, false ]
   end
