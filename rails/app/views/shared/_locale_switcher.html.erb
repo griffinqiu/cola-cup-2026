@@ -1,0 +1,11 @@
+<%# Language picker shown in the nav and on the settings page. Submits on
+    change (Stimulus); the submit button is the no-JS fallback. %>
+<%= form_with url: locale_path, method: :patch, class: "locale-switch",
+      data: { controller: "locale-switcher" } do |form| %>
+  <%= form.select :locale,
+        User::LOCALE_NAMES.map { |code, name| [ name, code ] },
+        { selected: I18n.locale.to_s },
+        class: "locale-select", "aria-label": t("locale_switcher.label"),
+        data: { action: "change->locale-switcher#submit" } %>
+  <noscript><%= form.submit t("locale_switcher.go"), class: "locale-go" %></noscript>
+<% end %>

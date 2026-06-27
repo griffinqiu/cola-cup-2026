@@ -209,6 +209,9 @@ en:
       not_cancelable: This prediction can't be canceled right now (not open, locked, or matchup undecided)
     odds:
       bad_probability: Probability must be between 0–1 (a decimal)
+  locale_switcher:
+    label: "Language"
+    go: "Switch"
   flash:
     odds_updated: Odds updated
     score_saved: Score saved

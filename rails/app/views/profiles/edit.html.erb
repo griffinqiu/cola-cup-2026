@@ -6,5 +6,10 @@
 
   <%= render "profiles/form", user: current_user %>
 
+  <div class="id-locale">
+    <label class="row"><%= t("locale_switcher.label") %></label>
+    <%= render "shared/locale_switcher" %>
+  </div>
+
   <%= button_to t(".sign_out"), destroy_user_session_path, method: :delete, form: { class: "signout" } %>
 </section>

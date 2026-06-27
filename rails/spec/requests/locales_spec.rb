@@ -51,6 +51,14 @@ RSpec.describe "Locale selection" do
     end
   end
 
+  describe "the switcher UI" do
+    it "renders a language picker posting to /locale with every locale option" do
+      get root_path
+      expect(response.body).to include('action="/locale"')
+      User::LOCALE_NAMES.each_value { |name| expect(response.body).to include(name) }
+    end
+  end
+
   def html_lang
     response.body[/<html[^>]*\blang="([^"]+)"/, 1]
   end

@@ -127,6 +127,10 @@ zh-CN:
     odds:
       bad_probability: "概率需为 0–1 之间（小数）"
 
+  locale_switcher:
+    label: "语言"
+    go: "切换"
+
   flash:
     odds_updated: "赔率已更新"
     score_saved: "比分已保存"

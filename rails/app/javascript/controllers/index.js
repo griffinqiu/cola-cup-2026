@@ -9,6 +9,7 @@ import EmojiPickerController from "./emoji_picker_controller"
 import HelloController from "./hello_controller"
 import HighlightMeController from "./highlight_me_controller"
 import InfiniteScrollController from "./infinite_scroll_controller"
+import LocaleSwitcherController from "./locale_switcher_controller"
 import PreviewSheetController from "./preview_sheet_controller"
 import QtyStepperController from "./qty_stepper_controller"
 import ScheduleFilterController from "./schedule_filter_controller"
@@ -22,6 +23,7 @@ application.register("emoji-picker", EmojiPickerController)
 application.register("hello", HelloController)
 application.register("highlight-me", HighlightMeController)
 application.register("infinite-scroll", InfiniteScrollController)
+application.register("locale-switcher", LocaleSwitcherController)
 application.register("preview-sheet", PreviewSheetController)
 application.register("qty-stepper", QtyStepperController)
 application.register("schedule-filter", ScheduleFilterController)

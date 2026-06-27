@@ -208,6 +208,9 @@ ja:
       not_cancelable: この試合は現在予想を取り消せません（未公開、締切済み、または対戦カード未定）
     odds:
       bad_probability: 確率は 0–1 の範囲（小数）で指定してください
+  locale_switcher:
+    label: "言語"
+    go: "切替"
   flash:
     odds_updated: オッズを更新しました
     score_saved: スコアを保存しました

@@ -208,6 +208,9 @@ zh-TW:
       not_cancelable: 該比賽目前無法取消預測（未開放、已截止或對陣未定）
     odds:
       bad_probability: 機率需為 0–1 之間（小數）
+  locale_switcher:
+    label: "語言"
+    go: "切換"
   flash:
     odds_updated: 賠率已更新
     score_saved: 比分已儲存
