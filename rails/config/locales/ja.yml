@@ -18,3 +18,440 @@ ja:
       today: "今日"
       tomorrow: "明日"
       yesterday: "昨日"
+  drinks:
+    cola: コーラ
+    icetea: お茶系ドリンク
+    alien: エイリアン
+    redbull: レッドブル
+  stages:
+    group: グループステージ
+    r32: ベスト32
+    r16: ベスト16
+    qf: 準々決勝
+    sf: 準決勝
+    third: 3位決定戦
+    final: 決勝
+  matches:
+    status:
+      scheduled: 未公開
+      upcoming: オッズ準備中
+      open: 予想受付中
+      live: 試合中
+      locked: 締切
+      settled: 精算済み
+    pick_short:
+      home: ホ
+      draw: 分
+      away: ア
+    result_label:
+      home: ホーム勝ち
+      draw: 引き分け
+      away: アウェイ勝ち
+    draw: 引き分け
+    pending_settlement: 精算待ち
+    odds_multiplier: オッズ %{odds}x
+    no_market_comparison: 市場との比較なし
+    odds_lead:
+      market: 市場の評価が高い
+      crowd: 同僚の評価が高い
+    slot:
+      group_position: "%{group}組 第%{position}位"
+      third_place: "%{groups}組 3位"
+      match_winner: M%{match} 勝者
+    candidates:
+      summary: 候補
+      summary_count: 候補（%{count}）
+      full_ranking: 3位の完全ランキングを見る →
+      online: オンライン
+      offline: オフライン
+    index:
+      headline_line1: オッズで
+      headline_emph: コーラを勝ち取れ
+      tagline: 同僚の予想で精算、外したら同僚にドリンクをおごる。
+      what_is_cola: 「コーラ」とは？
+      tab_matches: 試合
+      tab_done: 終了
+      group_standings: グループ順位表
+      scorers: 得点ランキング
+      no_matches: 条件に合う試合がありません
+    show:
+      back: 戻る
+      group_standings: "%{letter}組 順位表"
+    vote_panel:
+      match_goals: この試合の得点
+      own_goal: オウンゴール
+      penalty: PK
+      goals_pending: この試合の得点データは更新待ちです。
+      scorers_link: 得点ランキング →
+      want_to_predict: 予想したい？
+      set_identity_prefix: まずは
+      set_identity_link: 身分を設定
+      set_identity_suffix: "。"
+      locked: ロック済み
+      not_open: 未公開
+      you_picked_prefix: あなたの予想は
+      bottles_suffix: 本。
+      cannot_predict: 現在は予想できません（オッズなし、またはロック済み）。
+      who_do_you_pick: どっちが勝つ？
+      bottles: 本
+      choose_stake_hint: 賭ける本数を選ぶ · 外したらこの本数をおごる
+      fixed_stake_prefix: この試合は固定で
+      fixed_stake_suffix: "本 · 外したらこの本数をおごる"
+      win_prefix: 当たればおよそ
+      win_suffix: "本獲得 · 現在の予想オッズ基準"
+      pick_one: 予想を選ぶ
+      submit_voted: "✅ 現在の予想は %{team}"
+      submit_pick_one: "\U0001F964 予想を選ぶ"
+      next_match: 次の試合
+      back_to_schedule: 日程に戻る
+      change_hint: 試合開始前ならいつでも変更、または
+      cancel_vote: 予想を取り消す
+    odds_compare:
+      odds_compare: オッズ比較
+      market: 市場
+      colleagues: 同僚
+      settle_note: 精算は同僚の予想のみで行います
+      low_sample: 同僚のサンプルが少ないため、オッズは参考程度です
+      market_data: 市場データ
+      for_reference: 参考のみ
+      market_for_reference: 市場は参考のみ
+      locked_at: "%{time} にロック"
+      updated_at: "%{time} に更新"
+      not_opened: オッズ未公開
+    votes_list:
+      colleague_predictions: 同僚の予想 · %{count}人
+      be_first: まだ誰も予想していません。最初の一人になろう
+    card_meta:
+      voted: 予想済み
+      to_predict: 予想待ち
+      in_progress: 試合中
+      locked: ロック
+    match_card:
+      candidates: 候補
+      full_third_place: 3位の完全ランキングを見る →
+      team_count: "（%{count}チーム）"
+    card_big:
+      market: 市場
+      colleagues: 同僚
+      no_odds: オッズなし
+    card_teams:
+      focus_match: 注目の一戦
+    match_list:
+      no_matches: 試合がありません
+      match_count: "%{count}試合"
+    vote_row:
+      bottles: 本
+    day_section:
+      match_unit: 試合
+  auth:
+    oidc_default_name: OIDC ログイン
+  users:
+    fallback_nickname: サポーター
+  leaderboards:
+    boards:
+      reaper:
+        name: 狩り取りランキング
+        subtitle: コーラ純得点トップ · 収穫の王（引き換えは順位に影響しません）
+        explainer: コーラ純得点（勝った本数から負けた本数を引いた数）の高い順に並べます。ドリンクの引き換えはクレジットを使うだけで、順位には影響しません。
+      leek:
+        name: カモランキング
+        subtitle: コーラ純得点が最も低い · もっとも刈られた人
+        explainer: 狩り取りランキングの裏返し。コーラ純得点の低い順に並べ、最も負けた人が一番上に来ます。予想に参加したことのある人のみが対象です。
+      oracle:
+        name: 予言者ランキング
+        subtitle: 的中率トップ · ベイズ加重、試合数が多いほど安定
+        explainer: 予想の的中率で順位を付けますが、「試合数」の補正をかけています。運だけで数試合当てても不十分で、正確かつ多くこなしてこそ安定します。1試合だけ全的中でも即座に首位にはならず、まず全体平均の的中率で割り引かれます。予想した試合数が多いほど、あなたの実力が反映される割合が高くなります。
+        formula: ベイズ加重 =（的中数 + 5 × 全体平均的中率）÷（予想試合数 + 5）。公開アルゴリズム、IMDB Top 250 の加重評価と同じです。
+      jinx:
+        name: 逆神ランキング
+        subtitle: 押せば外れる · もっとも安定して外す人
+        explainer: 予言者ランキングの裏返し。「外し率」で順位を付け、同様に試合数の補正をかけています。たまに1〜2回外しただけでは逆神とは言えず、安定して押せば外れ、かつ試合数が十分でこそ上位に入ります。
+        formula: Wilson 信頼区間の下限（外し率、z = 1.96）。公開アルゴリズム、Reddit のコメント並べ替えと同じです。
+      otaku:
+        name: ぐうたらランキング
+        subtitle: コーラの引き換え最多 · ぐうたらの幸せ
+        explainer: 引き換えたクレジットの累計が多い順に並べ、最も飲んだぐうたらが一番上に来ます。ドリンクを引き換えたことのある人のみが対象です。
+    show:
+      empty: まだ誰もランクインしていません
+      how_calculated: 計算方法
+    row:
+      bets_wins: "%{bets}試合 · 的中 %{wins}"
+      hit_suffix: " · 的中率 %{hit_pct}%"
+      prophet_score: 予言スコア
+      hit_rate: 的中率 %{value}
+      jinx_score: 逆神スコア
+      miss_rate: 外し率 %{value} · 外し %{misses}/%{bets}
+      redeemed: 引き換え
+      record: 戦績 %{value}
+      record_label: 戦績
+      redeemed_excluded_title: 引き換え済みは順位に含みません
+      redeemed_short: 引換済 %{value}
+      not_redeemed: 未引き換え
+  errors:
+    match:
+      already_settled: この試合は精算済みです。スコア修正をご利用ください
+      knockout_tie: ノックアウト戦でスコアが同じです。勝ち上がるチームを選んでください
+      missing_score: スコアを入力してください
+    redemption:
+      unknown_drink: 不明なドリンク
+      invalid_quantity: 引き換え数量は正の整数で指定してください
+    settlement:
+      no_participants: 参加者が選択されていません
+      nothing_to_settle: 精算できる試合がありません
+      match_missing: 試合が存在しません
+      already_settled: 精算済み
+      no_result: まだ試合結果が入力されていません
+    vote:
+      bad_pick: この試合ではこの予想選択肢はサポートされていません
+      bad_stake: この試合ではこの賭け本数はサポートされていません
+      not_votable: この試合は現在予想できません（未公開、締切済み、または対戦カード未定）
+      not_cancelable: この試合は現在予想を取り消せません（未公開、締切済み、または対戦カード未定）
+    odds:
+      bad_probability: 確率は 0–1 の範囲（小数）で指定してください
+  flash:
+    odds_updated: オッズを更新しました
+    score_saved: スコアを保存しました
+    select_matches: 精算する試合を選択してください
+    settled: "%{count}試合を精算しました"
+  admin:
+    settlements:
+      index:
+        title: 精算管理
+        intro: 終了した試合にチェック → 精算プレビューで各人の純本数を確認 → 確定すると精算記録が生成され、台帳が同僚に公開されます。
+        no_records: まだ精算記録がありません
+        no_todo: 終了して精算待ちの試合はありません
+        settle_selected_prefix: 選択を精算（
+        settle_selected_suffix: "試合）"
+      preview_sheet:
+        preview_title: 精算プレビュー
+        matches_unit: 試合
+        no_bets: この試合は誰も賭けていません
+        included_count: 精算対象 %{num}人
+        skipped: "%{num}試合をスキップ（%{reason} など）"
+        no_participants: 精算対象の人がいません。
+        winners_label: 今回の勝者（口座 +）
+        losers_label: 今回の敗者（口座 −）
+        bottles_unit: 本
+        confirm: 精算を確定
+        recompute: 再計算
+        cancel: 取消
+      todo_row:
+        save_score_first: 先にスコアを保存してから精算してください
+        votes_unit: 票
+        no_result_suffix: " · 試合結果未入力"
+        home_score_placeholder: ホ
+        away_score_placeholder: ア
+        advance: 勝ち上がり
+        result_label: "結果："
+        save_score: スコアを保存
+        predictions_detail_prefix: 予想明細（
+        predictions_detail_suffix: "）"
+      record_card:
+        settlement_label: '精算 '
+        matches_unit: 試合
+        people_unit: 人
+        bottles_unit: 本
+        no_bets: この回は誰も賭けていません。
+    users:
+      index:
+        title: ユーザー管理
+        intro: 削除は論理削除です。そのユーザーはランキング・オッズ・精算から消え、ログインできなくなります。いつでも復元できます。
+      user:
+        self: 本人
+        restore: 復元
+        delete: 削除
+    shared:
+      tabs:
+        todo: 精算待ち
+        records: 精算記録
+        users: ユーザー管理
+        jobs: ジョブ監視 ↗
+      locked:
+        title: 精算管理
+        restricted: このページは精算アカウントのみアクセスできます。
+        login_hint: 精算アカウントでログインしてからお越しください。
+  layouts:
+    application:
+      title: The Cola of Cup 2026 · ワールドカップ コーラ予想
+  shared:
+    nav:
+      tab_schedule: 日程
+      tab_leaderboard: ランキング
+      tab_redeem: 引き換え
+      tab_about: 説明
+      tab_admin: 管理
+      sign_in: ログイン
+  identities:
+    show:
+      session_refreshed_html: ログインセッションが自動で更新されました（ログアウト後やログインページに長く留まったため）。下のボタンをもう一度押してログインしてください。<strong>Cookie を消す必要はありません</strong>。
+      heading_html: "ログイン<br><em>予想に参加</em> \U0001F964"
+      lead: ログインするとアバターとニックネームが自動で取り込まれます。ログイン後にニックネームは変更できます。
+      sign_in_with_x: "\U0001D54F でログイン"
+      no_auth_configured: ログイン方法が未設定です。管理者にお問い合わせください。
+  auth_errors:
+    show:
+      back_to_sign_in: ログインに戻る
+      sign_in_again: 再ログイン
+      suspended_heading_html: "<br><em>ログイン</em>できません \U0001F6AB"
+      suspended_body1: |-
+        ログインに使った X（Twitter）アカウントが X により「凍結 / 停止」(suspended) と判定されており、
+              X がそのアカウント情報の提供を拒否しているため、ログインを完了できません。
+      suspended_body2: 解決方法：状態が正常な別の X アカウントでログインするか、x.com でそのアカウントの停止理由を確認し、解除を申し立ててから再度お越しください。
+      rate_limited_heading_html: "ログインが<br><em>一時的に制限</em>されています \U0001F964"
+      rate_limited_body1: |-
+        X がログインインターフェースに頻度制限をかけており、先ほどのリクエストが上限に達しました——
+              通常は短時間にログインを繰り返し押した、または複数人が同時にログインしたことが原因です。
+      rate_limited_body2_html: |-
+        <strong>北京時間 %{reset_time}</strong> 以降に再度お越しいただきログインしてください。
+              その頃には制限が自動で解除されます。ボタンを一度押して、画面が切り替わるのを気長にお待ちください。連打しないでください。
+      error_heading_html: ログインで<br><em>エラーが発生しました</em>
+      error_body1_html: |-
+        ログインのハンドシェイクが完了しませんでした。通常は連打やログインページに長く留まったことが原因です。
+              <strong>下のボタンを一度押して再ログインし、画面の切り替わりを気長にお待ちください</strong>。連打しないでください。
+      error_body2: それでも失敗する場合は、本サイトの Cookie を削除（またはシークレットウィンドウを使用）して再度お試しください。繰り返し失敗する場合は管理者にお問い合わせください。
+  pages:
+    about:
+      lead_heading_html: "ギャンブルではなく、<br>\n      <em>おごり</em>です \U0001F964"
+      intro_html: |-
+        <b style="color: var(--hi)">The Cola of Cup 2026</b>
+              は同僚同士のワールドカップ予想ゲームです —— 試合前に勝つ方を予想し、試合後はみんなの予想オッズで精算します。
+              <b style="color: var(--hi)">本物のお金は使いません</b>。勝ち負けはすべてドリンクで：外した人がみんなに数本おごる、ただそれだけです。
+      credits_heading: "「クレジット」でドリンクと引き換え"
+      credits_sub: 1クレジット = コーラ1本。他のドリンクは下記の比率で引き換え
+      drink_cola: コーラ
+      drink_cola_rate: 1クレジット / 本
+      drink_tea: お茶系ドリンク
+      drink_tea_rate: 1.5クレジット / 本
+      drink_alien: エイリアン
+      drink_alien_rate: 1.5クレジット / 本
+      drink_redbull: レッドブル
+      drink_redbull_rate: 2.5クレジット / 本
+      how_heading: 遊び方
+      rule_predict_html: "<b>試合前に予想</b>し、ホーム勝ち / 引き分け / アウェイ勝ちを選びます。グループステージは固定1本。ノックアウト戦は<b>賭ける本数を選べます</b>：ベスト32/16/8 は 2/3 本、準決勝以降は 3/5 本。<small>試合開始前ならいつでも変更・取り消しできます。</small>"
+      rule_lock_html: "<b>試合開始1時間前にロック</b>。精算オッズは同僚の予想を基準とします。<small>Polymarket の市場データは全期間を通じて比較参考のみです。</small>"
+      rule_settle_html: "<b>試合後に精算</b>：的中ならオッズに応じて本数を獲得、外したら賭けた分だけみんなにドリンクをおごります。獲得本数は<b>小数で累計</b>してあなたの口座に記録されます。"
+      rule_redeem_html: "<b>クレジット引き換え</b>：「マイページ」でクレジットを使い<b>ドリンクと引き換え</b> —— コーラ1、お茶系ドリンク/エイリアン 1.5、レッドブル 2.5 クレジットで1本、引き換え後は自動でクレジットが差し引かれます。<b>クレジットがなくても引き換え可能</b>で、口座はマイナスとして記録されます —— 負けた人もちゃんと飲めて、シーズン終了時に最終クレジットで精算します（借りた分はおごって清算）。<small>プラットフォームの手数料はなく、クレジットは当てた人と外した人の間でのみやり取りされます。</small>"
+      rule_multi_html: "<b>もっと賭けたい？</b>複数アカウントで参加すればOK、<b>一人で複数アカウントも制限なし</b>。"
+  profiles:
+    show:
+      participation: "%{count}試合に参加 · 的中 %{wins}"
+      total_won: 現在の総獲得スコア
+      redeemed: 引き換え済み
+      available_credit: 利用可能クレジット
+      available_credit_note: 利用可能クレジット = 現在の総獲得スコア − 引き換え済み。
+      ledger_heading: 精算明細
+      empty_ledger: まだ精算済みの記録がありません
+    edit:
+      heading: マイ設定
+      logged_in_with: "%{provider} でログイン済み"
+      sign_out: ログアウト
+    form:
+      name_placeholder: あなた
+      avatar_preview: アバタープレビュー
+      nickname: ニックネーム
+      nickname_placeholder: 自分の名前を付けよう
+      choose_emoji: アバターの emoji を選ぶ
+      save: "\U0001F964 保存"
+    redeem_panel:
+      pickup: "\U0001F964 コーラはドリンクコーナーでご自身でお受け取りください"
+      free_html: クレジットがなくても、<b>マイナスでも引き換え可能</b> —— 飲みたければ引き換えて、口座にはマイナスで記録、シーズン終了時にまとめて精算します。
+      credits_per_bottle: "%{credits}クレジット / 本"
+      decrease: 減らす
+      increase: 増やす
+      redeem: 引き換え · %{credits}
+    redemption_records:
+      heading: 引き換え記録
+      unit_cost: 引き換え · %{credits}クレジット / 本
+    ledger:
+      pick: 予想 %{pick}
+      won: 獲得
+      owe: おごり
+      staked: "%{count}本賭け"
+    tabs:
+      ledger: 台帳
+      settings: 設定
+    balance:
+      credit_unit: " クレジット"
+  users_views:
+    show:
+      back_to_leaderboard: "← ランキングに戻る"
+      participation: "%{count}試合に参加 · 的中 %{wins}"
+      ledger_heading: 精算記録
+      empty_ledger: この人にはまだ精算記録がありません
+  standings:
+    third_place:
+      page_title: 3位突破ランキング · The Cola of Cup
+      back: 戻る
+      scorers_crumb: 得点ランキング
+      heading: 3位の突破
+      subtitle: 12グループの3位のうち成績上位 %{slots} チームがベスト32に進出 · 並び順：勝点 › 得失点差 › 得点数
+      empty: グループステージの3位順位はまだ確定していません
+      col_group: 組
+      col_team: チーム
+      col_played: 試
+      col_played_title: 試合数
+      col_goal_diff: 差
+      col_goal_diff_title: 得失点差
+      col_goals_for: 得
+      col_goals_for_title: 得点
+      col_points: 点
+      col_points_title: 勝点
+      cutline: 突破ボーダーライン · 以上が進出
+      legend_qualified: ベスト32進出
+      legend_out: 敗退
+    table:
+      col_team: チーム
+      col_played: 試
+      col_played_title: 試合数
+      col_won: 勝
+      col_won_title: 勝
+      col_drawn: 分
+      col_drawn_title: 引分
+      col_lost: 敗
+      col_lost_title: 敗
+      col_goal_diff: 差
+      col_goal_diff_title: 得失点差
+      col_goals_for: 得
+      col_goals_for_title: 得点
+      col_goals_against: 失
+      col_goals_against_title: 失点
+      col_points: 点
+      col_points_title: 勝点
+      legend_qualified: 上位2チーム突破
+      legend_third: 3位（最高の3位を争う）
+  groups:
+    index:
+      page_title: グループ順位表 · The Cola of Cup
+      back: 戻る
+      third_place_crumb: 3位突破ランキング
+      scorers_crumb: 得点ランキング
+      heading: グループ順位表
+      subtitle: 全12グループ · 上位2チームは直接突破、3位は最高の3位の座を争う
+      empty: グループステージはまだ始まっていません
+      legend_qualified: 上位2チーム突破
+      legend_third: 3位（最高の3位を争う）
+      view_group: グループを見る →
+    show:
+      page_title: "%{group} 順位表 · The Cola of Cup"
+      back: 戻る
+      third_place_crumb: 3位突破ランキング
+      subtitle: グループ順位表 · 上位2チームは直接突破、3位は最高の3位の座を争う
+      group_results: グループステージ戦績
+  scorers:
+    index:
+      page_title: 得点ランキング · The Cola of Cup
+      back: 戻る
+      third_place_crumb: 3位突破ランキング
+      heading: 得点ランキング
+      subtitle: 今大会の得点ランキング · データは openfootball より · オウンゴールは個人成績に含まず · 並び順：得点 › PKが少ない選手優先 › 名前
+      empty: まだ得点データがありません
+      col_player: 選手
+      col_goals: 得
+      col_goals_title: 得点数
+      col_penalties: PK
+      col_penalties_title: うちPK
+  teams:
+    show:
+      page_title: "%{team} · 日程 · The Cola of Cup"
+      back: 戻る
+      group_standings_crumb: "%{letter}組 順位表"

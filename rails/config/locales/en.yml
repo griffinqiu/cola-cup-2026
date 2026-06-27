@@ -18,3 +18,441 @@ en:
       today: "Today"
       tomorrow: "Tomorrow"
       yesterday: "Yesterday"
+
+  drinks:
+    cola: Cola
+    icetea: Assorted teas
+    alien: Alien
+    redbull: Red Bull
+  stages:
+    group: Group stage
+    r32: Round of 32
+    r16: Round of 16
+    qf: Quarterfinals
+    sf: Semifinals
+    third: Third-place match
+    final: Final
+  matches:
+    status:
+      scheduled: Not open
+      upcoming: Opening soon
+      open: Open
+      live: Live
+      locked: Locked
+      settled: Settled
+    pick_short:
+      home: H
+      draw: D
+      away: A
+    result_label:
+      home: Home win
+      draw: Draw
+      away: Away win
+    draw: Draw
+    pending_settlement: Pending settlement
+    odds_multiplier: Odds %{odds}x
+    no_market_comparison: No market comparison
+    odds_lead:
+      market: Market favors more
+      crowd: Coworkers favor more
+    slot:
+      group_position: "Group %{group} #%{position}"
+      third_place: "3rd in Group %{groups}"
+      match_winner: Winner of M%{match}
+    candidates:
+      summary: Candidates
+      summary_count: Candidates (%{count})
+      full_ranking: View full third-place ranking →
+      online: Online
+      offline: Offline
+    index:
+      headline_line1: By the odds,
+      headline_emph: win cola
+      tagline: Coworkers predict and settle up — guess wrong, buy drinks for the rest.
+      what_is_cola: What is "cola"?
+      tab_matches: Matches
+      tab_done: Finished
+      group_standings: Group standings
+      scorers: Top scorers
+      no_matches: No matching matches
+    show:
+      back: Back
+      group_standings: "Group %{letter} standings"
+    vote_panel:
+      match_goals: Goals this match
+      own_goal: Own goal
+      penalty: Penalty
+      goals_pending: Goal data for this match is pending.
+      scorers_link: Top scorers →
+      want_to_predict: Want to predict?
+      set_identity_prefix: First go
+      set_identity_link: set your identity
+      set_identity_suffix: "."
+      locked: Locked
+      not_open: Not open
+      you_picked_prefix: You picked
+      bottles_suffix: bottles.
+      cannot_predict: Predictions unavailable right now (no odds or locked).
+      who_do_you_pick: Who do you pick?
+      bottles: bottles
+      choose_stake_hint: Choose how many bottles to stake · lose and you buy these
+      fixed_stake_prefix: Fixed stake this match
+      fixed_stake_suffix: "· lose and you buy these"
+      win_prefix: Win about
+      win_suffix: "· at current prediction odds"
+      pick_one: Pick a favorite
+      submit_voted: "✅ Currently predicting %{team}"
+      submit_pick_one: "\U0001F964 Pick a favorite"
+      next_match: Next match
+      back_to_schedule: Back to schedule
+      change_hint: Change anytime before kickoff, or
+      cancel_vote: cancel prediction
+    odds_compare:
+      odds_compare: Odds comparison
+      market: Market
+      colleagues: Coworkers
+      settle_note: Settlement uses coworker predictions only
+      low_sample: Small coworker sample — odds for reference only
+      market_data: Market data
+      for_reference: For reference only
+      market_for_reference: Market for reference only
+      locked_at: Locked at %{time}
+      updated_at: Updated at %{time}
+      not_opened: Not open
+    votes_list:
+      colleague_predictions: Coworker predictions · %{count} people
+      be_first: No one has predicted yet — be the first
+    card_meta:
+      voted: Predicted
+      to_predict: To predict
+      in_progress: Live
+      locked: Locked
+    match_card:
+      candidates: Candidates
+      full_third_place: View full third-place ranking →
+      team_count: "(%{count} teams)"
+    card_big:
+      market: Market
+      colleagues: Coworkers
+      no_odds: No odds yet
+    card_teams:
+      focus_match: Featured match
+    match_list:
+      no_matches: No matches yet
+      match_count: "%{count} matches"
+    vote_row:
+      bottles: bottles
+    day_section:
+      match_unit: matches
+  auth:
+    oidc_default_name: OIDC sign-in
+  users:
+    fallback_nickname: Fan
+  leaderboards:
+    boards:
+      reaper:
+        name: Reaper Board
+        subtitle: Highest net cola · king of the harvest (redemptions don't affect ranking)
+        explainer: Ranked by net cola (bottles won minus bottles lost), high to low. Redeeming drinks just spends your credits and doesn't affect your ranking.
+      leek:
+        name: Sucker Board
+        subtitle: Lowest net cola · harvested the hardest
+        explainer: The flip side of the Reaper Board — ranked by net cola from low to high, so whoever lost the most comes first. Only counts people who have made predictions.
+      oracle:
+        name: Oracle Board
+        subtitle: Highest hit rate · Bayesian-weighted, steadier with more matches
+        explainer: Ranked by prediction hit rate, but with a "number of matches" correction — guessing a few right on luck isn't enough; you need to be both accurate and prolific to stay steady. Going 1-for-1 won't instantly top the board; it's first discounted toward the overall average hit rate. The more matches you predict, the more your true skill weighs in.
+        formula: Bayesian weighting = (hits + 5 × overall average hit rate) ÷ (matches predicted + 5). Open algorithm, same as the IMDB Top 250 weighted rating.
+      jinx:
+        name: Jinx Board
+        subtitle: Back them and they lose · the most reliably wrong
+        explainer: The flip side of the Oracle Board — ranked by "miss rate", also with a match-count correction. Missing once or twice doesn't make you a jinx; you need to reliably back losers over enough matches to rank high.
+        formula: Wilson score interval lower bound (miss rate, z = 1.96). Open algorithm, same as Reddit comment ranking.
+      otaku:
+        name: Couch Potato Board
+        subtitle: Most cola redeemed · couch-potato bliss
+        explainer: Ranked by total credits redeemed, high to low, so the biggest drinker comes first. Only counts people who have redeemed drinks.
+    show:
+      empty: No one is on the board yet
+      how_calculated: How it's calculated
+    row:
+      bets_wins: "%{bets} matches · %{wins} correct"
+      hit_suffix: " · %{hit_pct}% hit"
+      prophet_score: Oracle score
+      hit_rate: Hit rate %{value}
+      jinx_score: Jinx score
+      miss_rate: Miss rate %{value} · %{misses}/%{bets} wrong
+      redeemed: Redeemed
+      record: Record %{value}
+      record_label: Record
+      redeemed_excluded_title: Redeemed amounts don't count toward ranking
+      redeemed_short: Redeemed %{value}
+      not_redeemed: Not redeemed
+  errors:
+    match:
+      already_settled: This match is already settled — please edit the score instead
+      knockout_tie: Knockout scores are tied — please choose who advances
+      missing_score: Please enter the score
+    redemption:
+      unknown_drink: Unknown drink
+      invalid_quantity: Redemption quantity must be a positive integer
+    settlement:
+      no_participants: No participants selected
+      nothing_to_settle: No matches to settle
+      match_missing: Match does not exist
+      already_settled: Already settled
+      no_result: Result not entered yet
+    vote:
+      bad_pick: This match doesn't support that prediction option
+      bad_stake: This match doesn't support that stake amount
+      not_votable: This match can't be predicted right now (not open, locked, or matchup undecided)
+      not_cancelable: This prediction can't be canceled right now (not open, locked, or matchup undecided)
+    odds:
+      bad_probability: Probability must be between 0–1 (a decimal)
+  flash:
+    odds_updated: Odds updated
+    score_saved: Score saved
+    select_matches: Please select the matches to settle
+    settled: Settled %{count} matches
+  admin:
+    settlements:
+      index:
+        title: Settlement admin
+        intro: Check the finished matches → preview each person's net bottles → confirm to create settlement records, and the ledger becomes visible to coworkers right away.
+        no_records: No settlement records yet
+        no_todo: No finished matches awaiting settlement
+        settle_selected_prefix: Settle selected (
+        settle_selected_suffix: " matches)"
+      preview_sheet:
+        preview_title: Settlement preview
+        matches_unit: matches
+        no_bets: No bets on this match
+        included_count: "%{num} people in settlement"
+        skipped: Skipped %{num} matches (%{reason}, etc.)
+        no_participants: No one in this settlement.
+        winners_label: Winners this batch (account +)
+        losers_label: Losers this batch (account −)
+        bottles_unit: bottles
+        confirm: Confirm settlement
+        recompute: Recompute
+        cancel: Cancel
+      todo_row:
+        save_score_first: Save the score before settling
+        votes_unit: votes
+        no_result_suffix: " · result not entered"
+        home_score_placeholder: H
+        away_score_placeholder: A
+        advance: Advances
+        result_label: "Result:"
+        save_score: Save score
+        predictions_detail_prefix: Prediction details (
+        predictions_detail_suffix: ")"
+      record_card:
+        settlement_label: 'Settlement '
+        matches_unit: matches
+        people_unit: people
+        bottles_unit: bottles
+        no_bets: No bets in this batch.
+    users:
+      index:
+        title: User management
+        intro: Deletion is a soft delete — the user disappears from leaderboards, odds, and settlements and can't sign in; restorable anytime.
+      user:
+        self: You
+        restore: Restore
+        delete: Delete
+    shared:
+      tabs:
+        todo: To settle
+        records: Settlement records
+        users: Users
+        jobs: Job monitor ↗
+      locked:
+        title: Settlement admin
+        restricted: This page is restricted to settlement accounts.
+        login_hint: Please sign in with a settlement account and come back.
+  layouts:
+    application:
+      title: The Cola of Cup 2026 · World Cup Cola Predictions
+  shared:
+    nav:
+      tab_schedule: Schedule
+      tab_leaderboard: Ranking
+      tab_redeem: Redeem
+      tab_about: Guide
+      tab_admin: Admin
+      sign_in: Sign in
+  identities:
+    show:
+      session_refreshed_html: Your sign-in session was refreshed automatically (often after a sign-out or lingering too long on the sign-in page). Just click the button below once more to sign in — <strong>no need to clear cookies</strong>.
+      heading_html: "Sign in<br><em>and join the game</em> \U0001F964"
+      lead: Signing in pulls in your avatar and nickname automatically; you can change your nickname afterward.
+      sign_in_with_x: "Sign in with \U0001D54F"
+      no_auth_configured: No sign-in method is configured yet — please contact an admin.
+  auth_errors:
+    show:
+      back_to_sign_in: Back to sign in
+      sign_in_again: Sign in again
+      suspended_heading_html: "Can't<br><em>sign in</em> \U0001F6AB"
+      suspended_body1: |-
+        The X (Twitter) account you used to sign in has been flagged by X as "suspended",
+              and X refuses to provide its profile data, so sign-in can't be completed.
+      suspended_body2: How to fix it — sign in with an X account in good standing, or go to x.com to see why this account was suspended and appeal before coming back.
+      rate_limited_heading_html: "Sign-in<br><em>temporarily limited</em> \U0001F964"
+      rate_limited_body1: |-
+        X rate-limits its sign-in endpoint, and the last request hit the limit —
+              usually from clicking sign in repeatedly in a short time, or many people signing in at once.
+      rate_limited_body2_html: |-
+        Please come back to sign in after <strong>%{reset_time} Beijing time</strong>.
+              Your quota resets automatically then — click the button once and wait patiently for the redirect; don't click repeatedly.
+      error_heading_html: Sign-in<br><em>went wrong</em>
+      error_body1_html: |-
+        The sign-in handshake didn't complete, usually from repeated clicks or lingering too long on the sign-in page. Please
+              <strong>click the button below once to sign in again and wait patiently for the redirect</strong> — don't click repeatedly.
+      error_body2: If it still fails, clear this site's cookies (or use an incognito window) and try again; if it keeps failing, contact an admin.
+  pages:
+    about:
+      lead_heading_html: "Not gambling,<br>\n      <em>just buying a round</em> \U0001F964"
+      intro_html: |-
+        <b style="color: var(--hi)">The Cola of Cup 2026</b>
+              is a little World Cup prediction game among coworkers — predict who you like before the match, then settle up afterward by everyone's prediction odds.
+              <b style="color: var(--hi)">No real money involved</b> — wins and losses are all in drinks: whoever guesses wrong buys a few bottles for everyone, that's all.
+      credits_heading: '"Credits" redeem for drinks'
+      credits_sub: 1 credit = 1 bottle of cola; other drinks redeem at the rates below
+      drink_cola: Cola
+      drink_cola_rate: 1 credit / bottle
+      drink_tea: Tea
+      drink_tea_rate: 1.5 credits / bottle
+      drink_alien: Alien
+      drink_alien_rate: 1.5 credits / bottle
+      drink_redbull: Red Bull
+      drink_redbull_rate: 2.5 credits / bottle
+      how_heading: How to play
+      rule_predict_html: "<b>Predict before kickoff</b> — pick home win / draw / away win. Group stage is a fixed 1 bottle; in the knockouts you can <b>choose your stake</b>: 2/3 bottles for the Round of 32/16/8, 3/5 bottles from the semifinals on. <small>Change or cancel your prediction anytime before kickoff.</small>"
+      rule_lock_html: "<b>Locks 1 hour before kickoff</b>, and settlement odds are based on coworker predictions. <small>Polymarket market data is only ever a comparison reference.</small>"
+      rule_settle_html: "<b>Settle after the match</b>: guess right and you win bottles by the odds; guess wrong and you buy everyone drinks by your stake. Bottles won are tallied as <b>decimals</b> in your account."
+      rule_redeem_html: "<b>Redeem credits</b>: go to the \"Me\" page and use credits to <b>redeem drinks</b> — cola 1, tea/Alien 1.5, Red Bull 2.5 credits per bottle, automatically deducted on redemption. <b>You can redeem with no credits too</b>, and your account goes negative — losers can still drink, settled at season's end by final credits (pay up what you owe). <small>No platform rake; credits only flow between those who guess right and those who guess wrong.</small>"
+      rule_multi_html: "<b>Want to bet more?</b> Just join with multiple accounts — <b>no limit on accounts per person</b>."
+  profiles:
+    show:
+      participation: "%{count} matches · %{wins} correct"
+      total_won: Total won so far
+      redeemed: Redeemed
+      available_credit: Available credit
+      available_credit_note: Available credit = total won so far − redeemed.
+      ledger_heading: Settlement details
+      empty_ledger: No settled records yet
+    edit:
+      heading: My settings
+      logged_in_with: Signed in with %{provider}
+      sign_out: Sign out
+    form:
+      name_placeholder: You
+      avatar_preview: Avatar preview
+      nickname: Nickname
+      nickname_placeholder: Give yourself a name
+      choose_emoji: Pick an avatar emoji
+      save: "\U0001F964 Save"
+    redeem_panel:
+      pickup: "\U0001F964 Pick up your cola at the drinks station"
+      free_html: No credits? <b>You can redeem on a negative balance too</b> — drink if you want, your account goes negative, settled together at season's end.
+      credits_per_bottle: "%{credits} credits / bottle"
+      decrease: Decrease
+      increase: Increase
+      redeem: Redeem · %{credits}
+    redemption_records:
+      heading: Redemption records
+      unit_cost: Redeem · %{credits} credits / bottle
+    ledger:
+      pick: Picked %{pick}
+      won: Won
+      owe: Owe
+      staked: Staked %{count} bottles
+    tabs:
+      ledger: Ledger
+      settings: Settings
+    balance:
+      credit_unit: " credits"
+  users_views:
+    show:
+      back_to_leaderboard: "← Back to leaderboard"
+      participation: "%{count} matches · %{wins} correct"
+      ledger_heading: Settlement records
+      empty_ledger: They have no settlement records yet
+  standings:
+    third_place:
+      page_title: Third-place qualification ranking · The Cola of Cup
+      back: Back
+      scorers_crumb: Top scorers
+      heading: Third-place qualification
+      subtitle: The best %{slots} of the 12 group third-placed teams advance to the Round of 32 · sorted by points › goal difference › goals scored
+      empty: Third-place ranking not available until the group stage produces it
+      col_group: Grp
+      col_team: Team
+      col_played: P
+      col_played_title: Played
+      col_goal_diff: GD
+      col_goal_diff_title: Goal difference
+      col_goals_for: GF
+      col_goals_for_title: Goals for
+      col_points: Pts
+      col_points_title: Points
+      cutline: Qualification cutline · above advances
+      legend_qualified: Advance to Round of 32
+      legend_out: Eliminated
+    table:
+      col_team: Team
+      col_played: P
+      col_played_title: Played
+      col_won: W
+      col_won_title: Won
+      col_drawn: D
+      col_drawn_title: Drawn
+      col_lost: L
+      col_lost_title: Lost
+      col_goal_diff: GD
+      col_goal_diff_title: Goal difference
+      col_goals_for: GF
+      col_goals_for_title: Goals for
+      col_goals_against: GA
+      col_goals_against_title: Goals against
+      col_points: Pts
+      col_points_title: Points
+      legend_qualified: Top 2 advance
+      legend_third: 3rd place (in contention for best third)
+  groups:
+    index:
+      page_title: Group standings · The Cola of Cup
+      back: Back
+      third_place_crumb: Third-place qualification ranking
+      scorers_crumb: Top scorers
+      heading: Group standings
+      subtitle: All 12 groups · top 2 advance directly, 3rd place competes for a best-third spot
+      empty: The group stage hasn't started yet
+      legend_qualified: Top 2 advance
+      legend_third: 3rd place (in contention for best third)
+      view_group: View group →
+    show:
+      page_title: "%{group} standings · The Cola of Cup"
+      back: Back
+      third_place_crumb: Third-place qualification ranking
+      subtitle: Group standings · top 2 advance directly, 3rd place competes for a best-third spot
+      group_results: Group-stage results
+  scorers:
+    index:
+      page_title: Top scorers · The Cola of Cup
+      back: Back
+      third_place_crumb: Third-place qualification ranking
+      heading: Top scorers
+      subtitle: This tournament's scoring chart · data from openfootball · own goals don't count individually · sorted by goals › fewer penalties first › name
+      empty: No goal data yet
+      col_player: Player
+      col_goals: G
+      col_goals_title: Goals
+      col_penalties: Pen
+      col_penalties_title: Of which penalties
+  teams:
+    show:
+      page_title: "%{team} · Schedule · The Cola of Cup"
+      back: Back
+      group_standings_crumb: "Group %{letter} standings"
