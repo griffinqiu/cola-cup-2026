@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_19_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_26_100002) do
   create_table "accounts", force: :cascade do |t|
     t.string "avatar_url"
     t.datetime "created_at", null: false
@@ -95,6 +95,60 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_100000) do
     t.index ["match_id"], name: "index_odds_snapshots_on_match_id"
   end
 
+  create_table "outright_candidates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "frozen_at", null: false
+    t.string "market", null: false
+    t.json "meta"
+    t.string "subject_key", null: false
+    t.string "subject_label", null: false
+    t.integer "team_id"
+    t.datetime "updated_at", null: false
+    t.index ["market", "subject_key"], name: "index_outright_candidates_on_market_and_subject_key", unique: true
+    t.index ["team_id"], name: "index_outright_candidates_on_team_id"
+  end
+
+  create_table "outright_ledger_entries", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.float "d_used", null: false
+    t.float "delta", null: false
+    t.string "market", null: false
+    t.string "outcome", null: false
+    t.string "pick", null: false
+    t.datetime "settled_at", null: false
+    t.integer "settled_by_id"
+    t.integer "source_match_id"
+    t.float "stake", null: false
+    t.string "subject_key", null: false
+    t.string "subject_label", null: false
+    t.integer "team_id"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.boolean "won", null: false
+    t.index ["market", "subject_key"], name: "index_outright_ledger_entries_on_market_and_subject_key"
+    t.index ["settled_by_id"], name: "index_outright_ledger_entries_on_settled_by_id"
+    t.index ["source_match_id"], name: "index_outright_ledger_entries_on_source_match_id"
+    t.index ["team_id"], name: "index_outright_ledger_entries_on_team_id"
+    t.index ["user_id", "market", "subject_key"], name: "idx_on_user_id_market_subject_key_20a317c2fc", unique: true
+    t.index ["user_id"], name: "index_outright_ledger_entries_on_user_id"
+  end
+
+  create_table "outright_picks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "market", null: false
+    t.string "pick", null: false
+    t.float "stake", default: 1.0, null: false
+    t.string "subject_key", null: false
+    t.string "subject_label", null: false
+    t.integer "team_id"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["market", "subject_key"], name: "index_outright_picks_on_market_and_subject_key"
+    t.index ["team_id"], name: "index_outright_picks_on_team_id"
+    t.index ["user_id", "market", "subject_key"], name: "index_outright_picks_on_user_id_and_market_and_subject_key", unique: true
+    t.index ["user_id"], name: "index_outright_picks_on_user_id"
+  end
+
   create_table "poly_markets", force: :cascade do |t|
     t.boolean "closed", default: false, null: false
     t.string "condition_id"
@@ -177,6 +231,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_100000) do
   add_foreign_key "matches", "teams", column: "away_team_id"
   add_foreign_key "matches", "teams", column: "home_team_id"
   add_foreign_key "odds_snapshots", "matches"
+  add_foreign_key "outright_candidates", "teams"
+  add_foreign_key "outright_ledger_entries", "matches", column: "source_match_id"
+  add_foreign_key "outright_ledger_entries", "teams"
+  add_foreign_key "outright_ledger_entries", "users"
+  add_foreign_key "outright_ledger_entries", "users", column: "settled_by_id"
+  add_foreign_key "outright_picks", "teams"
+  add_foreign_key "outright_picks", "users"
   add_foreign_key "poly_markets", "matches"
   add_foreign_key "redemptions", "users"
   add_foreign_key "settlements", "users", column: "created_by_id"

@@ -20,6 +20,9 @@
     <% else %>
       <%= render partial: "admin/settlements/record_card", collection: @records, as: :record %>
     <% end %>
+
+    <%= render "admin/settlements/outright", groups: @outright_groups,
+          can_open: @golden_boot_can_open, gb_pending: @golden_boot_pending %>
   <% else %>
     <% if @todo.empty? %>
       <p class="adm-empty">没有已结束待结算的比赛</p>

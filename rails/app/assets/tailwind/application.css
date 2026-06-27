@@ -2930,3 +2930,505 @@ a.st-row:hover {
   grid-template-columns: 24px 1fr auto;
 }
 
+/* ── Predictions (outright: champion / golden boot) ───────────────────────── */
+.subtabs a.on {
+  color: var(--hi);
+  box-shadow: inset 0 -2px 0 var(--red);
+}
+
+.pred-status {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 16px 0 2px;
+}
+.pred-deadline {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--hi);
+}
+.pred-deadline b {
+  color: var(--red);
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+.pred-status .signed-lock {
+  font-size: 12.5px;
+  color: var(--mid);
+  line-height: 1.5;
+  margin-top: 7px;
+}
+
+.outrights {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 14px;
+  padding-top: 18px;
+}
+.ocard {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 15px 16px 14px;
+  box-shadow: 0 1px 0 rgba(21, 17, 12, 0.04), 0 8px 20px -14px rgba(21, 17, 12, 0.3);
+}
+.ocard-top {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 13px;
+}
+.ocard-flag {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  line-height: 1;
+  background: var(--bg);
+  border-radius: 12px;
+}
+.ocard-name {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 21px;
+  line-height: 1.05;
+  color: var(--hi);
+}
+a.ocard-name {
+  text-decoration: none;
+}
+a.ocard-name:hover {
+  color: var(--red);
+}
+.oname-go {
+  color: var(--low);
+  font-weight: 400;
+}
+.ocard-tag {
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--mid);
+  background: var(--bg);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.ocard-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--bg);
+}
+.ocard-bar .seg.yes {
+  background: var(--win);
+}
+.ocard-bar .seg.no {
+  background: var(--loss);
+}
+.ocard-bar .seg.empty {
+  flex: 1;
+}
+.ocard-counts {
+  display: flex;
+  justify-content: space-between;
+  margin: 7px 2px 14px;
+  font-size: 13px;
+  color: var(--low);
+}
+.ocard-counts b {
+  font-variant-numeric: tabular-nums;
+}
+.ocard-counts .cy b {
+  color: var(--win);
+}
+.ocard-counts .cn b {
+  color: var(--loss);
+}
+
+.ocard-pick {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.pbtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 4px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--hi);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  transition: transform 0.08s ease, background 0.12s ease, border-color 0.12s ease;
+}
+.pbtn input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.pbtn small {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--low);
+}
+.pbtn:hover {
+  border-color: var(--ink);
+}
+.pbtn:active {
+  transform: translateY(1px);
+}
+/* Highlight the chosen side: `.sel` is the committed pick (persists after the
+   bet); `:has(input:checked)` is the in-progress click that opens the popover. */
+.pbtn.yes.sel,
+.pbtn.yes:has(input:checked) {
+  background: var(--win);
+  border-color: var(--win);
+  color: #fff;
+}
+.pbtn.no.sel,
+.pbtn.no:has(input:checked) {
+  background: var(--loss);
+  border-color: var(--loss);
+  color: #fff;
+}
+.pbtn.sel small,
+.pbtn:has(input:checked) small {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Bottle-count popover: hidden until a side is picked, absolutely positioned so
+   it overlays rather than reflowing the card. Opens ABOVE the side buttons so the
+   fixed bottom tab-bar never covers it on the last card. */
+.stake-pop {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 6;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--surface);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  box-shadow: 0 -10px 28px -12px rgba(21, 17, 12, 0.4);
+}
+.ocard-pick:has(input:checked) .stake-pop {
+  display: flex;
+}
+.sp-label {
+  font-size: 12px;
+  color: var(--mid);
+  text-align: center;
+}
+.sp-opts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.sp-btn {
+  padding: 11px 4px;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--hi);
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+}
+/* The bottle buttons take the colour of the side you're committing to: green for
+   对, red for 否. `.sel` marks the stake you already have on this candidate. */
+.ocard-pick:has(.pbtn.yes input:checked) .sp-btn:hover,
+.ocard-pick:has(.pbtn.yes input:checked) .sp-btn.sel {
+  background: var(--win);
+  border-color: var(--win);
+  color: #fff;
+}
+.ocard-pick:has(.pbtn.no input:checked) .sp-btn:hover,
+.ocard-pick:has(.pbtn.no input:checked) .sp-btn.sel {
+  background: var(--loss);
+  border-color: var(--loss);
+  color: #fff;
+}
+
+.ocard-deadline {
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: var(--mid);
+}
+.ocard-deadline b {
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
+}
+
+.ocard-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 11px;
+  font-size: 13px;
+  color: var(--mid);
+}
+.ocard-foot b {
+  color: var(--hi);
+}
+.ocard-cancel {
+  background: none;
+  border: 0;
+  color: var(--low);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.ocard-locked {
+  font-size: 14px;
+  color: var(--low);
+}
+.ocard-locked b {
+  color: var(--hi);
+}
+
+.ocard-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.rbadge {
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 15px;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--mid);
+}
+.ocard-result.win .rbadge {
+  background: var(--win);
+  color: #fff;
+}
+.rmine {
+  font-size: 13px;
+  font-weight: 700;
+}
+.rmine.w {
+  color: var(--win);
+}
+.rmine.l {
+  color: var(--loss);
+}
+
+.adm-outright {
+  margin-top: 22px;
+}
+.adm-outright h2 {
+  font-family: var(--disp);
+  font-weight: 800;
+}
+
+/* ── Predictions: stake selector, odds compare, market prob, total wagered ── */
+.pred-mine {
+  margin: 14px 0 0;
+  font-size: 14px;
+  color: var(--mid);
+}
+.pred-mine b {
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
+}
+
+.ocard-prob {
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--win);
+  background: color-mix(in srgb, var(--win) 12%, transparent);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.ocard-compare {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 1px 13px;
+  padding: 9px 11px;
+  background: var(--bg);
+  border-radius: 10px;
+  font-size: 12.5px;
+  color: var(--low);
+}
+.ocard-compare b {
+  color: var(--hi);
+  font-variant-numeric: tabular-nums;
+}
+
+.ocard-foot .hint {
+  color: var(--low);
+}
+
+/* ── Predictions: spread-bets warning + "who bet what" roster ───────────────── */
+.pred-warn {
+  margin: 12px 0 0;
+  padding: 11px 14px;
+  background: color-mix(in srgb, var(--red) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--red) 35%, transparent);
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--red);
+}
+.pred-warn b {
+  font-variant-numeric: tabular-nums;
+}
+
+.ocard-who {
+  margin-top: 12px;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.ocard-who > summary {
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--low);
+  list-style: none;
+}
+.ocard-who > summary::-webkit-details-marker {
+  display: none;
+}
+.ocard-who[open] > summary {
+  color: var(--mid);
+  margin-bottom: 8px;
+}
+.who-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.who-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--mid);
+}
+.who-item b {
+  color: var(--hi);
+}
+.who-item.yes b {
+  color: var(--win);
+}
+.who-item.no b {
+  color: var(--loss);
+}
+
+/* ── New-feature promo card on the schedule home page + nav badge ───────────── */
+.promo-card {
+  position: relative;
+  overflow: hidden;
+  margin: 16px 0 4px;
+  background: var(--red);
+  border-radius: 16px;
+  box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--red) 65%, transparent);
+}
+.promo-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 36px 15px 15px;
+  color: #fff;
+  text-decoration: none;
+}
+.promo-main:active {
+  transform: translateY(1px);
+}
+.promo-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.95);
+  border: 0;
+  border-radius: 50%;
+  color: var(--red);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.promo-close:hover {
+  background: #fff;
+}
+.promo-ico {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  font-size: 28px;
+  line-height: 1;
+}
+.promo-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.promo-new {
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: #fff;
+  color: var(--red);
+  border-radius: 999px;
+  padding: 1px 8px;
+  margin-bottom: 4px;
+}
+.promo-title {
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.1;
+}
+.promo-sub {
+  font-size: 12px;
+  opacity: 0.92;
+  margin-top: 3px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.promo-go {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 5px 13px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 13px;
+  white-space: nowrap;
+}

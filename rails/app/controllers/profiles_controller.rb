@@ -5,7 +5,9 @@ class ProfilesController < ApplicationController
     @ledger = current_user.ledger_entries
       .includes(match: [ :home_team, :away_team ]).references(:match)
       .order("matches.kickoff_at DESC")
-    @total = current_user.ledger_entries.sum(:delta)
+    @outright_ledger = current_user.outright_ledger_entries
+      .includes(:team).order(settled_at: :desc, id: :desc)
+    @total = current_user.ledger_entries.sum(:delta) + current_user.outright_ledger_entries.sum(:delta)
     @redeemed = current_user.redemptions.sum(:cost)
     @balance = @total - @redeemed
     @redemptions = current_user.redemptions.order(created_at: :desc, id: :desc)

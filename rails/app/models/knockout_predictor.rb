@@ -9,12 +9,13 @@ class KnockoutPredictor
   THIRD_RE = %r{\A3([A-L](?:/[A-L])*)\z}            # 3A/B/C/D/F → best-third candidates
   WINNER_RE = /\A([WL])(\d+)\z/                     # W74 / L101 → winner / loser of a match
 
-  # Knockout rounds, shallowest first. The Final and third-place play-off are
-  # deliberately absent from the predictable set: by then a side spans a whole
-  # bracket half (~16 teams), so a "possible opponents" list is noise.
+  # Knockout rounds, shallowest first. The Final is predictable too (a team's
+  # path is shown all the way through), where each side spans a whole bracket
+  # half — a deliberately wide "possible finalists" list. Only the third-place
+  # play-off stays unpredicted.
   STAGE_ORDER = %w[r32 r16 qf sf final].freeze
-  PREDICTABLE_STAGES = %w[r32 r16 qf sf].freeze
-  PREDICT_DEPTH = 3                                 # predict the frontier round + next two
+  PREDICTABLE_STAGES = %w[r32 r16 qf sf final].freeze
+  PREDICT_DEPTH = 4                                 # frontier round + next three (through the Final)
 
   Prediction = Struct.new(:kind, :row, :candidates, keyword_init: true)
   # `position` is the team's current 1/2/3 placing in its group (for multi rows);

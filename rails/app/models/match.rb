@@ -206,6 +206,22 @@ class Match < ApplicationRecord
 
     update!(result: resolved, home_score: home_score, away_score: away_score, result_at: Time.current)
     AutoSettleJob.schedule(self)
+    ChampionSettleJob.schedule(self) if knockout?
+  end
+
+  # The advancing / eliminated side of a decided knockout match (knockout never
+  # draws — the advancing side is always picked). nil for group games or an
+  # undecided match. Feeds the champion pool settlement and TournamentStatus.
+  def winner_team
+    return nil unless knockout? && result.present?
+
+    result == "home" ? home_team : away_team
+  end
+
+  def loser_team
+    return nil unless knockout? && result.present?
+
+    result == "home" ? away_team : home_team
   end
 
   # Correct or fill a settled match's display score without re-running settlement.

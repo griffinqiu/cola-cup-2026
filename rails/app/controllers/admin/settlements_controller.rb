@@ -4,6 +4,11 @@ module Admin
       @todo = Match.settle_todo.includes(:home_team, :away_team)
       @tallies = Vote.tallies_by_match
       @records = Settlement.recent.includes(:matches)
+
+      @outright_groups = OutrightLedgerEntry.includes(:user, :team, :settled_by)
+        .order(settled_at: :desc, id: :desc).group_by(&:subject_key)
+      @golden_boot_can_open = GoldenBoot.can_open_final?
+      @golden_boot_pending = golden_boot_pending?
     end
 
     # Dry-run preview, rendered into the modal via Turbo Stream. Re-requested by
@@ -46,6 +51,14 @@ module Admin
     def included_param
       raw = params[:included]
       raw.respond_to?(:to_unsafe_h) ? raw.to_unsafe_h : nil
+    end
+
+    # Golden boot is locked but some candidates are still unsettled, so the
+    # final reveal button is worth showing.
+    def golden_boot_pending?
+      market = GoldenBoot::MARKET
+      total = OutrightCandidate.for_market(market).count
+      total.positive? && OutrightLedgerEntry.for_market(market).distinct.count(:subject_key) < total
     end
   end
 end
