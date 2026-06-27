@@ -29,6 +29,20 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
     expect(response).to redirect_to(me_settings_path)
   end
 
+  it "generates the first-time fallback nickname in the visitor's locale" do
+    # Blank provider name → User.nickname_from falls back to the localized
+    # default. The Devise controller must run under the app's switch_locale
+    # (config.parent_controller = ApplicationController) for this to honor the
+    # visitor's language rather than always the zh-CN default.
+    OmniAuth.config.mock_auth[:twitter2] = OmniAuth::AuthHash.new(
+      provider: "twitter2", uid: "9001", info: { name: "", nickname: "x", image: "" }
+    )
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter2]
+
+    post user_twitter2_omniauth_callback_path, headers: { "Accept-Language" => "ja" }
+    expect(User.last.nickname).to eq(I18n.t("users.fallback_nickname", locale: :ja))
+  end
+
   it "sends a returning user (emoji set) to their dashboard" do
     User.from_omniauth(OmniAuth.config.mock_auth[:twitter2]).update!(emoji: "🐉")
 

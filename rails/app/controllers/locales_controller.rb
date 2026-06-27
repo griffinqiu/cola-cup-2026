@@ -6,7 +6,7 @@ class LocalesController < ApplicationController
   def update
     locale = params[:locale].to_s
     if User::LOCALES.include?(locale)
-      cookies.permanent[:locale] = { value: locale, same_site: :lax }
+      cookies.permanent[:locale] = { value: locale, same_site: :lax, httponly: true }
       current_user.update_column(:locale, locale) if user_signed_in?
     end
     redirect_back fallback_location: root_path, status: :see_other
