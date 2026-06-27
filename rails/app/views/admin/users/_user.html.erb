@@ -7,10 +7,10 @@
     <% end %>
   </span>
   <% if user == current_user %>
-    <span class="self">本人</span>
+    <span class="self"><%= t(".self") %></span>
   <% elsif user.deleted? %>
-    <%= button_to "恢复", restore_admin_user_path(user), method: :patch, class: "restore" %>
+    <%= button_to t(".restore"), restore_admin_user_path(user), method: :patch, class: "restore" %>
   <% else %>
-    <%= button_to "删除", admin_user_path(user), method: :delete, class: "delete" %>
+    <%= button_to t(".delete"), admin_user_path(user), method: :delete, class: "delete" %>
   <% end %>
 </li>

@@ -1,13 +1,13 @@
 <div id="redemption_records">
   <% if redemptions.any? %>
-    <div class="ledh disp">兑换记录</div>
+    <div class="ledh disp"><%= t(".heading") %></div>
     <hr class="rule">
     <% redemptions.each do |redemption| %>
       <% drink = Drink.find(redemption.drink) %>
       <div class="led">
         <span class="info">
           <div class="t"><%= drink&.emoji || "🥤" %> <%= drink&.name || redemption.drink %> × <%= redemption.qty %></div>
-          <div class="m">兑换 · <%= format_credits(redemption.unit_cost) %> 额度 / 瓶</div>
+          <div class="m"><%= t(".unit_cost", credits: format_credits(redemption.unit_cost)) %></div>
         </span>
         <span class="d neg">-<%= format("%.1f", redemption.cost) %></span>
       </div>

@@ -1,5 +1,5 @@
 <section>
-  <% if @board == User::DEFAULT_BOARD %><%= turbo_stream_from "leaderboard" %><% end %>
+  <% if @board == User::DEFAULT_BOARD %><%= turbo_stream_from "leaderboard", I18n.locale %><% end %>
   <div class="lbh">
     <h1 class="disp"><%= @board.name %></h1>
     <div class="sub"><%= @board.subtitle %></div>
@@ -17,13 +17,13 @@
   <hr class="rule ink">
 
   <% if @entries.empty? %>
-    <p style="padding:40px 0;text-align:center;color:var(--low);font-size:13px">还没有人上榜</p>
+    <p style="padding:40px 0;text-align:center;color:var(--low);font-size:13px"><%= t(".empty") %></p>
   <% else %>
     <%= render "leaderboards/board", entries: @entries, board: @board, offset: @offset, next_page: @next_page, mean: @rank_mean %>
   <% end %>
 
   <div class="lb-note">
-    <span class="lb-note-h">怎么算的</span>
+    <span class="lb-note-h"><%= t(".how_calculated") %></span>
     <p><%= @board.explainer %></p>
     <% if @board.formula %><p class="lb-formula"><%= @board.formula %></p><% end %>
   </div>

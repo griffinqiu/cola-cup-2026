@@ -13,7 +13,7 @@ module Admin
           result: knockout_advancer(match, home_score, away_score)
         )
       end
-      redirect_to admin_settlements_path, notice: "比分已保存", status: :see_other
+      redirect_to admin_settlements_path, notice: I18n.t("flash.score_saved"), status: :see_other
     rescue Match::DomainError => e
       redirect_to admin_settlements_path, alert: e.message, status: :see_other
     end

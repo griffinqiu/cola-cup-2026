@@ -3,7 +3,7 @@
 <div class="adm-item">
   <%= check_box_tag "match_ids[]", match.id, false,
         form: "settle_form", class: "adm-chk", disabled: match.result.blank?,
-        title: (match.result.blank? ? "先保存比分再结算" : nil),
+        title: (match.result.blank? ? t(".save_score_first") : nil),
         data: { settle_select_target: "checkbox", action: "settle-select#update" } %>
   <div>
     <div class="tm">
@@ -12,7 +12,7 @@
     </div>
     <div class="sub">
       <%= Match.stage_label(match.stage) %> · <%= format_kickoff(match.kickoff_at) %> ·
-      <%= tally&.voters || 0 %> 票<%= " · 未录入赛果" if match.result.blank? %>
+      <%= tally&.voters || 0 %> <%= t(".votes_unit") %><%= t(".no_result_suffix") if match.result.blank? %>
     </div>
 
     <%= form_with url: admin_match_score_path(match), method: :patch,
@@ -20,16 +20,16 @@
                   score_form_home_name_value: team_display_name(match.home_team, match.home_label),
                   score_form_away_name_value: team_display_name(match.away_team, match.away_label) } do %>
       <div class="adm-edit">
-        <%= text_field_tag :home_score, match.home_score, class: "adm-score", placeholder: "主",
+        <%= text_field_tag :home_score, match.home_score, class: "adm-score", placeholder: t(".home_score_placeholder"),
               inputmode: "numeric", autocomplete: "off",
               data: { score_form_target: "home", action: "input->score-form#recompute" } %>
         <span class="adm-colon">:</span>
-        <%= text_field_tag :away_score, match.away_score, class: "adm-score", placeholder: "客",
+        <%= text_field_tag :away_score, match.away_score, class: "adm-score", placeholder: t(".away_score_placeholder"),
               inputmode: "numeric", autocomplete: "off",
               data: { score_form_target: "away", action: "input->score-form#recompute" } %>
 
         <% if match.knockout? %>
-          <span class="adm-mini" data-score-form-target="koLabel">晋级</span>
+          <span class="adm-mini" data-score-form-target="koLabel"><%= t(".advance") %></span>
           <% %w[home away].each do |side| %>
             <label class="adm-pill" data-score-form-target="koPill" data-side="<%= side %>">
               <%= radio_button_tag :result, side, match.result == side,
@@ -39,14 +39,14 @@
           <% end %>
         <% end %>
 
-        <span class="adm-tag" data-score-form-target="resultTag" hidden>赛果：<b data-score-form-target="resultLabel"></b></span>
+        <span class="adm-tag" data-score-form-target="resultTag" hidden><%= t(".result_label") %><b data-score-form-target="resultLabel"></b></span>
 
-        <%= submit_tag "保存比分", class: "adm-btn", data: { score_form_target: "save" } %>
+        <%= submit_tag t(".save_score"), class: "adm-btn", data: { score_form_target: "save" } %>
       </div>
     <% end %>
 
     <details class="adm-votes-wrap">
-      <summary class="adm-toggle">预测明细（<%= detailed.size %>）</summary>
+      <summary class="adm-toggle"><%= t(".predictions_detail_prefix") %><%= detailed.size %><%= t(".predictions_detail_suffix") %></summary>
       <%= render "admin/settlements/votes_breakdown", match: match, votes: detailed %>
     </details>
   </div>

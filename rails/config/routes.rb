@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   patch "/me/settings", to: "profiles#update"
   resources :redemptions, only: [ :create ]
 
+  patch "/locale", to: "locales#update", as: :locale
+
   get "/identity", to: "identities#show", as: :identity
   get "/about", to: "pages#about", as: :about
   get "/auth/error", to: "auth_errors#show", as: :auth_error

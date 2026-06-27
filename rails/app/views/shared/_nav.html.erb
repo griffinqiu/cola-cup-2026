@@ -1,14 +1,14 @@
 <%
   user = signed_in_user
-  tabs = [ { href: "/", icon: "⚽", label: "赛程" } ]
-  # The 冠军 tab appears the moment the first round-of-16 team is known.
-  tabs << { href: "/predictions", icon: "👑", label: "冠军" } if Champion.available?
+  tabs = [ { href: "/", icon: "⚽", label: t(".tab_schedule") } ]
+  # The champion tab appears the moment the first round-of-16 team is known.
+  tabs << { href: "/predictions", icon: "👑", label: t(".tab_champion") } if Champion.available?
   tabs += [
-    { href: "/leaderboard", icon: "🏆", label: "排行" },
-    { href: "/me",          icon: "🥤", label: "兑换" },
-    { href: "/about",       icon: "📖", label: "说明" }
+    { href: "/leaderboard", icon: "🏆", label: t(".tab_leaderboard") },
+    { href: "/me",          icon: "🥤", label: t(".tab_redeem") },
+    { href: "/about",       icon: "📖", label: t(".tab_about") }
   ]
-  tabs << { href: "/admin", icon: "⚙️", label: "管理" } if user&.settler?
+  tabs << { href: "/admin", icon: "⚙️", label: t(".tab_admin") } if user&.settler?
 %>
 <header class="site-head">
   <div class="shell">
@@ -25,12 +25,13 @@
         <% end %>
       </nav>
       <div class="head-right">
+        <%= render "shared/locale_switcher" %>
         <% if user %>
           <%= link_to me_settings_path, class: "identity" do %>
             <%= user.emoji || "👤" %> <%= user.nickname %>
           <% end %>
         <% else %>
-          <%= link_to "登录", "/identity", class: "identity" %>
+          <%= link_to t(".sign_in"), "/identity", class: "identity" %>
         <% end %>
       </div>
     </div>

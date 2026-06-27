@@ -5,13 +5,13 @@ class OutrightPicksController < ApplicationController
   # the candidate are all validated server-side; the unique (user, market,
   # subject_key) index makes a repeat an in-place update.
   def create
-    return reject("无效的玩法") unless OutrightPick::MARKETS.include?(market)
-    return reject("无效的选项") unless OutrightPick::PICKS.include?(pick)
-    return reject("无效的瓶数") unless OutrightPick::STAKE_OPTIONS.include?(stake)
+    return reject(I18n.t("errors.outright.invalid_market")) unless OutrightPick::MARKETS.include?(market)
+    return reject(I18n.t("errors.outright.invalid_pick")) unless OutrightPick::PICKS.include?(pick)
+    return reject(I18n.t("errors.outright.invalid_stake")) unless OutrightPick::STAKE_OPTIONS.include?(stake)
 
     subject = find_subject
-    return reject("该候选不可投注") unless subject
-    return reject("该队已封盘，无法下注") unless Champion.open_for?(subject.team_id)
+    return reject(I18n.t("errors.outright.invalid_subject")) unless subject
+    return reject(I18n.t("errors.outright.locked")) unless Champion.open_for?(subject.team_id)
 
     record = current_user.outright_picks.find_or_initialize_by(market: market, subject_key: subject_key)
     record.update!(pick: pick, stake: stake,
@@ -21,7 +21,7 @@ class OutrightPicksController < ApplicationController
 
   def destroy
     subject = find_subject
-    return reject("该队已封盘，无法撤销") unless subject && Champion.open_for?(subject.team_id)
+    return reject(I18n.t("errors.outright.locked_cancel")) unless subject && Champion.open_for?(subject.team_id)
 
     current_user.outright_picks.where(market: market, subject_key: subject_key).delete_all
     render_card(subject)

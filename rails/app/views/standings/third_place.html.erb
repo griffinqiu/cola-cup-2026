@@ -1,34 +1,34 @@
-<% content_for :title, "第三名出线排行 · The Cola of Cup" %>
+<% content_for :title, t(".page_title") %>
 <section>
   <div class="detail-head">
     <%= link_to root_path, class: "back-btn", data: { controller: "back", action: "click->back#go" } do %>
-      <span class="bk-arrow">←</span> 返回
+      <span class="bk-arrow">←</span> <%= t(".back") %>
     <% end %>
-    <%= link_to "射手榜", scorers_path, class: "detail-crumb" %>
+    <%= link_to t(".scorers_crumb"), scorers_path, class: "detail-crumb" %>
   </div>
   <hr class="rule ink">
 
   <div class="lbh">
-    <h1 class="disp">第三名出线</h1>
-    <div class="sub">12 个小组第三名中成绩最好的 <%= @slots %> 个晋级 32 强 · 排序：积分 › 净胜球 › 进球数</div>
+    <h1 class="disp"><%= t(".heading") %></h1>
+    <div class="sub"><%= t(".subtitle", slots: @slots) %></div>
   </div>
 
   <% if @entries.empty? %>
-    <p class="standings-empty">小组赛尚未产生第三名排名</p>
+    <p class="standings-empty"><%= t(".empty") %></p>
   <% else %>
     <div class="standings third-place">
       <div class="st-row st-head">
         <span class="st-rk">#</span>
-        <span class="st-grp">组</span>
-        <span class="st-team">球队</span>
-        <span class="st-n" title="场次">场</span>
-        <span class="st-n st-gd" title="净胜球">净</span>
-        <span class="st-n" title="进球">进</span>
-        <span class="st-n st-pts" title="积分">分</span>
+        <span class="st-grp"><%= t(".col_group") %></span>
+        <span class="st-team"><%= t(".col_team") %></span>
+        <span class="st-n" title="<%= t(".col_played_title") %>"><%= t(".col_played") %></span>
+        <span class="st-n st-gd" title="<%= t(".col_goal_diff_title") %>"><%= t(".col_goal_diff") %></span>
+        <span class="st-n" title="<%= t(".col_goals_for_title") %>"><%= t(".col_goals_for") %></span>
+        <span class="st-n st-pts" title="<%= t(".col_points_title") %>"><%= t(".col_points") %></span>
       </div>
       <% @entries.each do |entry| %>
         <% if entry.rank == @slots + 1 %>
-          <div class="st-cutline"><span>出线分界线 · 以上晋级</span></div>
+          <div class="st-cutline"><span><%= t(".cutline") %></span></div>
         <% end %>
         <%= link_to group_path(entry.letter), class: "st-row #{entry.qualified ? "qual" : "out"}" do %>
           <span class="st-rk num"><%= entry.rank %></span>
@@ -45,8 +45,8 @@
       <% end %>
     </div>
     <div class="st-legend">
-      <span><i class="dot qual"></i>晋级 32 强</span>
-      <span><i class="dot out"></i>淘汰</span>
+      <span><i class="dot qual"></i><%= t(".legend_qualified") %></span>
+      <span><i class="dot out"></i><%= t(".legend_out") %></span>
     </div>
   <% end %>
 </section>

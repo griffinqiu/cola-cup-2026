@@ -1,0 +1,58 @@
+zh-CN:
+  admin:
+    settlements:
+      index:
+        title: "结算后台"
+        intro: "勾选已结束的比赛 → 结算预览每人净瓶数 → 确定生成结算记录，账本随即对同事可见。"
+        no_records: "还没有结算记录"
+        no_todo: "没有已结束待结算的比赛"
+        settle_selected_prefix: "结算选中（"
+        settle_selected_suffix: " 场）"
+      preview_sheet:
+        preview_title: "结算预览"
+        matches_unit: "场"
+        no_bets: "本场无人下注"
+        included_count: "参与结算 %{num} 人"
+        skipped: "跳过 %{num} 场（%{reason} 等）"
+        no_participants: "没有参与结算的人。"
+        winners_label: "本批赢家（账上 +）"
+        losers_label: "本批输家（账上 −）"
+        bottles_unit: "瓶"
+        confirm: "确定结算"
+        recompute: "重新计算"
+        cancel: "取消"
+      todo_row:
+        save_score_first: "先保存比分再结算"
+        votes_unit: "票"
+        no_result_suffix: " · 未录入赛果"
+        home_score_placeholder: "主"
+        away_score_placeholder: "客"
+        advance: "晋级"
+        result_label: "赛果："
+        save_score: "保存比分"
+        predictions_detail_prefix: "预测明细（"
+        predictions_detail_suffix: "）"
+      record_card:
+        settlement_label: "结算 "
+        matches_unit: "场"
+        people_unit: "人"
+        bottles_unit: "瓶"
+        no_bets: "本批无人下注。"
+    users:
+      index:
+        title: "用户管理"
+        intro: "删除为软删除：该用户将从排行榜、赔率和结算中消失，且无法登录；随时可恢复。"
+      user:
+        self: "本人"
+        restore: "恢复"
+        delete: "删除"
+    shared:
+      tabs:
+        todo: "待结算"
+        records: "结算记录"
+        users: "用户管理"
+        jobs: "任务监控 ↗"
+      locked:
+        title: "结算后台"
+        restricted: "此页面仅限结算账号访问。"
+        login_hint: "请用结算账号登录后再来。"

@@ -12,8 +12,8 @@ module Broadcasts
 
       broadcast_card_teams(match)
       broadcast_card_big(match)
-      Turbo::StreamsChannel.broadcast_refresh_to("match", match)
-      Turbo::StreamsChannel.broadcast_refresh_to("admin")
+      broadcast_refresh_each_locale("match", match)
+      broadcast_refresh_each_locale("admin")
     end
   end
 end

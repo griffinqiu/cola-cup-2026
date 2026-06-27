@@ -4,12 +4,12 @@
 <% total = local_assigns.fetch(:vote_count, votes.size) %>
 <div class="voters" id="votes_list_<%= match.id %>">
   <h2 class="disp">
-    同事预测 · <%= total %> 人
+    <%= t(".colleague_predictions", count: total) %>
   </h2>
   <hr class="rule">
   <% if total.zero? %>
     <p style="padding: 20px 0; color: var(--low); font-size: 13px">
-      还没有人预测，来当第一个 🥤
+      <%= t(".be_first") %> 🥤
     </p>
   <% else %>
     <div id="vote_rows_<%= match.id %>">

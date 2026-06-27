@@ -30,12 +30,6 @@ class Match < ApplicationRecord
   # needs manual settlement via the admin score entry.
   LIVE_WINDOW = 6.hours
 
-  STAGE_LABELS = {
-    "group" => "小组赛", "r32" => "32 强", "r16" => "16 强", "qf" => "8 强",
-    "sf" => "半决赛", "third" => "季军赛", "final" => "决赛"
-  }.freeze
-  PICK_LABELS = { "home" => "主胜", "draw" => "平局", "away" => "客胜" }.freeze
-
   belongs_to :home_team, class_name: "Team", optional: true
   belongs_to :away_team, class_name: "Team", optional: true
   belongs_to :settlement, optional: true
@@ -99,11 +93,11 @@ class Match < ApplicationRecord
     end
 
     def stage_label(stage)
-      STAGE_LABELS.fetch(stage, stage)
+      I18n.t("stages.#{stage}", default: stage)
     end
 
     def pick_label(pick)
-      PICK_LABELS.fetch(pick, pick)
+      I18n.t("matches.result_label.#{pick}", default: pick)
     end
   end
 
@@ -197,11 +191,11 @@ class Match < ApplicationRecord
   # successful record immediately enqueues an auto-settlement for this match;
   # the job no-ops if a settler (or an earlier run) settled it first.
   def record_result!(home_score:, away_score:, result: nil)
-    raise DomainError, "该比赛已结算，请用修改比分" if settled?
+    raise DomainError, I18n.t("errors.match.already_settled") if settled?
 
     resolved = result.presence || derive_result_from_score(home_score, away_score)
     unless resolved
-      raise DomainError, knockout? ? "淘汰赛比分相同，请选择晋级方" : "请填写比分"
+      raise DomainError, I18n.t(knockout? ? "errors.match.knockout_tie" : "errors.match.missing_score")
     end
 
     update!(result: resolved, home_score: home_score, away_score: away_score, result_at: Time.current)

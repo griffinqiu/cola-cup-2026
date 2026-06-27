@@ -1,0 +1,171 @@
+# Simplified Chinese — the authored source of truth for every app string.
+# Other locales (zh-TW, en, ja) mirror this key tree; the i18n completeness
+# spec fails if any locale drifts. Times render in Beijing time (see
+# FormatHelper); %a/%b resolve to the locale's day/month names from rails-i18n.
+zh-CN:
+  time:
+    formats:
+      # Schedule day heading, e.g. "6月11日 周四" (month/day unpadded).
+      day_label: "%-m月%-d日 %a"
+      # Match-detail kickoff line, e.g. "6/11 11:00 周四".
+      kickoff: "%-m/%-d %H:%M %a"
+      # Odds-snapshot timestamp, e.g. "6/13 08:00" (no weekday).
+      snapshot: "%-m/%-d %H:%M"
+      # Rate-limit reset, e.g. "6月11日 11:00".
+      reset: "%-m月%-d日 %H:%M"
+
+  format:
+    countdown:
+      started: "已开赛"
+      days_hours: "%{days}天%{hours}小时后"
+      hours_minutes: "%{hours}小时%{minutes}分后"
+      minutes: "%{minutes}分钟后"
+    relative_day:
+      today: "今天"
+      tomorrow: "明天"
+      yesterday: "昨天"
+
+  drinks:
+    cola: "可乐"
+    icetea: "各种茶"
+    alien: "外星人"
+    redbull: "红牛"
+
+  stages:
+    group: "小组赛"
+    r32: "32 强"
+    r16: "16 强"
+    qf: "8 强"
+    sf: "半决赛"
+    third: "季军赛"
+    final: "决赛"
+
+  matches:
+    status:
+      scheduled: "未开放"
+      upcoming: "待开盘"
+      open: "可预测"
+      live: "比赛中"
+      locked: "已截止"
+      settled: "已结算"
+    pick_short:
+      home: "主"
+      draw: "平"
+      away: "客"
+    result_label:
+      home: "主胜"
+      draw: "平局"
+      away: "客胜"
+    draw: "平局"
+    pending_settlement: "待结算"
+    odds_multiplier: "赔率 %{odds}x"
+    no_market_comparison: "暂无市场对照"
+    odds_lead:
+      market: "市场更看好"
+      crowd: "同事更看好"
+    slot:
+      group_position: "%{group} 组第%{position}"
+      third_place: "%{groups} 组第3"
+      match_winner: "M%{match} 胜者"
+    candidates:
+      summary: "候选"
+      summary_count: "候选（%{count}）"
+      full_ranking: "查看完整第三名排行 →"
+      online: "线上"
+      offline: "线下"
+
+  auth:
+    oidc_default_name: "OIDC 登录"
+
+  users:
+    fallback_nickname: "球迷"
+
+  leaderboards:
+    boards:
+      reaper:
+        name: "镰刀榜"
+        subtitle: "可乐净分最高 · 收割之王（兑换不影响排名）"
+        explainer: "按可乐净分（赢的瓶数减去输的瓶数）从高到低排名。兑换饮料只是花掉额度，不影响排名。"
+      leek:
+        name: "韭菜榜"
+        subtitle: "可乐净分最低 · 被割得最惨"
+        explainer: "镰刀榜的反面：按可乐净分从低到高排，输得最惨的排最前。只统计参与过预测的人。"
+      oracle:
+        name: "神预榜"
+        subtitle: "命中率最高 · 贝叶斯加权，场数越多越稳"
+        explainer: "按预测命中率排名，但做了「场数」修正：光靠手气猜中几场不够，要又准又多才稳。只猜 1 场全中不会直接霸榜，会先按全场平均命中率打个折；预测场数越多，你的真实水平占比越高。"
+        formula: "贝叶斯加权 =（命中数 + 5 × 全场平均命中率）÷（预测场数 + 5），公开算法，同 IMDB Top 250 加权评分。"
+      jinx:
+        name: "毒奶榜"
+        subtitle: "押谁谁输 · 最稳定押错的人"
+        explainer: "神预榜的反面：按「押错率」排名，同样做了场数修正。偶尔押错一两次不算毒奶，要稳定地押谁谁输、且场数够多，才能名列前茅。"
+        formula: "Wilson 置信区间下界（押错率，z = 1.96），公开算法，同 Reddit 评论排序。"
+      otaku:
+        name: "肥宅榜"
+        subtitle: "可乐兑换最多 · 肥宅快乐"
+        explainer: "按累计兑换的额度从高到低排名，喝得最多的肥宅排最前。只统计兑换过饮料的人。"
+
+  outrights:
+    market:
+      champion: "猜冠军"
+      golden_boot: "金靴奖"
+    pick:
+      "yes": "对"
+      "no": "否"
+    result:
+      champion:
+        won: "夺冠"
+        lost: "出局"
+      golden_boot:
+        won: "金靴"
+        lost: "无缘金靴"
+    delta:
+      push: "退"
+      win: "赢"
+      owe: "请"
+    countdown:
+      closed: "已封盘"
+      days_hours: "%{days} 天 %{hours} 小时"
+      hours_minutes: "%{hours} 小时 %{minutes} 分"
+      minutes: "%{minutes} 分"
+
+  errors:
+    match:
+      already_settled: "该比赛已结算，请用修改比分"
+      knockout_tie: "淘汰赛比分相同，请选择晋级方"
+      missing_score: "请填写比分"
+    redemption:
+      unknown_drink: "未知饮料"
+      invalid_quantity: "兑换数量需为正整数"
+    settlement:
+      no_participants: "未选择参与者"
+      nothing_to_settle: "没有可结算的比赛"
+      match_missing: "比赛不存在"
+      already_settled: "已结算"
+      no_result: "尚未录入赛果"
+    vote:
+      bad_pick: "该比赛不支持这个投注选项"
+      bad_stake: "该比赛不支持这个押注瓶数"
+      not_votable: "该比赛当前无法预测（未开放、已截止或对阵未定）"
+      not_cancelable: "该比赛当前无法取消预测（未开放、已截止或对阵未定）"
+    odds:
+      bad_probability: "概率需为 0–1 之间（小数）"
+    outright:
+      invalid_market: "无效的玩法"
+      invalid_pick: "无效的选项"
+      invalid_stake: "无效的瓶数"
+      invalid_subject: "该候选不可投注"
+      locked: "该队已封盘，无法下注"
+      locked_cancel: "该队已封盘，无法撤销"
+
+  locale_switcher:
+    label: "语言"
+    go: "切换"
+
+  flash:
+    odds_updated: "赔率已更新"
+    score_saved: "比分已保存"
+    select_matches: "请选择要结算的比赛"
+    settled: "已结算 %{count} 场"
+    golden_boot_not_ready: "决赛尚未出结果，无法开奖"
+    golden_boot_opened: "金靴奖已开奖"

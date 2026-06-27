@@ -4,12 +4,12 @@
   <span><%= Match.stage_label(match.stage) %><% if (letter = match_group_letter(match)) %> <%= letter %><% end %></span>
   <% case match.status %>
   <% when :open %>
-    <% mark_label = voted ? "已预测" : "待预测" %>
+    <% mark_label = voted ? t(".voted") : t(".to_predict") %>
     <span class="todo-mark<%= " done" if voted %>" data-tip="<%= mark_label %>"
           tabindex="0" role="img" aria-label="<%= mark_label %>"><%= "✓" if voted %></span>
   <% when :live %>
-    <span class="live-mark" data-tip="比赛中" tabindex="0" role="img" aria-label="比赛中"></span>
+    <span class="live-mark" data-tip="<%= t(".in_progress") %>" tabindex="0" role="img" aria-label="<%= t(".in_progress") %>"></span>
   <% when :locked %>
-    <span class="lock-mark" data-tip="锁定" tabindex="0" role="img" aria-label="锁定">🔒</span>
+    <span class="lock-mark" data-tip="<%= t(".locked") %>" tabindex="0" role="img" aria-label="<%= t(".locked") %>">🔒</span>
   <% end %>
 </div>

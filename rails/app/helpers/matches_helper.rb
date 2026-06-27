@@ -1,20 +1,22 @@
 module MatchesHelper
-  # status (Match#status symbol) => [css modifier, label]. Ported from
-  # matchState.ts STATUS_META + StatusBadge.BADGE_CLASS (upcoming reuses the
-  # "scheduled" badge styling).
-  STATUS_BADGE = {
-    scheduled: [ "scheduled", "未开放" ],
-    upcoming:  [ "scheduled", "待开盘" ],
-    open:      [ "open", "可预测" ],
-    live:      [ "live", "比赛中" ],
-    locked:    [ "locked", "已截止" ],
-    settled:   [ "settled", "已结算" ]
+  # status (Match#status symbol) => css modifier. The badge label is localized
+  # (matches.status.*) and resolved in #status_badge. upcoming reuses the
+  # "scheduled" badge styling. Ported from matchState.ts STATUS_META.
+  STATUS_CSS = {
+    scheduled: "scheduled",
+    upcoming:  "scheduled",
+    open:      "open",
+    live:      "live",
+    locked:    "locked",
+    settled:   "settled"
   }.freeze
 
-  PICK_SHORT = { "home" => "主", "draw" => "平", "away" => "客" }.freeze
-  RESULT_LABEL = { "home" => "主胜", "draw" => "平局", "away" => "客胜" }.freeze
-  DIVERGENCE_TIP = "市场（聪明钱）与同事看法分歧大 —— 用同事赔率下注可能赢更多可乐".freeze
   GROUP_RE = /Group ([A-L])/.freeze
+
+  # Short pick glyph (主/平/客), localized.
+  def pick_short(pick)
+    I18n.t("matches.pick_short.#{pick}")
+  end
 
   # Pick-button label sizing. A button is one of three equal columns, so on the
   # narrowest phone layout its inner text is ~78px wide; a CJK glyph is roughly
@@ -26,7 +28,8 @@ module MatchesHelper
   PICK_LABEL_FIT_WIDTH_PX = 78
 
   def status_badge(status, extra_class: nil)
-    css, label = STATUS_BADGE.fetch(status)
+    css = STATUS_CSS.fetch(status)
+    label = I18n.t("matches.status.#{status}")
     tag.span(label, class: [ "badge", css, extra_class ].compact.join(" "))
   end
 
@@ -126,11 +129,11 @@ module MatchesHelper
     return "" if label.blank?
 
     if (match = /\A([12])([A-L])\z/.match(label))
-      "#{match[2]} 组第#{match[1]}"
+      I18n.t("matches.slot.group_position", group: match[2], position: match[1])
     elsif label.start_with?("3") && label[1..].match?(%r{\A[A-L](/[A-L])*\z})
-      "#{label[1..]} 组第3"
+      I18n.t("matches.slot.third_place", groups: label[1..])
     elsif (match = /\AW(\d+)\z/.match(label))
-      "M#{match[1]} 胜者"
+      I18n.t("matches.slot.match_winner", match: match[1])
     else
       label
     end
@@ -189,7 +192,7 @@ module MatchesHelper
     top = candidates.first
     inner = [ group_link(row_flag_name_code(top.row, slot_code(top)), top.group_letter, "cand-top") ]
     inner << candidate_disclosure(candidates) if candidates.size > 1
-    inner << link_to("查看完整第三名排行 →", third_place_path, class: "cand-more")
+    inner << link_to(I18n.t("matches.candidates.full_ranking"), third_place_path, class: "cand-more")
     tag.span(safe_join(inner), class: "team predicted is-candidates")
   end
 
@@ -198,7 +201,7 @@ module MatchesHelper
   def candidate_disclosure(candidates)
     tag.details(class: "cand-disclosure") do
       safe_join([
-        tag.summary(safe_join([ "候选 ", tag.span("▸", class: "kc-caret") ]), class: "cand-disc-summary"),
+        tag.summary(safe_join([ "#{I18n.t('matches.candidates.summary')} ", tag.span("▸", class: "kc-caret") ]), class: "cand-disc-summary"),
         tag.div(candidate_list_rows(candidates), class: "cand-list detail-cand-list")
       ])
     end
@@ -217,7 +220,7 @@ module MatchesHelper
       tag.span(row_flag(candidate.row), class: "flag"),
       tag.span(candidate.row.display_name, class: "nm"),
       tag.span(slot_code(candidate), class: "slot-code"),
-      tag.span(candidate.qualified ? "线上" : "线下", class: [ "cand-st", candidate.qualified ? "in" : "out" ].join(" "))
+      tag.span(I18n.t(candidate.qualified ? "matches.candidates.online" : "matches.candidates.offline"), class: [ "cand-st", candidate.qualified ? "in" : "out" ].join(" "))
     ])
     group_link(content, candidate.group_letter, [ "cand-row", candidate.qualified ? "in" : "out" ].join(" "))
   end
@@ -233,7 +236,7 @@ module MatchesHelper
   def detail_multi_cell(candidates)
     disclosure = tag.details(class: "cand-disclosure") do
       safe_join([
-        tag.summary(safe_join([ "候选（#{candidates.size}） ", tag.span("▸", class: "kc-caret") ]), class: "cand-disc-summary"),
+        tag.summary(safe_join([ "#{I18n.t('matches.candidates.summary_count', count: candidates.size)} ", tag.span("▸", class: "kc-caret") ]), class: "cand-disc-summary"),
         tag.div(multi_rows(candidates), class: "cand-list detail-cand-list")
       ])
     end
@@ -317,7 +320,7 @@ module MatchesHelper
     case key
     when "home" then team_display_name(match.home_team, match.home_label)
     when "away" then team_display_name(match.away_team, match.away_label)
-    else "平局"
+    else I18n.t("matches.result_label.draw")
     end
   end
 
@@ -325,8 +328,8 @@ module MatchesHelper
   # ScheduleTimeline.MatchBig: result > market leader (+divergence) > crowd
   # leader > nothing.
   def match_card_big(match, tally, market_snapshot)
-    # No cap once settled — the meta line's status badge already says 已结算.
-    return { kind: :result, label: RESULT_LABEL[match.result], cap: match.settled? ? nil : "待结算" } if match.result.present?
+    # No cap once settled — the meta line's status badge already says settled.
+    return { kind: :result, label: Match.pick_label(match.result), cap: match.settled? ? nil : I18n.t("matches.pending_settlement") } if match.result.present?
 
     allows_draw = match.allows_draw?
     market = market_pcts(market_snapshot, allows_draw)
@@ -334,7 +337,7 @@ module MatchesHelper
     if leader
       return {
         kind: :market,
-        short: PICK_SHORT[leader[:pick]],
+        short: pick_short(leader[:pick]),
         pct: leader[:pct],
         divergence: divergence_label(match, market, tally, allows_draw, leader[:pick])
       }
@@ -346,9 +349,9 @@ module MatchesHelper
       decimal = crowd_odds&.public_send("d_#{crowd[:pick]}")
       return {
         kind: :crowd,
-        short: PICK_SHORT[crowd[:pick]],
+        short: pick_short(crowd[:pick]),
         pct: crowd[:pct],
-        cap: decimal ? "赔率 #{format_decimal(decimal)}x" : "暂无市场对照"
+        cap: decimal ? I18n.t("matches.odds_multiplier", odds: format_decimal(decimal)) : I18n.t("matches.no_market_comparison")
       }
     end
 
@@ -394,9 +397,9 @@ module MatchesHelper
     return nil if diff.abs < VoteOdds::LEAD_DIVERGENCE_PCT
 
     if diff > 0
-      tag.span("市场更看好", class: [ "o-lead", "mk-lead", ("strong" if featured) ].compact.join(" "))
+      tag.span(I18n.t("matches.odds_lead.market"), class: [ "o-lead", "mk-lead", ("strong" if featured) ].compact.join(" "))
     else
-      tag.span("同事更看好", class: "o-lead cr-lead")
+      tag.span(I18n.t("matches.odds_lead.crowd"), class: "o-lead cr-lead")
     end
   end
 
@@ -462,7 +465,8 @@ module MatchesHelper
 
     market_leads = best[:diff] > 0
     same_as_shown = best[:pick] == leader_pick
-    text = (market_leads ? "市场更看好" : "同事更看好") + (same_as_shown ? "" : PICK_SHORT[best[:pick]])
+    lead = I18n.t(market_leads ? "matches.odds_lead.market" : "matches.odds_lead.crowd")
+    text = lead + (same_as_shown ? "" : pick_short(best[:pick]))
     { tone: market_leads ? "mk" : "cr", text: text }
   end
 

@@ -1,0 +1,560 @@
+# Traditional Chinese. Mirrors the zh-CN key tree (config/locales/zh-CN.yml).
+# Times render in Beijing time; %a resolves to the zh-TW weekday (週四 etc.).
+zh-TW:
+  time:
+    formats:
+      day_label: "%-m月%-d日 %a"
+      kickoff: "%-m/%-d %H:%M %a"
+      snapshot: "%-m/%-d %H:%M"
+      reset: "%-m月%-d日 %H:%M"
+
+  format:
+    countdown:
+      started: "已開賽"
+      days_hours: "%{days}天%{hours}小時後"
+      hours_minutes: "%{hours}小時%{minutes}分後"
+      minutes: "%{minutes}分鐘後"
+    relative_day:
+      today: "今天"
+      tomorrow: "明天"
+      yesterday: "昨天"
+  drinks:
+    cola: 可樂
+    icetea: 各種茶
+    alien: 外星人
+    redbull: 紅牛
+  stages:
+    group: 小組賽
+    r32: 32 強
+    r16: 16 強
+    qf: 8 強
+    sf: 準決賽
+    third: 季軍賽
+    final: 決賽
+  matches:
+    status:
+      scheduled: 未開放
+      upcoming: 待開盤
+      open: 可預測
+      live: 比賽中
+      locked: 已截止
+      settled: 已結算
+    pick_short:
+      home: 主
+      draw: 平
+      away: 客
+    result_label:
+      home: 主勝
+      draw: 平局
+      away: 客勝
+    draw: 平局
+    pending_settlement: 待結算
+    odds_multiplier: 賠率 %{odds}x
+    no_market_comparison: 暫無市場對照
+    odds_lead:
+      market: 市場更看好
+      crowd: 同事更看好
+    slot:
+      group_position: "%{group} 組第%{position}"
+      third_place: "%{groups} 組第3"
+      match_winner: M%{match} 勝者
+    candidates:
+      summary: 候選
+      summary_count: 候選（%{count}）
+      full_ranking: 查看完整第三名排行 →
+      online: 線上
+      offline: 線下
+    index:
+      headline_line1: 按賠率
+      headline_emph: 贏可樂
+      tagline: 同事預測結算，猜錯給同事買飲料。
+      what_is_cola: 什麼是「可樂」？
+      tab_matches: 比賽
+      tab_done: 已結束
+      group_standings: 小組積分榜
+      scorers: 射手榜
+      no_matches: 沒有符合條件的比賽
+    show:
+      back: 返回
+      group_standings: "%{letter} 組積分榜"
+    vote_panel:
+      match_goals: 本場進球
+      own_goal: 烏龍
+      penalty: 點球
+      goals_pending: 本場進球資料待更新。
+      scorers_link: 射手榜 →
+      want_to_predict: 想預測？
+      set_identity_prefix: 先去
+      set_identity_link: 設定身分
+      set_identity_suffix: "。"
+      locked: 已鎖定
+      not_open: 未開放
+      you_picked_prefix: 你看好
+      bottles_suffix: 瓶。
+      cannot_predict: 目前無法預測（無賠率或已鎖定）。
+      who_do_you_pick: 你看好誰？
+      bottles: 瓶
+      choose_stake_hint: 選擇下注瓶數 · 猜錯就請這些瓶
+      fixed_stake_prefix: 本場固定下注
+      fixed_stake_suffix: "· 猜錯就請這幾瓶"
+      win_prefix: 猜中約贏
+      win_suffix: "· 按目前預測賠率"
+      pick_one: 選個看好的
+      submit_voted: "✅ 目前已預測 %{team}"
+      submit_pick_one: "\U0001F964 選個看好的"
+      next_match: 下一場
+      back_to_schedule: 返回賽程
+      change_hint: 開賽前可隨時改或
+      cancel_vote: 取消預測
+    odds_compare:
+      odds_compare: 賠率對比
+      market: 市場
+      colleagues: 同事
+      settle_note: 結算只看同事預測
+      low_sample: 同事樣本少，賠率僅供參考
+      market_data: 市場數據
+      for_reference: 僅作參考
+      market_for_reference: 市場僅作參考
+      locked_at: 鎖定於 %{time}
+      updated_at: 更新於 %{time}
+      not_opened: 未開盤
+    votes_list:
+      colleague_predictions: 同事預測 · %{count} 人
+      be_first: 還沒有人預測，來當第一個
+    card_meta:
+      voted: 已預測
+      to_predict: 待預測
+      in_progress: 比賽中
+      locked: 鎖定
+    match_card:
+      candidates: 候選
+      full_third_place: 查看完整第三名排行 →
+      team_count: "（%{count} 隊）"
+    card_big:
+      market: 市場
+      colleagues: 同事
+      no_odds: 暫無賠率
+    card_teams:
+      focus_match: 焦點大戰
+    match_list:
+      no_matches: 暫無比賽
+      match_count: "%{count} 場"
+    vote_row:
+      bottles: 瓶
+    day_section:
+      match_unit: 場
+    predictions_promo:
+      new_tag: 新玩法
+      title_html: 猜冠軍 &amp; 金靴獎
+      sub: 押誰奪冠、誰拿金靴 · 1 瓶起，被淘汰即結算
+      my_picks: 我的 %{count} 注
+      go_bet: 去押注
+      close: 關閉
+  auth:
+    oidc_default_name: OIDC 登入
+  users:
+    fallback_nickname: 球迷
+  leaderboards:
+    boards:
+      reaper:
+        name: 鐮刀榜
+        subtitle: 可樂淨分最高 · 收割之王（兌換不影響排名）
+        explainer: 按可樂淨分（贏的瓶數減去輸的瓶數）從高到低排名。兌換飲料只是花掉額度，不影響排名。
+      leek:
+        name: 韭菜榜
+        subtitle: 可樂淨分最低 · 被割得最慘
+        explainer: 鐮刀榜的反面：按可樂淨分從低到高排，輸得最慘的排最前。只統計參與過預測的人。
+      oracle:
+        name: 神預榜
+        subtitle: 命中率最高 · 貝氏加權，場數越多越穩
+        explainer: 按預測命中率排名，但做了「場數」修正：光靠手氣猜中幾場不夠，要又準又多才穩。只猜 1 場全中不會直接霸榜，會先按全場平均命中率打個折；預測場數越多，你的真實水準占比越高。
+        formula: 貝氏加權 =（命中數 + 5 × 全場平均命中率）÷（預測場數 + 5），公開演算法，同 IMDB Top 250 加權評分。
+      jinx:
+        name: 毒奶榜
+        subtitle: 押誰誰輸 · 最穩定押錯的人
+        explainer: 神預榜的反面：按「押錯率」排名，同樣做了場數修正。偶爾押錯一兩次不算毒奶，要穩定地押誰誰輸、且場數夠多，才能名列前茅。
+        formula: Wilson 置信區間下界（押錯率，z = 1.96），公開演算法，同 Reddit 評論排序。
+      otaku:
+        name: 肥宅榜
+        subtitle: 可樂兌換最多 · 肥宅快樂
+        explainer: 按累計兌換的額度從高到低排名，喝得最多的肥宅排最前。只統計兌換過飲料的人。
+    show:
+      empty: 還沒有人上榜
+      how_calculated: 怎麼算的
+    row:
+      bets_wins: "%{bets} 場 · 猜中 %{wins}"
+      hit_suffix: " · %{hit_pct}% 命中"
+      prophet_score: 神預分
+      hit_rate: 命中率 %{value}
+      jinx_score: 毒奶分
+      miss_rate: 失誤率 %{value} · 押錯 %{misses}/%{bets}
+      redeemed: 兌換
+      record: 戰績 %{value}
+      record_label: 戰績
+      redeemed_excluded_title: 已兌換不計入排名
+      redeemed_short: 已兌 %{value}
+      not_redeemed: 未兌換
+  errors:
+    match:
+      already_settled: 該比賽已結算，請用修改比分
+      knockout_tie: 淘汰賽比分相同，請選擇晉級方
+      missing_score: 請填寫比分
+    redemption:
+      unknown_drink: 未知飲料
+      invalid_quantity: 兌換數量需為正整數
+    settlement:
+      no_participants: 未選擇參與者
+      nothing_to_settle: 沒有可結算的比賽
+      match_missing: 比賽不存在
+      already_settled: 已結算
+      no_result: 尚未錄入賽果
+    vote:
+      bad_pick: 該比賽不支援這個投注選項
+      bad_stake: 該比賽不支援這個押注瓶數
+      not_votable: 該比賽目前無法預測（未開放、已截止或對陣未定）
+      not_cancelable: 該比賽目前無法取消預測（未開放、已截止或對陣未定）
+    odds:
+      bad_probability: 機率需為 0–1 之間（小數）
+    outright:
+      invalid_market: 無效的玩法
+      invalid_pick: 無效的選項
+      invalid_stake: 無效的瓶數
+      invalid_subject: 該候選不可投注
+      locked: 該隊已封盤，無法下注
+      locked_cancel: 該隊已封盤，無法撤銷
+  locale_switcher:
+    label: "語言"
+    go: "切換"
+  flash:
+    odds_updated: 賠率已更新
+    score_saved: 比分已儲存
+    select_matches: 請選擇要結算的比賽
+    settled: 已結算 %{count} 場
+    golden_boot_not_ready: 決賽尚未出結果，無法開獎
+    golden_boot_opened: 金靴獎已開獎
+  admin:
+    settlements:
+      index:
+        title: 結算後台
+        intro: 勾選已結束的比賽 → 結算預覽每人淨瓶數 → 確定產生結算記錄，帳本隨即對同事可見。
+        no_records: 還沒有結算記錄
+        no_todo: 沒有已結束待結算的比賽
+        settle_selected_prefix: 結算選中（
+        settle_selected_suffix: " 場）"
+      preview_sheet:
+        preview_title: 結算預覽
+        matches_unit: 場
+        no_bets: 本場無人下注
+        included_count: 參與結算 %{num} 人
+        skipped: 跳過 %{num} 場（%{reason} 等）
+        no_participants: 沒有參與結算的人。
+        winners_label: 本批贏家（帳上 +）
+        losers_label: 本批輸家（帳上 −）
+        bottles_unit: 瓶
+        confirm: 確定結算
+        recompute: 重新計算
+        cancel: 取消
+      todo_row:
+        save_score_first: 先儲存比分再結算
+        votes_unit: 票
+        no_result_suffix: " · 未錄入賽果"
+        home_score_placeholder: 主
+        away_score_placeholder: 客
+        advance: 晉級
+        result_label: 賽果：
+        save_score: 儲存比分
+        predictions_detail_prefix: 預測明細（
+        predictions_detail_suffix: "）"
+      record_card:
+        settlement_label: '結算 '
+        matches_unit: 場
+        people_unit: 人
+        bottles_unit: 瓶
+        no_bets: 本批無人下注。
+      outright:
+        heading: 競猜結算（猜冠軍 / 金靴）
+        golden_boot_open: 金靴開獎（結算剩餘候選）
+        final_required: 決賽出結果後方可開獎。
+        empty: 還沒有競猜結算。
+        people: "%{count} 人"
+        bottles: "%{count} 瓶"
+        settled_by: "%{name} 結算"
+        settled_auto: 系統自動
+        no_counterparty: 無對家，已全額退回。
+        bet_verb: 押
+    users:
+      index:
+        title: 使用者管理
+        intro: 刪除為軟刪除：該使用者將從排行榜、賠率和結算中消失，且無法登入；隨時可恢復。
+      user:
+        self: 本人
+        restore: 恢復
+        delete: 刪除
+    shared:
+      tabs:
+        todo: 待結算
+        records: 結算記錄
+        users: 使用者管理
+        jobs: 任務監控 ↗
+      locked:
+        title: 結算後台
+        restricted: 此頁面僅限結算帳號訪問。
+        login_hint: 請用結算帳號登入後再來。
+  layouts:
+    application:
+      title: The Cola of Cup 2026 · 世界盃可樂競猜
+  shared:
+    nav:
+      tab_schedule: 賽程
+      tab_leaderboard: 排行
+      tab_redeem: 兌換
+      tab_about: 說明
+      tab_admin: 管理
+      sign_in: 登入
+      tab_champion: 冠軍
+  identities:
+    show:
+      session_refreshed_html: 登入工作階段已自動重新整理（多因登出後或登入頁停留過久），請再點一次下面的按鈕登入即可，<strong>無需清理 Cookie</strong>。
+      heading_html: "登入<br><em>參與競猜</em> \U0001F964"
+      lead: 登入後自動帶入頭像和暱稱，登入後可改暱稱。
+      sign_in_with_x: "用 \U0001D54F 登入"
+      no_auth_configured: 暫未設定登入方式，請聯絡管理員。
+  auth_errors:
+    show:
+      back_to_sign_in: 返回登入
+      sign_in_again: 重新登入
+      suspended_heading_html: "無法<br><em>登入</em> \U0001F6AB"
+      suspended_body1: |-
+        你用來登入的 X（Twitter）帳號已被 X 判定為「凍結 / 封禁」(suspended)，
+              X 拒絕提供該帳號資料，因此無法完成登入。
+      suspended_body2: 解決辦法：換一個狀態正常的 X 帳號登入；或前往 x.com 查看該帳號的封禁原因並申訴解封後再來。
+      rate_limited_heading_html: "登入<br><em>暫時受限</em> \U0001F964"
+      rate_limited_body1: |-
+        X 對登入介面做了頻率限制，剛才的請求觸發了上限——
+              通常是短時間內反覆點擊登入、或多人同時登入導致的。
+      rate_limited_body2_html: |-
+        請在 <strong>北京時間 %{reset_time}</strong> 之後再回來登入。
+              屆時額度會自動恢復，點一次按鈕、耐心等待跳轉即可，不要重複點擊。
+      error_heading_html: 登入<br><em>出錯了</em>
+      error_body1_html: |-
+        登入握手沒完成，通常是重複點擊或登入頁停留太久導致的。請
+              <strong>點一次下面的按鈕重新登入、並耐心等待跳轉</strong>，不要連續點擊。
+      error_body2: 若仍然失敗，清除本站 Cookie（或換用無痕視窗）後再試一次即可；反覆不行請聯絡管理員。
+  pages:
+    about:
+      lead_heading_html: "不是賭博，<br>\n      <em>是請客</em> \U0001F964"
+      intro_html: |-
+        <b style="color: var(--hi)">The Cola of Cup 2026</b>
+              是同事之間的世界盃預測小遊戲 —— 賽前預測看好誰，賽後按大家的預測賠率結算。
+              <b style="color: var(--hi)">不涉及真錢</b>，輸贏都用飲料：猜錯的人給大家買幾瓶，僅此而已。
+      credits_heading: "「額度」按飲料兌換"
+      credits_sub: 1 額度 = 1 瓶可樂；其他飲料按下方比例兌換
+      drink_cola: 可樂
+      drink_cola_rate: 1 額度 / 瓶
+      drink_tea: 飲料茶
+      drink_tea_rate: 1.5 額度 / 瓶
+      drink_alien: 外星人
+      drink_alien_rate: 1.5 額度 / 瓶
+      drink_redbull: 紅牛
+      drink_redbull_rate: 2.5 額度 / 瓶
+      how_heading: 怎麼玩
+      rule_predict_html: "<b>賽前預測</b>，選主勝 / 平 / 客勝。小組賽固定 1 瓶；淘汰賽可<b>自選下注瓶數</b>：32/16/8 強 2/3 瓶，準決賽及之後 3/5 瓶。<small>開賽前可隨時改或取消預測。</small>"
+      rule_lock_html: "<b>開賽前 1 小時鎖定</b>，結算賠率以同事預測為準。<small>Polymarket 市場數據全程僅作對比參考。</small>"
+      rule_settle_html: "<b>賽後結算</b>：猜中按賠率贏瓶，猜錯按注額給大家買飲料。贏瓶以<b>小數累計</b>記在你帳上。"
+      rule_redeem_html: "<b>額度兌換</b>：去「我的」頁面用額度<b>兌換飲料</b> —— 可樂 1、飲料茶/外星人 1.5、紅牛 2.5 額度一瓶，兌換後自動扣額度。<b>沒額度也能兌</b>，帳上會記成負數 —— 輸的人照樣能喝，賽季結束按最終額度結算（欠的請客補上）。<small>沒有平台抽水，額度只在猜對和猜錯的人之間流轉。</small>"
+      rule_multi_html: "<b>想多押？</b>用多個帳號參與即可，<b>一人多號不限制</b>。"
+  profiles:
+    show:
+      participation: 參與 %{count} 場 · 猜中 %{wins}
+      total_won: 目前總贏分
+      redeemed: 已兌換
+      available_credit: 可用額度
+      available_credit_note: 可用額度 = 目前總贏分 − 已兌換。
+      ledger_heading: 結算明細
+      empty_ledger: 還沒有已結算的記錄
+      outright_heading: 競猜結算
+    outright_ledger:
+      favor: 看好
+      staked: 押 %{count} 瓶
+    edit:
+      heading: 我的設定
+      logged_in_with: 已用 %{provider} 登入
+      sign_out: 登出
+    form:
+      name_placeholder: 你
+      avatar_preview: 頭像預覽
+      nickname: 暱稱
+      nickname_placeholder: 給自己取個名字
+      choose_emoji: 選個頭像 emoji
+      save: "\U0001F964 儲存"
+    redeem_panel:
+      pickup: "\U0001F964 可樂自行在飲料處領取"
+      free_html: 沒額度、<b>負分也能兌</b> —— 想喝就兌，帳上記成負數，賽季結束再統一結算。
+      credits_per_bottle: "%{credits} 額度 / 瓶"
+      decrease: 減少
+      increase: 增加
+      redeem: 兌換 · %{credits}
+    redemption_records:
+      heading: 兌換記錄
+      unit_cost: 兌換 · %{credits} 額度 / 瓶
+    ledger:
+      pick: 看好 %{pick}
+      won: 贏
+      owe: 請
+      staked: 押 %{count} 瓶
+    tabs:
+      ledger: 帳本
+      settings: 設定
+    balance:
+      credit_unit: " 額度"
+  users_views:
+    show:
+      back_to_leaderboard: "← 返回排行榜"
+      participation: 參與 %{count} 場 · 猜中 %{wins}
+      ledger_heading: 結算記錄
+      empty_ledger: TA 還沒有結算記錄
+  standings:
+    third_place:
+      page_title: 第三名出線排行 · The Cola of Cup
+      back: 返回
+      scorers_crumb: 射手榜
+      heading: 第三名出線
+      subtitle: 12 個小組第三名中成績最好的 %{slots} 個晉級 32 強 · 排序：積分 › 淨勝球 › 進球數
+      empty: 小組賽尚未產生第三名排名
+      col_group: 組
+      col_team: 球隊
+      col_played: 場
+      col_played_title: 場次
+      col_goal_diff: 淨
+      col_goal_diff_title: 淨勝球
+      col_goals_for: 進
+      col_goals_for_title: 進球
+      col_points: 分
+      col_points_title: 積分
+      cutline: 出線分界線 · 以上晉級
+      legend_qualified: 晉級 32 強
+      legend_out: 淘汰
+    table:
+      col_team: 球隊
+      col_played: 場
+      col_played_title: 場次
+      col_won: 勝
+      col_won_title: 勝
+      col_drawn: 平
+      col_drawn_title: 平
+      col_lost: 負
+      col_lost_title: 負
+      col_goal_diff: 淨
+      col_goal_diff_title: 淨勝球
+      col_goals_for: 進
+      col_goals_for_title: 進球
+      col_goals_against: 失
+      col_goals_against_title: 失球
+      col_points: 分
+      col_points_title: 積分
+      legend_qualified: 前 2 名出線
+      legend_third: 第 3 名（爭最佳第三名）
+  groups:
+    index:
+      page_title: 小組積分榜 · The Cola of Cup
+      back: 返回
+      third_place_crumb: 第三名出線排行
+      scorers_crumb: 射手榜
+      heading: 小組積分榜
+      subtitle: 全部 12 個小組 · 前 2 名直接出線，第 3 名爭奪最佳第三名席位
+      empty: 小組賽尚未開始
+      legend_qualified: 前 2 名出線
+      legend_third: 第 3 名（爭最佳第三名）
+      view_group: 查看小組 →
+    show:
+      page_title: "%{group} 積分榜 · The Cola of Cup"
+      back: 返回
+      third_place_crumb: 第三名出線排行
+      subtitle: 小組積分榜 · 前 2 名直接出線，第 3 名爭奪最佳第三名席位
+      group_results: 小組賽戰績
+  scorers:
+    index:
+      page_title: 射手榜 · The Cola of Cup
+      back: 返回
+      third_place_crumb: 第三名出線排行
+      heading: 射手榜
+      subtitle: 本屆進球榜 · 資料來自 openfootball · 烏龍球不計個人 · 排序：進球 › 點球少者優先 › 姓名
+      empty: 還沒有進球資料
+      col_player: 球員
+      col_goals: 進
+      col_goals_title: 進球數
+      col_penalties: 點
+      col_penalties_title: 其中點球
+  teams:
+    show:
+      page_title: "%{team} · 賽程 · The Cola of Cup"
+      back: 返回
+      group_standings_crumb: "%{letter} 組積分榜"
+      no_matches: 暫無比賽。
+  outrights:
+    market:
+      champion: 猜冠軍
+      golden_boot: 金靴獎
+    pick:
+      "yes": 對
+      "no": 否
+    result:
+      champion:
+        won: 奪冠
+        lost: 出局
+      golden_boot:
+        won: 金靴
+        lost: 無緣金靴
+    delta:
+      push: 退
+      win: 贏
+      owe: 請
+    countdown:
+      closed: 已封盤
+      days_hours: "%{days} 天 %{hours} 小時"
+      hours_minutes: "%{hours} 小時 %{minutes} 分"
+      minutes: "%{minutes} 分"
+  predictions:
+    index:
+      page_title: 冠軍 · The Cola of Cup
+      who_champion_html: 誰是<em>冠軍</em>
+      who_golden_boot_html: 誰拿<em>金靴</em>
+      tagline: 押「對 / 否」，每注自選 1/2/3 瓶，被淘汰即結算。
+      what_is_cola: 什麼是「可樂」？
+      mine_html: 你已押 <b>%{bottles}</b> 瓶 · %{count} 注
+      tab_champion: 猜冠軍
+      tab_golden_boot: 金靴獎
+      warn_lead_html: "⚠️ 你已對 <b>%{count}</b> 個"
+      warn_subject_golden_boot: 球員押「會拿金靴」
+      warn_subject_champion: 球隊押「會奪冠」
+      warn_dash: "——"
+      warn_target_golden_boot: 金靴
+      warn_target_champion: 冠軍
+      warn_tail: 只有一個，多數會落空，留意別押太散。
+      not_available: 競猜將在 16 強產生後開放，敬請期待。
+      empty_golden_boot: 暫無進球 ≥ 3 的球員可投。
+      empty_champion: 暫無可投球隊。
+    candidate:
+      market: 市場
+      goals: "%{count} 球"
+      "yes": 對
+      "no": 否
+      market_win: 市場奪冠
+      crowd_favor: 同事看好
+      bet_verb: 押
+      until_lock: 距封盤
+      staked: 已押 %{count} 瓶
+      will_champion: 會奪冠
+      will_golden_boot: 會拿金靴
+      will_not: 不會
+      stake_prompt: 押幾瓶？猜錯就請這幾瓶
+      bottles: "%{count} 瓶"
+      change_hint: 想改就點上面重選
+      cancel: 撤銷
+      pick_hint: 點「對」或「否」下注
+      locked_mine_html: 已封盤 · 你押了 <b>%{pick}</b> %{count} 瓶，等賽果結算
+      locked_none: 已封盤 · 你沒押這隊（該隊 16 強開賽前 1 小時截止）
+      roster_summary: "%{count} 人投了 · 看看誰押了什麼"
+    status:
+      available_html: 16 強陸續產生，確定一支即可投一支。每支球隊在<b>自己 16 強開賽前 1 小時</b>封盤（見各卡倒計時）；封盤後不可改、不可撤，沒有對家的池子會清退。被淘汰即結算給「否」，最終奪冠 / 金靴結算給「對」。
+      unavailable: 16 強尚未產生。第一支 16 強球隊確定後，即可對它（以及進球 ≥ 3 的球員）投「對/否」。

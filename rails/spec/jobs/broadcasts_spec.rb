@@ -65,11 +65,13 @@ RSpec.describe "Broadcasts", type: :job do
       expect(Turbo::StreamsChannel).to have_received(:broadcast_replace_to).at_least(:once)
     end
 
-    it "MatchResultJob renders card fragments and refreshes the admin" do
+    it "MatchResultJob renders card fragments and refreshes the admin per locale" do
       match = rich_match(stage: "group")
       match.update_columns(result: "home", home_score: 2, away_score: 1)
       expect { Broadcasts::MatchResultJob.perform_now(match.id) }.not_to raise_error
-      expect(Turbo::StreamsChannel).to have_received(:broadcast_refresh_to).with("admin")
+      User::LOCALES.each do |locale|
+        expect(Turbo::StreamsChannel).to have_received(:broadcast_refresh_to).with("admin", locale)
+      end
     end
 
     it "SettlementJob renders cards, leaderboard and ledgers" do
@@ -79,7 +81,9 @@ RSpec.describe "Broadcasts", type: :job do
       result = Settlement.commit!([ match.id ], settler: create(:user))
 
       expect { Broadcasts::SettlementJob.perform_now(result.settlement.id) }.not_to raise_error
-      expect(Turbo::StreamsChannel).to have_received(:broadcast_refresh_to).with("admin")
+      User::LOCALES.each do |locale|
+        expect(Turbo::StreamsChannel).to have_received(:broadcast_refresh_to).with("admin", locale)
+      end
     end
 
     it "ProfileJob and UserVisibilityJob render the voter's matches" do
@@ -99,6 +103,42 @@ RSpec.describe "Broadcasts", type: :job do
       match = rich_match
       # No Devise session in a job context; rendering must not call current_user.
       expect { Broadcasts::MatchOddsJob.perform_now(match.id, true) }.not_to raise_error
+    end
+  end
+
+  # The fragments must reach a per-locale stream, each rendered in that language,
+  # so a viewer browsing in en/ja never gets a zh-CN live update.
+  describe "per-locale streams" do
+    it "broadcasts the leaderboard to one stream per supported locale" do
+      create(:ledger_entry, user: create(:user), delta: 3.0)
+      streams = []
+      allow(Turbo::StreamsChannel).to receive(:broadcast_replace_to) do |*streamables, **_opts|
+        streams << streamables # e.g. ["leaderboard", :en]
+      end
+
+      Broadcasts::LeaderboardJob.perform_now
+
+      expect(streams.map(&:first).uniq).to eq([ "leaderboard" ])
+      expect(streams.map(&:last).map(&:to_s)).to match_array(User::LOCALES)
+    end
+
+    it "renders the voter-list fragment in each viewer's language" do
+      match = rich_match # one voter, so the localized header always renders
+      html = {}
+      allow(Turbo::StreamsChannel).to receive(:broadcast_replace_to) do |*streamables, **opts|
+        next unless opts[:target] == "votes_list_#{match.id}"
+
+        html[streamables.last.to_s] = ApplicationController.render(
+          partial: opts[:partial], locals: opts[:locals]
+        )
+      end
+
+      Broadcasts::MatchOddsJob.perform_now(match.id, true)
+
+      expect(html["zh-CN"]).to include("同事预测")
+      expect(html["en"]).to include("Coworker predictions")
+      expect(html["en"]).not_to include("同事预测")
+      expect(html["ja"]).to include("同僚の予想")
     end
   end
 end

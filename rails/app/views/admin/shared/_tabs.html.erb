@@ -2,8 +2,8 @@
 <% records_active = on_settlements && params[:tab] == "records" %>
 <% todo_active = on_settlements && !records_active %>
 <div class="subtabs">
-  <%= link_to "待结算#{" (#{@todo.size})" if @todo&.any?}", admin_root_path, class: ("on" if todo_active) %>
-  <%= link_to "结算记录", admin_root_path(tab: "records"), class: ("on" if records_active) %>
-  <%= link_to "用户管理", admin_users_path, class: ("on" if controller_name == "users") %>
-  <%= link_to "任务监控 ↗", mission_control_jobs_path, target: "_blank", rel: "noopener" %>
+  <%= link_to "#{t(".todo")}#{" (#{@todo.size})" if @todo&.any?}", admin_root_path, class: ("on" if todo_active) %>
+  <%= link_to t(".records"), admin_root_path(tab: "records"), class: ("on" if records_active) %>
+  <%= link_to t(".users"), admin_users_path, class: ("on" if controller_name == "users") %>
+  <%= link_to t(".jobs"), mission_control_jobs_path, target: "_blank", rel: "noopener" %>
 </div>

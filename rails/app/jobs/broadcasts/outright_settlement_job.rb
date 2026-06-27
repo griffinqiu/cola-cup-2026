@@ -7,14 +7,14 @@ module Broadcasts
     queue_as :default
 
     def perform(user_ids)
-      Turbo::StreamsChannel.broadcast_refresh_to("predictions")
+      broadcast_refresh_each_locale("predictions")
       broadcast_leaderboard
 
       User.where(id: user_ids).find_each do |user|
-        Turbo::StreamsChannel.broadcast_refresh_to(user, "ledger")
+        broadcast_refresh_each_locale(user, "ledger")
       end
 
-      Turbo::StreamsChannel.broadcast_refresh_to("admin")
+      broadcast_refresh_each_locale("admin")
     end
   end
 end

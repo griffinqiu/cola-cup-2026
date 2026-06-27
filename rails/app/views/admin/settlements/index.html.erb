@@ -1,9 +1,9 @@
 <% records_active = params[:tab] == "records" %>
 <section>
-  <%= turbo_stream_from "admin" %>
+  <%= turbo_stream_from "admin", I18n.locale %>
   <div class="adm-head">
-    <h1>⚙️ 结算后台</h1>
-    <p>勾选已结束的比赛 → 结算预览每人净瓶数 → 确定生成结算记录，账本随即对同事可见。</p>
+    <h1>⚙️ <%= t(".title") %></h1>
+    <p><%= t(".intro") %></p>
   </div>
   <%= render "admin/shared/tabs" %>
   <hr class="rule ink">
@@ -16,7 +16,7 @@
 
   <% if records_active %>
     <% if @records.empty? %>
-      <p class="adm-empty">还没有结算记录</p>
+      <p class="adm-empty"><%= t(".no_records") %></p>
     <% else %>
       <%= render partial: "admin/settlements/record_card", collection: @records, as: :record %>
     <% end %>
@@ -25,7 +25,7 @@
           can_open: @golden_boot_can_open, gb_pending: @golden_boot_pending %>
   <% else %>
     <% if @todo.empty? %>
-      <p class="adm-empty">没有已结束待结算的比赛</p>
+      <p class="adm-empty"><%= t(".no_todo") %></p>
     <% else %>
       <div data-controller="settle-select">
         <%= render partial: "admin/settlements/todo_row", collection: @todo, as: :match,
@@ -33,13 +33,13 @@
 
         <%= form_with url: preview_admin_settlements_path, method: :post, id: "settle_form" do %>
           <div class="adm-bar" data-settle-select-target="bar" hidden>
-            <button type="submit" class="cta">结算选中（<span data-settle-select-target="count">0</span> 场）</button>
+            <button type="submit" class="cta"><%= t(".settle_selected_prefix") %><span data-settle-select-target="count">0</span><%= t(".settle_selected_suffix") %></button>
           </div>
         <% end %>
       </div>
     <% end %>
   <% end %>
 
-  <%# Turbo Stream target for the preview modal (filled on "结算选中"). %>
+  <%# Turbo Stream target for the preview modal (filled on settle action). %>
   <div id="admin_preview"></div>
 </section>

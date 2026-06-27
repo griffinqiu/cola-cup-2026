@@ -2,15 +2,15 @@
 <% grouped = @matches.group_by { |match| day_key(match.kickoff_at) } %>
 
 <section data-controller="schedule-filter" data-schedule-filter-today-value="<%= today_key %>">
-  <%= turbo_stream_from "schedule" %>
+  <%= turbo_stream_from "schedule", I18n.locale %>
   <div class="masthead">
     <h1 class="headline disp">
-      按赔率<br>
-      <em>赢可乐</em> 🥤
+      <%= t(".headline_line1") %><br>
+      <em><%= t(".headline_emph") %></em> 🥤
     </h1>
     <p class="tagline">
-      同事预测结算，猜错给同事买饮料。
-      <%= link_to "什么是「可乐」？", about_path %>
+      <%= t(".tagline") %>
+      <%= link_to t(".what_is_cola"), about_path %>
     </p>
   </div>
 
@@ -19,7 +19,7 @@
   <hr class="rule ink">
 
   <div class="subtabs">
-    <% [ [ "matches", "比赛" ], [ "done", "已结束" ] ].each_with_index do |(value, label), idx| %>
+    <% [ [ "matches", t(".tab_matches") ], [ "done", t(".tab_done") ] ].each_with_index do |(value, label), idx| %>
       <button type="button"
               class="<%= "on" if idx.zero? %>"
               data-schedule-filter-target="tab"
@@ -28,13 +28,13 @@
         <%= label %>
       </button>
     <% end %>
-    <%= link_to "小组积分榜", groups_path %>
-    <%= link_to "射手榜", scorers_path %>
+    <%= link_to t(".group_standings"), groups_path %>
+    <%= link_to t(".scorers"), scorers_path %>
   </div>
 
   <p class="schedule-empty" data-schedule-filter-target="empty" hidden
      style="padding:40px 0;text-align:center;color:var(--low);font-size:13px;">
-    没有符合条件的比赛
+    <%= t(".no_matches") %>
   </p>
 
   <div id="schedule">

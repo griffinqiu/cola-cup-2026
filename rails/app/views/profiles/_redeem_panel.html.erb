@@ -1,7 +1,7 @@
 <div id="redeem_panel" class="redeem">
   <div class="redeem-tip">
-    <p class="redeem-pickup">🥤 可乐自行在饮料处领取</p>
-    <p class="redeem-free">没额度、<b>负分也能兑</b> —— 想喝就兑，账上记成负数，赛季结束再统一结算。</p>
+    <p class="redeem-pickup"><%= t(".pickup") %></p>
+    <p class="redeem-free"><%= t(".free_html") %></p>
   </div>
   <% Drink::ALL.each do |drink| %>
     <%= form_with url: redemptions_path, method: :post, class: "rdrink",
@@ -9,16 +9,16 @@
       <span class="em"><%= drink.emoji %></span>
       <span class="meta">
         <div class="dn"><%= drink.name %></div>
-        <div class="price"><%= format_credits(drink.cost) %> 额度 / 瓶</div>
+        <div class="price"><%= t(".credits_per_bottle", credits: format_credits(drink.cost)) %></div>
       </span>
       <span class="stepper">
-        <button type="button" data-action="qty-stepper#dec" data-qty-stepper-target="dec" aria-label="减少">−</button>
+        <button type="button" data-action="qty-stepper#dec" data-qty-stepper-target="dec" aria-label="<%= t(".decrease") %>">−</button>
         <b data-qty-stepper-target="qty">1</b>
-        <button type="button" data-action="qty-stepper#inc" aria-label="增加">＋</button>
+        <button type="button" data-action="qty-stepper#inc" aria-label="<%= t(".increase") %>">＋</button>
       </span>
       <%= form.hidden_field :drink, value: drink.key %>
       <%= form.hidden_field :qty, value: 1, data: { qty_stepper_target: "qtyInput" } %>
-      <button type="submit" class="rbtn" data-qty-stepper-target="submit">兑换 · <%= format_credits(drink.cost) %></button>
+      <button type="submit" class="rbtn" data-qty-stepper-target="submit"><%= t(".redeem", credits: format_credits(drink.cost)) %></button>
     <% end %>
   <% end %>
 

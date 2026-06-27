@@ -5,11 +5,11 @@ module Admin
   class GoldenBootController < BaseController
     def open
       unless GoldenBoot.can_open_final?
-        return redirect_to(admin_settlements_path, alert: "决赛尚未出结果，无法开奖", status: :see_other)
+        return redirect_to(admin_settlements_path, alert: I18n.t("flash.golden_boot_not_ready"), status: :see_other)
       end
 
       GoldenBoot.open_final!(settled_by: current_user)
-      redirect_to admin_settlements_path, notice: "金靴奖已开奖", status: :see_other
+      redirect_to admin_settlements_path, notice: I18n.t("flash.golden_boot_opened"), status: :see_other
     end
   end
 end

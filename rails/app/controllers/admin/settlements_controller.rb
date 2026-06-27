@@ -16,7 +16,7 @@ module Admin
     # so every payout shown is recomputed server-side (single source of truth).
     def preview
       if selected_match_ids.empty?
-        return redirect_to(admin_settlements_path, alert: "请选择要结算的比赛", status: :see_other)
+        return redirect_to(admin_settlements_path, alert: I18n.t("flash.select_matches"), status: :see_other)
       end
 
       @included = included_param
@@ -31,11 +31,11 @@ module Admin
 
     def create
       if selected_match_ids.empty?
-        return redirect_to(admin_settlements_path, alert: "请选择要结算的比赛", status: :see_other)
+        return redirect_to(admin_settlements_path, alert: I18n.t("flash.select_matches"), status: :see_other)
       end
 
       result = Settlement.commit!(selected_match_ids, settler: current_user, included: included_param)
-      redirect_to admin_settlements_path, notice: "已结算 #{result.settled} 场", status: :see_other
+      redirect_to admin_settlements_path, notice: I18n.t("flash.settled", count: result.settled), status: :see_other
     rescue Settlement::CommitError => e
       redirect_to admin_settlements_path, alert: e.message, status: :see_other
     end

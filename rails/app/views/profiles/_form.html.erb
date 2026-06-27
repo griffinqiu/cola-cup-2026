@@ -3,17 +3,17 @@
     <div class="preview">
       <span class="em" data-emoji-picker-target="preview"><%= user.emoji || "👤" %></span>
       <span>
-        <div class="nm" data-emoji-picker-target="namePreview"><%= user.nickname.presence || "你" %></div>
-        <div class="label">头像预览</div>
+        <div class="nm" data-emoji-picker-target="namePreview"><%= user.nickname.presence || t(".name_placeholder") %></div>
+        <div class="label"><%= t(".avatar_preview") %></div>
       </span>
     </div>
 
-    <label class="row" for="profile_nickname">昵称</label>
+    <label class="row" for="profile_nickname"><%= t(".nickname") %></label>
     <%= form.text_field :nickname, id: "profile_nickname", value: user.nickname, maxlength: 16,
-          placeholder: "给自己起个名字",
+          placeholder: t(".nickname_placeholder"),
           data: { emoji_picker_target: "nickname", action: "input->emoji-picker#refresh" } %>
 
-    <label class="row" style="margin-top: 24px">选个头像 emoji</label>
+    <label class="row" style="margin-top: 24px"><%= t(".choose_emoji") %></label>
     <div class="emoji-grid">
       <% emoji_choices.each do |choice| %>
         <button type="button" class="<%= "sel" if user.emoji == choice %>"
@@ -26,6 +26,6 @@
     <% end %>
 
     <%= form.hidden_field :emoji, value: user.emoji, data: { emoji_picker_target: "emojiInput" } %>
-    <button type="submit" class="cta" data-emoji-picker-target="submit" disabled style="margin-top: 24px">🥤 保存</button>
+    <button type="submit" class="cta" data-emoji-picker-target="submit" disabled style="margin-top: 24px"><%= t(".save") %></button>
   </div>
 <% end %>

@@ -3,11 +3,11 @@
     <span class="dot <%= row.won ? "w" : "l" %>"></span>
     <span class="info">
       <div class="t"><%= row.team&.flag %> <%= row.subject_label %></div>
-      <div class="m"><%= outright_market_icon(row.market) %> <%= outright_market_label(row.market) %> · 看好 <%= outright_pick_label(row.pick) %> · <%= outright_result_label(row.market, row.outcome) %></div>
+      <div class="m"><%= outright_market_icon(row.market) %> <%= outright_market_label(row.market) %> · <%= t(".favor") %> <%= outright_pick_label(row.pick) %> · <%= outright_result_label(row.market, row.outcome) %></div>
     </span>
     <span class="d <%= row.won ? "w" : "l" %>">
       <span class="amt"><%= outright_delta_verb(row.delta) %> <%= format("%.2f", row.delta.abs) %> 🥤</span>
-      <span class="sub">押 <%= bottles_count(row.stake) %> 瓶</span>
+      <span class="sub"><%= t(".staked", count: bottles_count(row.stake)) %></span>
     </span>
   <% end %>
   <hr class="rule">

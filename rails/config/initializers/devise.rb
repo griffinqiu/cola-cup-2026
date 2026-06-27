@@ -20,7 +20,12 @@ Devise.setup do |config|
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
-  # config.parent_controller = 'DeviseController'
+  # Inherit from ApplicationController so the sign-in / OmniAuth-callback flow
+  # runs under the same `around_action :switch_locale` as the rest of the app —
+  # otherwise a first-time user's fallback nickname (User.nickname_from →
+  # I18n.t("users.fallback_nickname")) would always be generated in the default
+  # locale instead of the visitor's language.
+  config.parent_controller = "ApplicationController"
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,

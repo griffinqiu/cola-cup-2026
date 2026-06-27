@@ -4,10 +4,11 @@ module Broadcasts
   # refreshes match pages. Args are accepted but unused — any change refreshes
   # the whole page.
   class OutrightJob < ApplicationJob
+    include Renderable
     queue_as :default
 
     def perform(*)
-      Turbo::StreamsChannel.broadcast_refresh_to("predictions")
+      broadcast_refresh_each_locale("predictions")
     end
   end
 end

@@ -15,16 +15,16 @@ module Broadcasts
         broadcast_card_meta(match)
         broadcast_card_teams(match)
         broadcast_card_big(match)
-        Turbo::StreamsChannel.broadcast_refresh_to("match", match)
+        broadcast_refresh_each_locale("match", match)
       end
 
       broadcast_leaderboard
 
       settlement.payouts.each do |payout|
-        Turbo::StreamsChannel.broadcast_refresh_to(payout.user, "ledger") if payout.user
+        broadcast_refresh_each_locale(payout.user, "ledger") if payout.user
       end
 
-      Turbo::StreamsChannel.broadcast_refresh_to("admin")
+      broadcast_refresh_each_locale("admin")
     end
   end
 end
