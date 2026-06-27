@@ -8,12 +8,12 @@
     <%= link_to predictions_path, class: "promo-main" do %>
       <span class="promo-ico">👑</span>
       <span class="promo-body">
-        <span class="promo-new">新玩法</span>
-        <span class="promo-title">猜冠军 &amp; 金靴奖</span>
-        <span class="promo-sub">押谁夺冠、谁拿金靴 · 1 瓶起，被淘汰即结算</span>
+        <span class="promo-new"><%= t(".new_tag") %></span>
+        <span class="promo-title"><%= t(".title_html") %></span>
+        <span class="promo-sub"><%= t(".sub") %></span>
       </span>
-      <span class="promo-go"><%= my_picks.positive? ? "我的 #{my_picks} 注" : "去押注" %> ›</span>
+      <span class="promo-go"><%= my_picks.positive? ? t(".my_picks", count: my_picks) : t(".go_bet") %> ›</span>
     <% end %>
-    <button type="button" class="promo-close" data-action="dismissable#close" aria-label="关闭">×</button>
+    <button type="button" class="promo-close" data-action="dismissable#close" aria-label="<%= t(".close") %>">×</button>
   </div>
 <% end %>

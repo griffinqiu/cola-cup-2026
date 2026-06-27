@@ -33,6 +33,13 @@ en:
     third: Third-place match
     final: Final
   matches:
+    predictions_promo:
+      new_tag: New
+      title_html: Champion &amp; Golden Boot
+      sub: Bet who wins the title or the Golden Boot · from 1 bottle, settled on elimination
+      my_picks: My %{count} bets
+      go_bet: Place a bet
+      close: Close
     status:
       scheduled: Not open
       upcoming: Opening soon
@@ -209,6 +216,13 @@ en:
       not_cancelable: This prediction can't be canceled right now (not open, locked, or matchup undecided)
     odds:
       bad_probability: Probability must be between 0–1 (a decimal)
+    outright:
+      invalid_market: Invalid market
+      invalid_pick: Invalid pick
+      invalid_stake: Invalid number of bottles
+      invalid_subject: This candidate can't be bet on
+      locked: This team is locked — betting is closed
+      locked_cancel: This team is locked — can't cancel
   locale_switcher:
     label: "Language"
     go: "Switch"
@@ -217,6 +231,8 @@ en:
     score_saved: Score saved
     select_matches: Please select the matches to settle
     settled: Settled %{count} matches
+    golden_boot_not_ready: The final hasn't finished yet — can't settle
+    golden_boot_opened: Golden Boot settled
   admin:
     settlements:
       index:
@@ -256,6 +272,17 @@ en:
         people_unit: people
         bottles_unit: bottles
         no_bets: No bets in this batch.
+      outright:
+        heading: Outright settlement (Champion / Golden Boot)
+        golden_boot_open: Settle Golden Boot (settle remaining candidates)
+        final_required: Can only settle after the final has finished.
+        empty: No outright settlements yet.
+        people: "%{count} people"
+        bottles: "%{count} bottles"
+        settled_by: "Settled by %{name}"
+        settled_auto: Automatic
+        no_counterparty: No counterparty — fully refunded.
+        bet_verb: Bet
     users:
       index:
         title: User management
@@ -284,6 +311,7 @@ en:
       tab_redeem: Redeem
       tab_about: Guide
       tab_admin: Admin
+      tab_champion: Champion
       sign_in: Sign in
   identities:
     show:
@@ -337,6 +365,9 @@ en:
       rule_redeem_html: "<b>Redeem credits</b>: go to the \"Me\" page and use credits to <b>redeem drinks</b> — cola 1, tea/Alien 1.5, Red Bull 2.5 credits per bottle, automatically deducted on redemption. <b>You can redeem with no credits too</b>, and your account goes negative — losers can still drink, settled at season's end by final credits (pay up what you owe). <small>No platform rake; credits only flow between those who guess right and those who guess wrong.</small>"
       rule_multi_html: "<b>Want to bet more?</b> Just join with multiple accounts — <b>no limit on accounts per person</b>."
   profiles:
+    outright_ledger:
+      favor: Backed
+      staked: Bet %{count} bottles
     show:
       participation: "%{count} matches · %{wins} correct"
       total_won: Total won so far
@@ -345,6 +376,7 @@ en:
       available_credit_note: Available credit = total won so far − redeemed.
       ledger_heading: Settlement details
       empty_ledger: No settled records yet
+      outright_heading: Outright settlement
     edit:
       heading: My settings
       logged_in_with: Signed in with %{provider}
@@ -459,3 +491,71 @@ en:
       page_title: "%{team} · Schedule · The Cola of Cup"
       back: Back
       group_standings_crumb: "Group %{letter} standings"
+      no_matches: No matches yet.
+  outrights:
+    market:
+      champion: Champion
+      golden_boot: Golden Boot
+    pick:
+      "yes": "Yes"
+      "no": "No"
+    result:
+      champion:
+        won: Won the title
+        lost: Eliminated
+      golden_boot:
+        won: Won Golden Boot
+        lost: Missed Golden Boot
+    delta:
+      push: Refunded
+      win: Won
+      owe: Owe
+    countdown:
+      closed: Locked
+      days_hours: "%{days}d %{hours}h"
+      hours_minutes: "%{hours}h %{minutes}m"
+      minutes: "%{minutes}m"
+  predictions:
+    index:
+      page_title: Champion · The Cola of Cup
+      who_champion_html: Who's the <em>Champion</em>
+      who_golden_boot_html: Who wins the <em>Golden Boot</em>
+      tagline: Bet "Yes / No", 1/2/3 bottles per bet, settled on elimination.
+      what_is_cola: What is "cola"?
+      mine_html: You've bet <b>%{bottles}</b> bottles · %{count} bets
+      tab_champion: Champion
+      tab_golden_boot: Golden Boot
+      warn_lead_html: "⚠️ You've backed <b>%{count}</b>"
+      warn_subject_golden_boot: players to win the Golden Boot
+      warn_subject_champion: teams to win the title
+      warn_dash: "——"
+      warn_target_golden_boot: Golden Boot
+      warn_target_champion: Champion
+      warn_tail: there's only one, so most will miss — be careful not to spread too thin.
+      not_available: Outrights open once the Round of 16 is set — stay tuned.
+      empty_golden_boot: No players with ≥ 3 goals to bet on yet.
+      empty_champion: No teams to bet on yet.
+    candidate:
+      market: Market
+      goals: "%{count} goals"
+      "yes": "Yes"
+      "no": "No"
+      market_win: Market favorite
+      crowd_favor: Coworkers favor
+      bet_verb: Bet
+      until_lock: Until lock
+      staked: Bet %{count} bottles
+      will_champion: Will win the title
+      will_golden_boot: Will win the Golden Boot
+      will_not: Won't
+      stake_prompt: How many bottles? Guess wrong and you owe these
+      bottles: "%{count} bottles"
+      change_hint: Want to change? Tap above to re-pick
+      cancel: Cancel
+      pick_hint: Tap "Yes" or "No" to bet
+      locked_mine_html: Locked · you bet <b>%{pick}</b> %{count} bottles, settled by the result
+      locked_none: Locked · you didn't bet on this team (closes 1 hour before its Round of 16 match)
+      roster_summary: "%{count} people bet · see who bet what"
+    status:
+      available_html: The Round of 16 fills in one by one — bet on each team as soon as it's set. Each team locks <b>1 hour before its own Round of 16 match</b> (see each card's countdown); after locking you can't change or cancel, and pools with no counterparty are refunded. Eliminated settles to "No"; winning the title / Golden Boot settles to "Yes".
+      unavailable: The Round of 16 isn't set yet. Once the first Round of 16 team is confirmed, you can bet "Yes/No" on it (and on players with ≥ 3 goals).

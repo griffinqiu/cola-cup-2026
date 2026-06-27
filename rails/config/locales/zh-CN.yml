@@ -105,6 +105,30 @@ zh-CN:
         subtitle: "可乐兑换最多 · 肥宅快乐"
         explainer: "按累计兑换的额度从高到低排名，喝得最多的肥宅排最前。只统计兑换过饮料的人。"
 
+  outrights:
+    market:
+      champion: "猜冠军"
+      golden_boot: "金靴奖"
+    pick:
+      "yes": "对"
+      "no": "否"
+    result:
+      champion:
+        won: "夺冠"
+        lost: "出局"
+      golden_boot:
+        won: "金靴"
+        lost: "无缘金靴"
+    delta:
+      push: "退"
+      win: "赢"
+      owe: "请"
+    countdown:
+      closed: "已封盘"
+      days_hours: "%{days} 天 %{hours} 小时"
+      hours_minutes: "%{hours} 小时 %{minutes} 分"
+      minutes: "%{minutes} 分"
+
   errors:
     match:
       already_settled: "该比赛已结算，请用修改比分"
@@ -126,6 +150,13 @@ zh-CN:
       not_cancelable: "该比赛当前无法取消预测（未开放、已截止或对阵未定）"
     odds:
       bad_probability: "概率需为 0–1 之间（小数）"
+    outright:
+      invalid_market: "无效的玩法"
+      invalid_pick: "无效的选项"
+      invalid_stake: "无效的瓶数"
+      invalid_subject: "该候选不可投注"
+      locked: "该队已封盘，无法下注"
+      locked_cancel: "该队已封盘，无法撤销"
 
   locale_switcher:
     label: "语言"
@@ -136,3 +167,5 @@ zh-CN:
     score_saved: "比分已保存"
     select_matches: "请选择要结算的比赛"
     settled: "已结算 %{count} 场"
+    golden_boot_not_ready: "决赛尚未出结果，无法开奖"
+    golden_boot_opened: "金靴奖已开奖"

@@ -1,17 +1,17 @@
 <div class="adm-outright">
   <hr class="rule ink">
-  <h2 style="margin:8px 0">👑 竞猜结算（猜冠军 / 金靴）</h2>
+  <h2 style="margin:8px 0">👑 <%= t(".heading") %></h2>
 
   <% if gb_pending %>
-    <%= button_to "⚽ 金靴开奖（结算剩余候选）", admin_golden_boot_open_path,
+    <%= button_to "⚽ #{t(".golden_boot_open")}", admin_golden_boot_open_path,
           method: :post, class: "cta", disabled: !can_open, form: { style: "margin:8px 0" } %>
     <% unless can_open %>
-      <p class="adm-note" style="color:var(--low);font-size:12px">决赛出结果后方可开奖。</p>
+      <p class="adm-note" style="color:var(--low);font-size:12px"><%= t(".final_required") %></p>
     <% end %>
   <% end %>
 
   <% if groups.empty? %>
-    <p class="adm-empty">还没有竞猜结算。</p>
+    <p class="adm-empty"><%= t(".empty") %></p>
   <% else %>
     <% groups.each do |subject_key, entries| %>
       <% top = entries.first %>
@@ -24,22 +24,22 @@
             <span class="when"><%= outright_result_label(top.market, top.outcome) %> · <%= format_kickoff(top.settled_at) %></span>
           </span>
           <span class="meta">
-            <%= entries.size %> 人 · <%= bottles_label(moved) %> 瓶 ·
-            <%= top.settled_by ? "#{top.settled_by.nickname} 结算" : "系统自动" %>
+            <%= t(".people", count: entries.size) %> · <%= t(".bottles", count: bottles_label(moved)) %> ·
+            <%= top.settled_by ? t(".settled_by", name: top.settled_by.nickname) : t(".settled_auto") %>
           </span>
         </summary>
         <div class="body">
           <% if winners.zero? %>
-            <p class="adm-empty">无对家，已全额退回。</p>
+            <p class="adm-empty"><%= t(".no_counterparty") %></p>
           <% end %>
           <% entries.sort_by { |entry| -entry.delta }.each do |entry| %>
             <div class="adm-pay">
               <span class="who">
-                <%= entry.user&.emoji.presence || "🙂" %> <%= entry.user&.nickname || "?" %> · 押<%= outright_pick_label(entry.pick) %>
+                <%= entry.user&.emoji.presence || "🙂" %> <%= entry.user&.nickname || "?" %> · <%= t(".bet_verb") %><%= outright_pick_label(entry.pick) %>
               </span>
               <span class="amt">
                 <span class="<%= entry.delta.positive? ? "recv" : entry.delta.negative? ? "owe" : "zero" %>">
-                  <%= format_bottles(entry.delta) %> 瓶
+                  <%= t(".bottles", count: format_bottles(entry.delta)) %>
                 </span>
               </span>
             </div>

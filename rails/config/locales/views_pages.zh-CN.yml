@@ -5,6 +5,7 @@ zh-CN:
   shared:
     nav:
       tab_schedule: "赛程"
+      tab_champion: "冠军"
       tab_leaderboard: "排行"
       tab_redeem: "兑换"
       tab_about: "说明"

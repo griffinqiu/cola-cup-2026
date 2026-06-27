@@ -76,3 +76,4 @@ zh-CN:
       page_title: "%{team} · 赛程 · The Cola of Cup"
       back: "返回"
       group_standings_crumb: "%{letter} 组积分榜"
+      no_matches: "暂无比赛。"

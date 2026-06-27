@@ -8,6 +8,7 @@ zh-CN:
       available_credit_note: "可用额度 = 当前总赢分 − 已兑换。"
       ledger_heading: "结算明细"
       empty_ledger: "还没有已结算的记录"
+      outright_heading: "竞猜结算"
     edit:
       heading: "我的设置"
       logged_in_with: "已用 %{provider} 登录"

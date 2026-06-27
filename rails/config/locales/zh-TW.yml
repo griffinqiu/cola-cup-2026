@@ -143,6 +143,13 @@ zh-TW:
       bottles: 瓶
     day_section:
       match_unit: 場
+    predictions_promo:
+      new_tag: 新玩法
+      title_html: 猜冠軍 &amp; 金靴獎
+      sub: 押誰奪冠、誰拿金靴 · 1 瓶起，被淘汰即結算
+      my_picks: 我的 %{count} 注
+      go_bet: 去押注
+      close: 關閉
   auth:
     oidc_default_name: OIDC 登入
   users:
@@ -208,6 +215,13 @@ zh-TW:
       not_cancelable: 該比賽目前無法取消預測（未開放、已截止或對陣未定）
     odds:
       bad_probability: 機率需為 0–1 之間（小數）
+    outright:
+      invalid_market: 無效的玩法
+      invalid_pick: 無效的選項
+      invalid_stake: 無效的瓶數
+      invalid_subject: 該候選不可投注
+      locked: 該隊已封盤，無法下注
+      locked_cancel: 該隊已封盤，無法撤銷
   locale_switcher:
     label: "語言"
     go: "切換"
@@ -216,6 +230,8 @@ zh-TW:
     score_saved: 比分已儲存
     select_matches: 請選擇要結算的比賽
     settled: 已結算 %{count} 場
+    golden_boot_not_ready: 決賽尚未出結果，無法開獎
+    golden_boot_opened: 金靴獎已開獎
   admin:
     settlements:
       index:
@@ -255,6 +271,17 @@ zh-TW:
         people_unit: 人
         bottles_unit: 瓶
         no_bets: 本批無人下注。
+      outright:
+        heading: 競猜結算（猜冠軍 / 金靴）
+        golden_boot_open: 金靴開獎（結算剩餘候選）
+        final_required: 決賽出結果後方可開獎。
+        empty: 還沒有競猜結算。
+        people: "%{count} 人"
+        bottles: "%{count} 瓶"
+        settled_by: "%{name} 結算"
+        settled_auto: 系統自動
+        no_counterparty: 無對家，已全額退回。
+        bet_verb: 押
     users:
       index:
         title: 使用者管理
@@ -284,6 +311,7 @@ zh-TW:
       tab_about: 說明
       tab_admin: 管理
       sign_in: 登入
+      tab_champion: 冠軍
   identities:
     show:
       session_refreshed_html: 登入工作階段已自動重新整理（多因登出後或登入頁停留過久），請再點一次下面的按鈕登入即可，<strong>無需清理 Cookie</strong>。
@@ -344,6 +372,10 @@ zh-TW:
       available_credit_note: 可用額度 = 目前總贏分 − 已兌換。
       ledger_heading: 結算明細
       empty_ledger: 還沒有已結算的記錄
+      outright_heading: 競猜結算
+    outright_ledger:
+      favor: 看好
+      staked: 押 %{count} 瓶
     edit:
       heading: 我的設定
       logged_in_with: 已用 %{provider} 登入
@@ -458,3 +490,71 @@ zh-TW:
       page_title: "%{team} · 賽程 · The Cola of Cup"
       back: 返回
       group_standings_crumb: "%{letter} 組積分榜"
+      no_matches: 暫無比賽。
+  outrights:
+    market:
+      champion: 猜冠軍
+      golden_boot: 金靴獎
+    pick:
+      "yes": 對
+      "no": 否
+    result:
+      champion:
+        won: 奪冠
+        lost: 出局
+      golden_boot:
+        won: 金靴
+        lost: 無緣金靴
+    delta:
+      push: 退
+      win: 贏
+      owe: 請
+    countdown:
+      closed: 已封盤
+      days_hours: "%{days} 天 %{hours} 小時"
+      hours_minutes: "%{hours} 小時 %{minutes} 分"
+      minutes: "%{minutes} 分"
+  predictions:
+    index:
+      page_title: 冠軍 · The Cola of Cup
+      who_champion_html: 誰是<em>冠軍</em>
+      who_golden_boot_html: 誰拿<em>金靴</em>
+      tagline: 押「對 / 否」，每注自選 1/2/3 瓶，被淘汰即結算。
+      what_is_cola: 什麼是「可樂」？
+      mine_html: 你已押 <b>%{bottles}</b> 瓶 · %{count} 注
+      tab_champion: 猜冠軍
+      tab_golden_boot: 金靴獎
+      warn_lead_html: "⚠️ 你已對 <b>%{count}</b> 個"
+      warn_subject_golden_boot: 球員押「會拿金靴」
+      warn_subject_champion: 球隊押「會奪冠」
+      warn_dash: "——"
+      warn_target_golden_boot: 金靴
+      warn_target_champion: 冠軍
+      warn_tail: 只有一個，多數會落空，留意別押太散。
+      not_available: 競猜將在 16 強產生後開放，敬請期待。
+      empty_golden_boot: 暫無進球 ≥ 3 的球員可投。
+      empty_champion: 暫無可投球隊。
+    candidate:
+      market: 市場
+      goals: "%{count} 球"
+      "yes": 對
+      "no": 否
+      market_win: 市場奪冠
+      crowd_favor: 同事看好
+      bet_verb: 押
+      until_lock: 距封盤
+      staked: 已押 %{count} 瓶
+      will_champion: 會奪冠
+      will_golden_boot: 會拿金靴
+      will_not: 不會
+      stake_prompt: 押幾瓶？猜錯就請這幾瓶
+      bottles: "%{count} 瓶"
+      change_hint: 想改就點上面重選
+      cancel: 撤銷
+      pick_hint: 點「對」或「否」下注
+      locked_mine_html: 已封盤 · 你押了 <b>%{pick}</b> %{count} 瓶，等賽果結算
+      locked_none: 已封盤 · 你沒押這隊（該隊 16 強開賽前 1 小時截止）
+      roster_summary: "%{count} 人投了 · 看看誰押了什麼"
+    status:
+      available_html: 16 強陸續產生，確定一支即可投一支。每支球隊在<b>自己 16 強開賽前 1 小時</b>封盤（見各卡倒計時）；封盤後不可改、不可撤，沒有對家的池子會清退。被淘汰即結算給「否」，最終奪冠 / 金靴結算給「對」。
+      unavailable: 16 強尚未產生。第一支 16 強球隊確定後，即可對它（以及進球 ≥ 3 的球員）投「對/否」。

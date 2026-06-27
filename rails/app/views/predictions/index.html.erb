@@ -1,45 +1,45 @@
-<% content_for :title, "冠军 · The Cola of Cup" %>
+<% content_for :title, t(".page_title") %>
 <section>
-  <%= turbo_stream_from "predictions" %>
+  <%= turbo_stream_from "predictions", I18n.locale %>
   <div class="masthead">
     <h1 class="headline disp">
-      谁是<em>冠军</em> 👑<br>
-      谁拿<em>金靴</em> ⚽
+      <%= t(".who_champion_html") %> 👑<br>
+      <%= t(".who_golden_boot_html") %> ⚽
     </h1>
     <p class="tagline">
-      押「对 / 否」，每注自选 1/2/3 瓶，被淘汰即结算。
-      <%= link_to "什么是「可乐」？", about_path %>
+      <%= t(".tagline") %>
+      <%= link_to t(".what_is_cola"), about_path %>
     </p>
   </div>
 
   <hr class="rule ink">
 
   <% if @my_pick_count.to_i.positive? %>
-    <p class="pred-mine">你已押 <b><%= bottles_count(@my_bottles) %></b> 瓶 · <%= @my_pick_count %> 注</p>
+    <p class="pred-mine"><%= t(".mine_html", bottles: bottles_count(@my_bottles), count: @my_pick_count) %></p>
   <% end %>
 
   <%= render "predictions/status", available: @available %>
 
   <div class="subtabs">
-    <% [ [ "champion", "👑 猜冠军" ], [ "golden_boot", "⚽ 金靴奖" ] ].each do |value, label| %>
+    <% [ [ "champion", "👑 #{t(".tab_champion")}" ], [ "golden_boot", "⚽ #{t(".tab_golden_boot")}" ] ].each do |value, label| %>
       <%= link_to label, predictions_path(tab: value), class: ("on" if @tab == value) %>
     <% end %>
   </div>
 
   <% if @yes_count.to_i >= 3 %>
     <p class="pred-warn">
-      ⚠️ 你已对 <b><%= @yes_count %></b> 个<%= @tab == "golden_boot" ? "球员押「会拿金靴」" : "球队押「会夺冠」" %>——
-      <%= @tab == "golden_boot" ? "金靴" : "冠军" %>只有一个，多数会落空，留意别押太散。
+      <%= t(".warn_lead_html", count: @yes_count) %><%= @tab == "golden_boot" ? t(".warn_subject_golden_boot") : t(".warn_subject_champion") %><%= t(".warn_dash") %>
+      <%= @tab == "golden_boot" ? t(".warn_target_golden_boot") : t(".warn_target_champion") %><%= t(".warn_tail") %>
     </p>
   <% end %>
 
   <% if !@available %>
     <p class="schedule-empty" style="padding:40px 0;text-align:center;color:var(--low);font-size:13px;">
-      竞猜将在 16 强产生后开放，敬请期待。
+      <%= t(".not_available") %>
     </p>
   <% elsif @rows.empty? %>
     <p class="schedule-empty" style="padding:40px 0;text-align:center;color:var(--low);font-size:13px;">
-      <%= @tab == "golden_boot" ? "暂无进球 ≥ 3 的球员可投。" : "暂无可投球队。" %>
+      <%= @tab == "golden_boot" ? t(".empty_golden_boot") : t(".empty_champion") %>
     </p>
   <% else %>
     <div id="outright_list" class="outrights">

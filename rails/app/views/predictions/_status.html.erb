@@ -1,9 +1,9 @@
 <div class="pred-status">
   <% if available %>
     <p class="signed-lock">
-      🔓 16 强陆续产生，确定一支即可投一支。每支球队在<b>自己 16 强开赛前 1 小时</b>封盘（见各卡倒计时）；封盘后不可改、不可撤，没有对家的池子会清退。被淘汰即结算给「否」，最终夺冠 / 金靴结算给「对」。
+      🔓 <%= t(".available_html") %>
     </p>
   <% else %>
-    <p class="signed-lock">⏳ 16 强尚未产生。第一支 16 强球队确定后，即可对它（以及进球 ≥ 3 的球员）投「对/否」。</p>
+    <p class="signed-lock">⏳ <%= t(".unavailable") %></p>
   <% end %>
 </div>

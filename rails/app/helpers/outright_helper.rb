@@ -1,9 +1,8 @@
 module OutrightHelper
-  MARKET_LABEL = { "champion" => "猜冠军", "golden_boot" => "金靴奖" }.freeze
   MARKET_ICON = { "champion" => "👑", "golden_boot" => "⚽" }.freeze
 
   def outright_market_label(market)
-    MARKET_LABEL[market] || market
+    I18n.t("outrights.market.#{market}", default: market)
   end
 
   def outright_market_icon(market)
@@ -12,24 +11,24 @@ module OutrightHelper
 
   # The yes/no side, framed as the user's 对/否 wager.
   def outright_pick_label(pick)
-    pick == "yes" ? "对" : "否"
+    I18n.t("outrights.pick.#{pick == 'yes' ? 'yes' : 'no'}")
   end
 
   # What actually happened to the subject, for the settled-row sub-line.
   def outright_result_label(market, outcome)
     case [ market, outcome ]
-    in [ "champion", "won_title" ] then "夺冠"
-    in [ "champion", _ ] then "出局"
-    in [ "golden_boot", "won_title" ] then "金靴"
-    else "无缘金靴"
+    in [ "champion", "won_title" ] then I18n.t("outrights.result.champion.won")
+    in [ "champion", _ ] then I18n.t("outrights.result.champion.lost")
+    in [ "golden_boot", "won_title" ] then I18n.t("outrights.result.golden_boot.won")
+    else I18n.t("outrights.result.golden_boot.lost")
     end
   end
 
   # 赢 / 退（push, no counterparty）/ 请（owe）.
   def outright_delta_verb(delta)
-    return "退" if delta.zero?
+    return I18n.t("outrights.delta.push") if delta.zero?
 
-    delta.positive? ? "赢" : "请"
+    I18n.t(delta.positive? ? "outrights.delta.win" : "outrights.delta.owe")
   end
 
   # Stable, DOM-safe id for a candidate card — subject_key carries spaces/colons
@@ -60,14 +59,14 @@ module OutrightHelper
   # controller then ticks a precise value client-side.
   def outright_countdown_text(deadline)
     seconds = (deadline - Time.current).to_i
-    return "已封盘" if seconds <= 0
+    return I18n.t("outrights.countdown.closed") if seconds <= 0
 
     days = seconds / 86_400
     hours = (seconds % 86_400) / 3_600
     minutes = (seconds % 3_600) / 60
-    return "#{days} 天 #{hours} 小时" if days.positive?
-    return "#{hours} 小时 #{minutes} 分" if hours.positive?
+    return I18n.t("outrights.countdown.days_hours", days: days, hours: hours) if days.positive?
+    return I18n.t("outrights.countdown.hours_minutes", hours: hours, minutes: minutes) if hours.positive?
 
-    "#{minutes} 分"
+    I18n.t("outrights.countdown.minutes", minutes: minutes)
   end
 end

@@ -143,6 +143,13 @@ ja:
       bottles: 本
     day_section:
       match_unit: 試合
+    predictions_promo:
+      new_tag: 新ルール
+      title_html: 優勝予想 &amp; 得点王
+      sub: 優勝・得点王に賭ける · 1本から、敗退で精算
+      my_picks: 私の %{count} 口
+      go_bet: 賭ける
+      close: 閉じる
   auth:
     oidc_default_name: OIDC ログイン
   users:
@@ -208,6 +215,13 @@ ja:
       not_cancelable: この試合は現在予想を取り消せません（未公開、締切済み、または対戦カード未定）
     odds:
       bad_probability: 確率は 0–1 の範囲（小数）で指定してください
+    outright:
+      invalid_market: 無効なルールです
+      invalid_pick: 無効な選択肢です
+      invalid_stake: 無効な本数です
+      invalid_subject: この候補には賭けられません
+      locked: このチームは締切済みのため、賭けられません
+      locked_cancel: このチームは締切済みのため、取り消せません
   locale_switcher:
     label: "言語"
     go: "切替"
@@ -216,6 +230,8 @@ ja:
     score_saved: スコアを保存しました
     select_matches: 精算する試合を選択してください
     settled: "%{count}試合を精算しました"
+    golden_boot_not_ready: 決勝の結果がまだ出ていないため、開示できません
+    golden_boot_opened: 得点王を開示しました
   admin:
     settlements:
       index:
@@ -255,6 +271,17 @@ ja:
         people_unit: 人
         bottles_unit: 本
         no_bets: この回は誰も賭けていません。
+      outright:
+        heading: アウトライト精算（優勝予想 / 得点王）
+        golden_boot_open: 得点王を開示（残りの候補を精算）
+        final_required: 決勝の結果が出てから開示できます。
+        empty: まだアウトライト精算はありません。
+        people: "%{count} 人"
+        bottles: "%{count} 本"
+        settled_by: "%{name} が精算"
+        settled_auto: システム自動
+        no_counterparty: 対家がいないため、全額返却しました。
+        bet_verb: 賭ける
     users:
       index:
         title: ユーザー管理
@@ -284,6 +311,7 @@ ja:
       tab_about: 説明
       tab_admin: 管理
       sign_in: ログイン
+      tab_champion: 優勝
   identities:
     show:
       session_refreshed_html: ログインセッションが自動で更新されました（ログアウト後やログインページに長く留まったため）。下のボタンをもう一度押してログインしてください。<strong>Cookie を消す必要はありません</strong>。
@@ -344,6 +372,10 @@ ja:
       available_credit_note: 利用可能クレジット = 現在の総獲得スコア − 引き換え済み。
       ledger_heading: 精算明細
       empty_ledger: まだ精算済みの記録がありません
+      outright_heading: アウトライト精算
+    outright_ledger:
+      favor: 期待
+      staked: "%{count}本賭け"
     edit:
       heading: マイ設定
       logged_in_with: "%{provider} でログイン済み"
@@ -458,3 +490,71 @@ ja:
       page_title: "%{team} · 日程 · The Cola of Cup"
       back: 戻る
       group_standings_crumb: "%{letter}組 順位表"
+      no_matches: 試合がありません。
+  outrights:
+    market:
+      champion: 優勝予想
+      golden_boot: 得点王
+    pick:
+      "yes": はい
+      "no": いいえ
+    result:
+      champion:
+        won: 優勝
+        lost: 敗退
+      golden_boot:
+        won: 得点王獲得
+        lost: 得点王ならず
+    delta:
+      push: 返却
+      win: 勝ち
+      owe: おごり
+    countdown:
+      closed: 締切済み
+      days_hours: "%{days}日 %{hours}時間"
+      hours_minutes: "%{hours}時間 %{minutes}分"
+      minutes: "%{minutes}分"
+  predictions:
+    index:
+      page_title: 優勝 · The Cola of Cup
+      who_champion_html: 誰が<em>優勝</em>する？
+      who_golden_boot_html: 誰が<em>得点王</em>になる？
+      tagline: 「はい / いいえ」に賭ける。1口ごとに 1/2/3 本を選択、敗退で精算。
+      what_is_cola: 「コーラ」とは？
+      mine_html: あなたは <b>%{bottles}</b> 本賭け済み · %{count} 口
+      tab_champion: 優勝予想
+      tab_golden_boot: 得点王
+      warn_lead_html: "⚠️ あなたは <b>%{count}</b> 件の"
+      warn_subject_golden_boot: 選手に「得点王になる」と賭けています
+      warn_subject_champion: チームに「優勝する」と賭けています
+      warn_dash: "——"
+      warn_target_golden_boot: 得点王
+      warn_target_champion: 優勝
+      warn_tail: は一つだけで、多くは外れます。賭けを分散しすぎないよう注意。
+      not_available: アウトライトはベスト16が出そろってから開放されます。お楽しみに。
+      empty_golden_boot: 得点 ≥ 3 の賭けられる選手がまだいません。
+      empty_champion: 賭けられるチームがまだいません。
+    candidate:
+      market: 市場
+      goals: "%{count} 得点"
+      "yes": はい
+      "no": いいえ
+      market_win: 市場の優勝候補
+      crowd_favor: 同僚が期待
+      bet_verb: 賭ける
+      until_lock: 締切まで
+      staked: "%{count} 本賭け済み"
+      will_champion: 優勝する
+      will_golden_boot: 得点王になる
+      will_not: ならない
+      stake_prompt: 何本賭ける？外したらこの本数をおごる
+      bottles: "%{count} 本"
+      change_hint: 変更は上をタップして選び直す
+      cancel: 取り消し
+      pick_hint: 「はい」か「いいえ」をタップして賭ける
+      locked_mine_html: 締切済み · あなたは <b>%{pick}</b> に %{count} 本賭けました。結果待ち
+      locked_none: 締切済み · あなたはこのチームに賭けていません（ベスト16開始1時間前に締切）
+      roster_summary: "%{count} 人が賭けました · 誰が何に賭けたか見る"
+    status:
+      available_html: ベスト16が順次出そろいます。確定したチームから賭けられます。各チームは<b>自身のベスト16開始1時間前</b>に締め切られます（各カードのカウントダウン参照）。締切後は変更・取り消し不可、対家のいないプールは返却されます。敗退で「いいえ」に精算、最終的な優勝 / 得点王獲得で「はい」に精算します。
+      unavailable: ベスト16はまだ出そろっていません。最初のベスト16チームが確定すると、そのチーム（および得点 ≥ 3 の選手）に「はい/いいえ」で賭けられます。

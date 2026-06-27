@@ -22,7 +22,7 @@
   <hr class="rule">
   <% if @matches.empty? %>
     <p class="schedule-empty" style="padding:36px 0;text-align:center;color:var(--low);font-size:13px;">
-      暂无比赛。
+      <%= t(".no_matches") %>
     </p>
   <% else %>
     <%= render "matches/match_list", matches: @matches %>
