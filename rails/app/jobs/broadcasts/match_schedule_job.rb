@@ -13,7 +13,7 @@ module Broadcasts
       return unless match
 
       broadcast_card_teams(match)
-      Turbo::StreamsChannel.broadcast_refresh_to("match", match)
+      broadcast_refresh_each_locale("match", match)
     end
   end
 end

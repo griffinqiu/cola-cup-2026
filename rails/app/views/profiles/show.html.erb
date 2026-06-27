@@ -1,5 +1,5 @@
 <section>
-  <%= turbo_stream_from current_user, "ledger" %>
+  <%= turbo_stream_from current_user, "ledger", I18n.locale %>
   <div class="me">
     <div class="who">
       <span class="em"><%= current_user.emoji || "👤" %></span>

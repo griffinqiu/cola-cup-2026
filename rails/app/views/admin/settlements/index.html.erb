@@ -1,6 +1,6 @@
 <% records_active = params[:tab] == "records" %>
 <section>
-  <%= turbo_stream_from "admin" %>
+  <%= turbo_stream_from "admin", I18n.locale %>
   <div class="adm-head">
     <h1>⚙️ <%= t(".title") %></h1>
     <p><%= t(".intro") %></p>

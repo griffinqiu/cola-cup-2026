@@ -1,6 +1,6 @@
 <% status = @match.status %>
 <section>
-  <%= turbo_stream_from "match", @match %>
+  <%= turbo_stream_from "match", @match, I18n.locale %>
   <div class="detail-head">
     <%# A finished match lives in the 已结束 tab, so send the back link there. %>
     <%= link_to root_path(tab: (@match.result.present? ? "done" : nil), anchor: "match_card_#{@match.id}"), class: "back-btn", data: { controller: "back", action: "click->back#go" } do %>

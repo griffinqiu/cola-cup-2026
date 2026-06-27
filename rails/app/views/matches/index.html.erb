@@ -2,7 +2,7 @@
 <% grouped = @matches.group_by { |match| day_key(match.kickoff_at) } %>
 
 <section data-controller="schedule-filter" data-schedule-filter-today-value="<%= today_key %>">
-  <%= turbo_stream_from "schedule" %>
+  <%= turbo_stream_from "schedule", I18n.locale %>
   <div class="masthead">
     <h1 class="headline disp">
       <%= t(".headline_line1") %><br>

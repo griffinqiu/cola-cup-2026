@@ -1,5 +1,5 @@
 <section>
-  <% if @board == User::DEFAULT_BOARD %><%= turbo_stream_from "leaderboard" %><% end %>
+  <% if @board == User::DEFAULT_BOARD %><%= turbo_stream_from "leaderboard", I18n.locale %><% end %>
   <div class="lbh">
     <h1 class="disp"><%= @board.name %></h1>
     <div class="sub"><%= @board.subtitle %></div>
