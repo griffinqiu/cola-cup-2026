@@ -3,7 +3,7 @@
 <section data-schedule-filter-target="section" data-day-key="<%= key %>" <%= "hidden" if key < today_key %>>
   <div class="daylabel">
     <span class="big<%= " today" if is_today %>"><%= primary || date_label %></span>
-    <span class="sm"><% if primary %><%= date_label %> · <% end %><span data-schedule-filter-target="count"><%= day_matches.size %></span> 场</span>
+    <span class="sm"><% if primary %><%= date_label %> · <% end %><span data-schedule-filter-target="count"><%= day_matches.size %></span> <%= t(".match_unit") %></span>
   </div>
   <hr class="rule">
   <div class="day-rows">

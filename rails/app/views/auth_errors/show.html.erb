@@ -2,39 +2,35 @@
 <% case @reason && @reason[:kind] %>
 <% when :suspended %>
   <section class="id-page">
-    <h1 class="disp">无法<br><em>登录</em> 🚫</h1>
+    <h1 class="disp"><%= t(".suspended_heading_html") %></h1>
     <p class="lead">
-      你用来登录的 X（Twitter）账号已被 X 判定为「冻结 / 封禁」(suspended)，
-      X 拒绝提供该账号资料，因此无法完成登录。
+      <%= t(".suspended_body1") %>
     </p>
     <p class="lead">
-      解决办法：换一个状态正常的 X 账号登录；或前往 x.com 查看该账号的封禁原因并申诉解封后再来。
+      <%= t(".suspended_body2") %>
     </p>
-    <%= link_to "返回登录", identity_path, class: "cta", style: link_style %>
+    <%= link_to t(".back_to_sign_in"), identity_path, class: "cta", style: link_style %>
   </section>
 <% when :rate_limited %>
   <section class="id-page">
-    <h1 class="disp">登录<br><em>暂时受限</em> 🥤</h1>
+    <h1 class="disp"><%= t(".rate_limited_heading_html") %></h1>
     <p class="lead">
-      X 对登录接口做了频率限制，刚才的请求触发了上限——
-      通常是短时间内反复点击登录、或多人同时登录导致的。
+      <%= t(".rate_limited_body1") %>
     </p>
     <p class="lead">
-      请在 <strong>北京时间 <%= format_reset_time(@reason[:reset_epoch]) %></strong> 之后再回来登录。
-      届时额度会自动恢复，点一次按钮、耐心等待跳转即可，不要重复点击。
+      <%= t(".rate_limited_body2_html", reset_time: format_reset_time(@reason[:reset_epoch])) %>
     </p>
-    <%= link_to "返回登录", identity_path, class: "cta", style: link_style %>
+    <%= link_to t(".back_to_sign_in"), identity_path, class: "cta", style: link_style %>
   </section>
 <% else %>
   <section class="id-page">
-    <h1 class="disp">登录<br><em>出错了</em></h1>
+    <h1 class="disp"><%= t(".error_heading_html") %></h1>
     <p class="lead">
-      登录握手没完成，通常是重复点击或登录页停留太久导致的。请
-      <strong>点一次下面的按钮重新登录、并耐心等待跳转</strong>，不要连续点击。
+      <%= t(".error_body1_html") %>
     </p>
     <p class="lead">
-      若仍然失败，清除本站 Cookie（或换用无痕窗口）后再试一次即可；反复不行请联系管理员。
+      <%= t(".error_body2") %>
     </p>
-    <%= link_to "重新登录", identity_path, class: "cta", style: link_style %>
+    <%= link_to t(".sign_in_again"), identity_path, class: "cta", style: link_style %>
   </section>
 <% end %>

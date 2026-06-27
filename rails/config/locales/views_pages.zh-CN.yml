@@ -1,0 +1,52 @@
+zh-CN:
+  layouts:
+    application:
+      title: "The Cola of Cup 2026 · 世界杯可乐竞猜"
+  shared:
+    nav:
+      tab_schedule: "赛程"
+      tab_leaderboard: "排行"
+      tab_redeem: "兑换"
+      tab_about: "说明"
+      tab_admin: "管理"
+      sign_in: "登录"
+  identities:
+    show:
+      session_refreshed_html: "登录会话已自动刷新（多因退出后或登录页停留过久），请再点一次下面的按钮登录即可，<strong>无需清理 Cookie</strong>。"
+      heading_html: "登录<br><em>参与竞猜</em> 🥤"
+      lead: "登录后自动带入头像和昵称，登录后可改昵称。"
+      sign_in_with_x: "用 𝕏 登录"
+      no_auth_configured: "暂未配置登录方式，请联系管理员。"
+  auth_errors:
+    show:
+      back_to_sign_in: "返回登录"
+      sign_in_again: "重新登录"
+      suspended_heading_html: "无法<br><em>登录</em> 🚫"
+      suspended_body1: "你用来登录的 X（Twitter）账号已被 X 判定为「冻结 / 封禁」(suspended)，\n      X 拒绝提供该账号资料，因此无法完成登录。"
+      suspended_body2: "解决办法：换一个状态正常的 X 账号登录；或前往 x.com 查看该账号的封禁原因并申诉解封后再来。"
+      rate_limited_heading_html: "登录<br><em>暂时受限</em> 🥤"
+      rate_limited_body1: "X 对登录接口做了频率限制，刚才的请求触发了上限——\n      通常是短时间内反复点击登录、或多人同时登录导致的。"
+      rate_limited_body2_html: "请在 <strong>北京时间 %{reset_time}</strong> 之后再回来登录。\n      届时额度会自动恢复，点一次按钮、耐心等待跳转即可，不要重复点击。"
+      error_heading_html: "登录<br><em>出错了</em>"
+      error_body1_html: "登录握手没完成，通常是重复点击或登录页停留太久导致的。请\n      <strong>点一次下面的按钮重新登录、并耐心等待跳转</strong>，不要连续点击。"
+      error_body2: "若仍然失败，清除本站 Cookie（或换用无痕窗口）后再试一次即可；反复不行请联系管理员。"
+  pages:
+    about:
+      lead_heading_html: "不是赌博，<br>\n      <em>是请客</em> 🥤"
+      intro_html: "<b style=\"color: var(--hi)\">The Cola of Cup 2026</b>\n      是同事之间的世界杯预测小游戏 —— 赛前预测看好谁，赛后按大家的预测赔率结算。\n      <b style=\"color: var(--hi)\">不涉及真钱</b>，输赢都用饮料：猜错的人给大家买几瓶，仅此而已。"
+      credits_heading: "「额度」按饮料兑换"
+      credits_sub: "1 额度 = 1 瓶可乐；其他饮料按下方比例兑换"
+      drink_cola: "可乐"
+      drink_cola_rate: "1 额度 / 瓶"
+      drink_tea: "饮料茶"
+      drink_tea_rate: "1.5 额度 / 瓶"
+      drink_alien: "外星人"
+      drink_alien_rate: "1.5 额度 / 瓶"
+      drink_redbull: "红牛"
+      drink_redbull_rate: "2.5 额度 / 瓶"
+      how_heading: "怎么玩"
+      rule_predict_html: "<b>赛前预测</b>，选主胜 / 平 / 客胜。小组赛固定 1 瓶；淘汰赛可<b>自选下注瓶数</b>：32/16/8 强 2/3 瓶，半决赛及之后 3/5 瓶。<small>开赛前可随时改或取消预测。</small>"
+      rule_lock_html: "<b>开赛前 1 小时锁定</b>，结算赔率以同事预测为准。<small>Polymarket 市场数据全程仅作对比参考。</small>"
+      rule_settle_html: "<b>赛后结算</b>：猜中按赔率赢瓶，猜错按注额给大家买饮料。赢瓶以<b>小数累计</b>记在你账上。"
+      rule_redeem_html: "<b>额度兑换</b>：去「我的」页面用额度<b>兑换饮料</b> —— 可乐 1、饮料茶/外星人 1.5、红牛 2.5 额度一瓶，兑换后自动扣额度。<b>没额度也能兑</b>，账上会记成负数 —— 输的人照样能喝，赛季结束按最终额度结算（欠的请客补上）。<small>没有平台抽水，额度只在猜对和猜错的人之间流转。</small>"
+      rule_multi_html: "<b>想多押？</b>用多个账号参与即可，<b>一人多号不限制</b>。"

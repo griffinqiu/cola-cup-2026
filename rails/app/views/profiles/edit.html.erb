@@ -1,10 +1,10 @@
 <section class="id-page">
-  <h1>我的设置</h1>
+  <h1><%= t(".heading") %></h1>
   <% @accounts.each do |account| %>
-    <p class="lead">已用 <%= provider_label(account.provider) %> 登录<% if account.username.present? %> · @<%= account.username %><% end %></p>
+    <p class="lead"><%= t(".logged_in_with", provider: provider_label(account.provider)) %><% if account.username.present? %> · @<%= account.username %><% end %></p>
   <% end %>
 
   <%= render "profiles/form", user: current_user %>
 
-  <%= button_to "退出登录", destroy_user_session_path, method: :delete, form: { class: "signout" } %>
+  <%= button_to t(".sign_out"), destroy_user_session_path, method: :delete, form: { class: "signout" } %>
 </section>

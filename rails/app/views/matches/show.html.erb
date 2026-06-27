@@ -4,11 +4,11 @@
   <div class="detail-head">
     <%# A finished match lives in the 已结束 tab, so send the back link there. %>
     <%= link_to root_path(tab: (@match.result.present? ? "done" : nil), anchor: "match_card_#{@match.id}"), class: "back-btn", data: { controller: "back", action: "click->back#go" } do %>
-      <span class="bk-arrow">←</span> 返回
+      <span class="bk-arrow">←</span> <%= t(".back") %>
     <% end %>
     <% group_letter = match_group_letter(@match) %>
     <% if group_letter %>
-      <%= link_to "#{group_letter} 组积分榜", group_path(group_letter), class: "detail-crumb" %>
+      <%= link_to t(".group_standings", letter: group_letter), group_path(group_letter), class: "detail-crumb" %>
     <% else %>
       <span class="detail-stage"><%= Match.stage_label(@match.stage) %><% if @match.group_name.present? %> · <%= @match.group_name %><% end %></span>
     <% end %>

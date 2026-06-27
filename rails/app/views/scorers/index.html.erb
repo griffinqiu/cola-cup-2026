@@ -1,27 +1,27 @@
-<% content_for :title, "射手榜 · The Cola of Cup" %>
+<% content_for :title, t(".page_title") %>
 <section>
   <div class="detail-head">
     <%= link_to root_path, class: "back-btn", data: { controller: "back", action: "click->back#go" } do %>
-      <span class="bk-arrow">←</span> 返回
+      <span class="bk-arrow">←</span> <%= t(".back") %>
     <% end %>
-    <%= link_to "第三名出线排行", third_place_path, class: "detail-crumb" %>
+    <%= link_to t(".third_place_crumb"), third_place_path, class: "detail-crumb" %>
   </div>
   <hr class="rule ink">
 
   <div class="lbh">
-    <h1 class="disp">射手榜</h1>
-    <div class="sub">本届进球榜 · 数据来自 openfootball · 乌龙球不计个人 · 排序：进球 › 点球少者优先 › 姓名</div>
+    <h1 class="disp"><%= t(".heading") %></h1>
+    <div class="sub"><%= t(".subtitle") %></div>
   </div>
 
   <% if @rows.empty? %>
-    <p class="standings-empty">还没有进球数据</p>
+    <p class="standings-empty"><%= t(".empty") %></p>
   <% else %>
     <div class="standings scorers">
       <div class="st-row st-head">
         <span class="st-rk">#</span>
-        <span class="st-team">球员</span>
-        <span class="st-n st-pts" title="进球数">进</span>
-        <span class="st-n" title="其中点球">点</span>
+        <span class="st-team"><%= t(".col_player") %></span>
+        <span class="st-n st-pts" title="<%= t(".col_goals_title") %>"><%= t(".col_goals") %></span>
+        <span class="st-n" title="<%= t(".col_penalties_title") %>"><%= t(".col_penalties") %></span>
       </div>
       <div id="scorer_rows">
         <%= render partial: "scorers/row", collection: @rows, as: :row, locals: { offset: @offset } %>

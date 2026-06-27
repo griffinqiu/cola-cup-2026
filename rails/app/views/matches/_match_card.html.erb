@@ -10,11 +10,11 @@
     <summary class="mrow kc-summary">
       <%= render "matches/card_meta", match: match, voted: voted %>
       <%= render "matches/card_teams", match: match %>
-      <span class="kc-toggle">候选 <span class="kc-caret">▸</span></span>
+      <span class="kc-toggle"><%= t(".candidates") %> <span class="kc-caret">▸</span></span>
     </summary>
     <div class="cand-list">
       <%= candidate_list_rows(candidates) %>
-      <%= link_to "查看完整第三名排行 →", third_place_path, class: "cand-more" %>
+      <%= link_to t(".full_third_place"), third_place_path, class: "cand-more" %>
     </div>
   </details>
 <% elsif multi_sides %>
@@ -25,11 +25,11 @@
     <summary class="mrow kc-summary">
       <%= render "matches/card_meta", match: match, voted: voted %>
       <%= render "matches/card_teams", match: match %>
-      <span class="kc-toggle">候选 <span class="kc-caret">▸</span></span>
+      <span class="kc-toggle"><%= t(".candidates") %> <span class="kc-caret">▸</span></span>
     </summary>
     <div class="cand-list">
       <% multi_sides.each do |label, side_candidates| %>
-        <div class="multi-head"><%= humanize_slot_label(label) %>（<%= side_candidates.size %> 队）</div>
+        <div class="multi-head"><%= humanize_slot_label(label) %><%= t(".team_count", count: side_candidates.size) %></div>
         <%= multi_rows(side_candidates) %>
       <% end %>
     </div>

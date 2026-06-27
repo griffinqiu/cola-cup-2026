@@ -3,15 +3,15 @@
 <div class="standings">
   <div class="st-row st-head">
     <span class="st-rk">#</span>
-    <span class="st-team">球队</span>
-    <span class="st-n" title="场次">场</span>
-    <span class="st-n" title="胜">胜</span>
-    <span class="st-n" title="平">平</span>
-    <span class="st-n" title="负">负</span>
-    <span class="st-n st-gd" title="净胜球">净</span>
-    <span class="st-n" title="进球">进</span>
-    <span class="st-n" title="失球">失</span>
-    <span class="st-n st-pts" title="积分">分</span>
+    <span class="st-team"><%= t(".col_team") %></span>
+    <span class="st-n" title="<%= t(".col_played_title") %>"><%= t(".col_played") %></span>
+    <span class="st-n" title="<%= t(".col_won_title") %>"><%= t(".col_won") %></span>
+    <span class="st-n" title="<%= t(".col_drawn_title") %>"><%= t(".col_drawn") %></span>
+    <span class="st-n" title="<%= t(".col_lost_title") %>"><%= t(".col_lost") %></span>
+    <span class="st-n st-gd" title="<%= t(".col_goal_diff_title") %>"><%= t(".col_goal_diff") %></span>
+    <span class="st-n" title="<%= t(".col_goals_for_title") %>"><%= t(".col_goals_for") %></span>
+    <span class="st-n" title="<%= t(".col_goals_against_title") %>"><%= t(".col_goals_against") %></span>
+    <span class="st-n st-pts" title="<%= t(".col_points_title") %>"><%= t(".col_points") %></span>
   </div>
   <% group.rows.each_with_index do |row, index| %>
     <% zone = index < 2 ? "qual" : index == 2 ? "third" : "out" %>
@@ -34,7 +34,7 @@
 </div>
 <% if local_assigns.fetch(:legend, true) %>
   <div class="st-legend">
-    <span><i class="dot qual"></i>前 2 名出线</span>
-    <span><i class="dot third"></i>第 3 名（争最佳第三名）</span>
+    <span><i class="dot qual"></i><%= t(".legend_qualified") %></span>
+    <span><i class="dot third"></i><%= t(".legend_third") %></span>
   </div>
 <% end %>

@@ -1,0 +1,64 @@
+zh-CN:
+  profiles:
+    show:
+      participation: "参与 %{count} 场 · 猜中 %{wins}"
+      total_won: "当前总赢分"
+      redeemed: "已兑换"
+      available_credit: "可用额度"
+      available_credit_note: "可用额度 = 当前总赢分 − 已兑换。"
+      ledger_heading: "结算明细"
+      empty_ledger: "还没有已结算的记录"
+    edit:
+      heading: "我的设置"
+      logged_in_with: "已用 %{provider} 登录"
+      sign_out: "退出登录"
+    form:
+      name_placeholder: "你"
+      avatar_preview: "头像预览"
+      nickname: "昵称"
+      nickname_placeholder: "给自己起个名字"
+      choose_emoji: "选个头像 emoji"
+      save: "🥤 保存"
+    redeem_panel:
+      pickup: "🥤 可乐自行在饮料处领取"
+      free_html: "没额度、<b>负分也能兑</b> —— 想喝就兑，账上记成负数，赛季结束再统一结算。"
+      credits_per_bottle: "%{credits} 额度 / 瓶"
+      decrease: "减少"
+      increase: "增加"
+      redeem: "兑换 · %{credits}"
+    redemption_records:
+      heading: "兑换记录"
+      unit_cost: "兑换 · %{credits} 额度 / 瓶"
+    ledger:
+      pick: "看好 %{pick}"
+      won: "赢"
+      owe: "请"
+      staked: "押 %{count} 瓶"
+    tabs:
+      ledger: "账本"
+      settings: "设置"
+    balance:
+      credit_unit: " 额度"
+  leaderboards:
+    show:
+      empty: "还没有人上榜"
+      how_calculated: "怎么算的"
+    row:
+      bets_wins: "%{bets} 场 · 猜中 %{wins}"
+      hit_suffix: " · %{hit_pct}% 命中"
+      prophet_score: "神预分"
+      hit_rate: "命中率 %{value}"
+      jinx_score: "毒奶分"
+      miss_rate: "失误率 %{value} · 押错 %{misses}/%{bets}"
+      redeemed: "兑换"
+      record: "战绩 %{value}"
+      record_label: "战绩"
+      redeemed_excluded_title: "已兑换不计入排名"
+      redeemed_short: "已兑 %{value}"
+      not_redeemed: "未兑换"
+  users_views:
+    show:
+      back_to_leaderboard: "← 返回排行榜"
+      participation: "参与 %{count} 场 · 猜中 %{wins}"
+      ledger_heading: "结算记录"
+      empty_ledger: "TA 还没有结算记录"

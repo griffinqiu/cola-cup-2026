@@ -7,7 +7,7 @@
         match's goal log (scorer · minute · team) plus a link to the full
         top-scorer board. Goals come from openfootball and can lag the score,
         hence the 待更新 fallback. Shown to everyone, signed in or not. %>
-    <h2 class="disp">本场进球</h2>
+    <h2 class="disp"><%= t(".match_goals") %></h2>
     <% goal_log = match.goal_log %>
     <% if goal_log.any? %>
       <ul class="goal-log">
@@ -15,27 +15,27 @@
           <li>
             <span class="flag"><%= g.team&.flag.presence || "🏳️" %></span>
             <span class="who"><%= g.player_name %></span>
-            <% if g.own_goal %><span class="gtag og">乌龙</span><% elsif g.penalty %><span class="gtag pk">点球</span><% end %>
+            <% if g.own_goal %><span class="gtag og"><%= t(".own_goal") %></span><% elsif g.penalty %><span class="gtag pk"><%= t(".penalty") %></span><% end %>
             <% if g.minute %><span class="min"><%= g.minute %>'</span><% end %>
           </li>
         <% end %>
       </ul>
     <% else %>
-      <p class="signed-lock">本场进球数据待更新。</p>
+      <p class="signed-lock"><%= t(".goals_pending") %></p>
     <% end %>
-    <%= link_to "射手榜 →", scorers_path, class: "cand-more" %>
+    <%= link_to t(".scorers_link"), scorers_path, class: "cand-more" %>
   <% elsif !has_identity %>
-    <h2 class="disp">想预测？</h2>
+    <h2 class="disp"><%= t(".want_to_predict") %></h2>
     <p class="signed-lock">
-      先去 <%= link_to "设置身份", identity_path, style: "color: var(--red); border-bottom: 1px solid color-mix(in srgb,var(--red) 45%,transparent)" %>。
+      <%= t(".set_identity_prefix") %> <%= link_to t(".set_identity_link"), identity_path, style: "color: var(--red); border-bottom: 1px solid color-mix(in srgb,var(--red) 45%,transparent)" %><%= t(".set_identity_suffix") %>
     </p>
   <% elsif !votable %>
-    <h2 class="disp"><%= user_vote ? "已锁定" : "未开放" %></h2>
+    <h2 class="disp"><%= user_vote ? t(".locked") : t(".not_open") %></h2>
     <p class="signed-lock">
       <% if user_vote %>
-        🔒 你看好 <b><%= pick_team_label(match, user_vote.pick) %></b> · <%= bottles_count(user_vote.stake) %> 瓶。
+        🔒 <%= t(".you_picked_prefix") %> <b><%= pick_team_label(match, user_vote.pick) %></b> · <%= bottles_count(user_vote.stake) %> <%= t(".bottles_suffix") %>
       <% else %>
-        🔒 当前无法预测（无赔率或已锁定）。
+        🔒 <%= t(".cannot_predict") %>
       <% end %>
     </p>
   <% else %>
@@ -53,7 +53,7 @@
          data-vote-panel-default-stake-value="<%= match.default_stake %>"
          data-vote-panel-others-total-value="<%= pool[:others_total] %>"
          data-countdown-closes-at-value="<%= match.vote_closes_at.iso8601 %>">
-      <h2 class="disp">你看好谁？</h2>
+      <h2 class="disp"><%= t(".who_do_you_pick") %></h2>
       <%= form_with url: match_vote_path(match), method: :post do %>
         <%= hidden_field_tag :pick, current_pick, data: { vote_panel_target: "pickInput" } %>
         <%= hidden_field_tag :stake, current_stake, data: { vote_panel_target: "stakeInput" } %>
@@ -74,23 +74,23 @@
             <% stake_options.each do |amount| %>
               <button type="button" class="s<%= " sel" if current_stake == amount %>"
                       data-vote-panel-target="stake" data-stake="<%= amount %>"
-                      data-action="vote-panel#selectStake"><%= bottles_count(amount) %> 瓶</button>
+                      data-action="vote-panel#selectStake"><%= bottles_count(amount) %> <%= t(".bottles") %></button>
             <% end %>
           </div>
           <p class="changenote" style="text-align:left;color:var(--mid);font-size:13px;padding:14px 0 0">
-            选择下注瓶数 · 猜错就请这些瓶
+            <%= t(".choose_stake_hint") %>
           </p>
         <% else %>
           <p class="changenote" style="text-align:left;color:var(--mid);font-size:13px;padding:18px 0 0">
-            本场固定下注 <b><%= bottles_count(current_stake) %> 瓶</b> · 猜错就请这几瓶
+            <%= t(".fixed_stake_prefix") %> <b><%= bottles_count(current_stake) %> <%= t(".bottles") %></b> <%= t(".fixed_stake_suffix") %>
           </p>
         <% end %>
 
         <p class="pot" data-vote-panel-target="pot">
           <% if potential %>
-            猜中约赢 <b>+<%= format("%.1f", potential) %> 瓶</b> · 按当前预测赔率
+            <%= t(".win_prefix") %> <b>+<%= format("%.1f", potential) %> <%= t(".bottles") %></b> <%= t(".win_suffix") %>
           <% else %>
-            选个看好的
+            <%= t(".pick_one") %>
           <% end %>
         </p>
 
@@ -99,7 +99,7 @@
         <%# Outline + disabled until the picker selects something other than the
             saved pick; vote-panel#render flips it to the red fill when actionable. %>
         <button type="submit" class="cta outline" data-vote-panel-target="submit" disabled>
-          <%= current_pick ? "✅ 当前已预测 #{pick_team_label(match, current_pick)}" : "🥤 选个看好的" %>
+          <%= current_pick ? t(".submit_voted", team: pick_team_label(match, current_pick)) : t(".submit_pick_one") %>
         </button>
       <% end %>
 
@@ -110,12 +110,12 @@
       too); the change-or-cancel hint only while a vote is still open. %>
   <div class="vp-foot">
     <% if next_match_id %>
-      <%= link_to match_path(next_match_id), class: "vp-back" do %>下一场 <span class="bk-arrow">→</span><% end %>
+      <%= link_to match_path(next_match_id), class: "vp-back" do %><%= t(".next_match") %> <span class="bk-arrow">→</span><% end %>
     <% else %>
-      <%= link_to root_path(anchor: "match_card_#{match.id}"), class: "vp-back" do %><span class="bk-arrow">←</span> 返回赛程<% end %>
+      <%= link_to root_path(anchor: "match_card_#{match.id}"), class: "vp-back" do %><span class="bk-arrow">←</span> <%= t(".back_to_schedule") %><% end %>
     <% end %>
     <% if votable %>
-      <span class="vp-hint">开赛前可随时改或<% if user_vote %><%= button_to "取消预测", match_vote_path(match), method: :delete, class: "vp-cancel-link", form: { style: "display:inline" } %><% else %>取消预测<% end %></span>
+      <span class="vp-hint"><%= t(".change_hint") %><% if user_vote %><%= button_to t(".cancel_vote"), match_vote_path(match), method: :delete, class: "vp-cancel-link", form: { style: "display:inline" } %><% else %><%= t(".cancel_vote") %><% end %></span>
     <% end %>
   </div>
 </div>

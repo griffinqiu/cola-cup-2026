@@ -5,23 +5,23 @@
       <span class="em"><%= current_user.emoji || "👤" %></span>
       <span>
         <div class="nm disp"><%= current_user.nickname %></div>
-        <div class="tag">参与 <%= @ledger.size %> 场 · 猜中 <%= @wins %></div>
+        <div class="tag"><%= t(".participation", count: @ledger.size, wins: @wins) %></div>
       </span>
     </div>
     <hr class="rule ink" style="margin-top: 18px">
     <div class="balstats">
       <div class="bstat">
-        <div class="netlbl">当前总赢分</div>
+        <div class="netlbl"><%= t(".total_won") %></div>
         <div class="bv <%= @total.positive? ? "pos" : @total.negative? ? "neg" : "zero" %>"><%= format_bottles(@total) %></div>
       </div>
       <div class="bstat">
-        <div class="netlbl">已兑换</div>
+        <div class="netlbl"><%= t(".redeemed") %></div>
         <%= render "profiles/redeemed", redeemed: @redeemed %>
       </div>
     </div>
-    <div class="netlbl">可用额度</div>
+    <div class="netlbl"><%= t(".available_credit") %></div>
     <%= render "profiles/balance", balance: @balance %>
-    <p class="note">可用额度 = 当前总赢分 − 已兑换。</p>
+    <p class="note"><%= t(".available_credit_note") %></p>
   </div>
 
   <hr class="rule">
@@ -29,10 +29,10 @@
 
   <%= render "profiles/redemption_records", redemptions: @redemptions %>
 
-  <div class="ledh disp">结算明细</div>
+  <div class="ledh disp"><%= t(".ledger_heading") %></div>
   <hr class="rule">
   <% if @ledger.empty? %>
-    <p style="padding:32px 0;text-align:center;color:var(--low);font-size:13px">还没有已结算的记录</p>
+    <p style="padding:32px 0;text-align:center;color:var(--low);font-size:13px"><%= t(".empty_ledger") %></p>
   <% else %>
     <%= render "profiles/ledger", ledger: @ledger %>
   <% end %>

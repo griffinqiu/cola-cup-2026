@@ -4,8 +4,8 @@
         data: { preview_sheet_target: "form", action: "click->preview-sheet#stop" } do %>
     <div class="adm-sheet">
       <div class="top">
-        <h3>结算预览</h3>
-        <span class="cnt"><%= preview.matches.size %> 场</span>
+        <h3><%= t(".preview_title") %></h3>
+        <span class="cnt"><%= preview.matches.size %> <%= t(".matches_unit") %></span>
       </div>
 
       <% preview.matches.each do |preview_match| %>
@@ -18,12 +18,12 @@
           </div>
 
           <% if preview_match.votes.empty? %>
-            <p class="adm-skip">本场无人下注</p>
+            <p class="adm-skip"><%= t(".no_bets") %></p>
           <% else %>
             <%# sentinel keeps the key present so an all-unchecked match submits [] (= skip) %>
             <%= hidden_field_tag "included[#{preview_match.match_id}][]", "" %>
             <div class="adm-roster-head">
-              <span class="cnt-sel">参与结算 <%= preview_match.votes.size %> 人</span>
+              <span class="cnt-sel"><%= t(".included_count", num: preview_match.votes.size) %></span>
             </div>
             <div class="adm-votes">
               <% roster_groups(match).each do |pick, label| %>
@@ -52,7 +52,7 @@
       <% end %>
 
       <% if preview.skipped.any? %>
-        <p class="adm-skip">跳过 <%= preview.skipped.size %> 场（<%= preview.skipped.first[:reason] %> 等）</p>
+        <p class="adm-skip"><%= t(".skipped", num: preview.skipped.size, reason: preview.skipped.first[:reason]) %></p>
       <% end %>
 
       <hr class="adm-divider">
@@ -60,26 +60,26 @@
       <% winners = preview.users.select { |user| user.net.positive? } %>
       <% losers = preview.users.select { |user| user.net.negative? } %>
       <% if preview.users.empty? %>
-        <p class="adm-empty">没有参与结算的人。</p>
+        <p class="adm-empty"><%= t(".no_participants") %></p>
       <% else %>
         <% if winners.any? %>
           <div class="adm-grp">
-            <p class="lbl">本批赢家（账上 +）</p>
+            <p class="lbl"><%= t(".winners_label") %></p>
             <% winners.each do |user| %>
               <div class="adm-pay">
                 <span class="who"><%= user.emoji.presence || "🙂" %> <%= user.nickname %></span>
-                <span class="amt recv"><%= format_bottles(user.net) %> 瓶</span>
+                <span class="amt recv"><%= format_bottles(user.net) %> <%= t(".bottles_unit") %></span>
               </div>
             <% end %>
           </div>
         <% end %>
         <% if losers.any? %>
           <div class="adm-grp">
-            <p class="lbl">本批输家（账上 −）</p>
+            <p class="lbl"><%= t(".losers_label") %></p>
             <% losers.each do |user| %>
               <div class="adm-pay">
                 <span class="who"><%= user.emoji.presence || "🙂" %> <%= user.nickname %></span>
-                <span class="amt owe"><%= format_bottles(user.net) %> 瓶</span>
+                <span class="amt owe"><%= format_bottles(user.net) %> <%= t(".bottles_unit") %></span>
               </div>
             <% end %>
           </div>
@@ -87,10 +87,10 @@
       <% end %>
 
       <div class="adm-actions">
-        <button type="submit" class="cta">确定结算</button>
+        <button type="submit" class="cta"><%= t(".confirm") %></button>
         <button type="submit" class="adm-btn" formaction="<%= preview_admin_settlements_path %>" formmethod="post"
-                data-preview-sheet-target="recompute">重新计算</button>
-        <%= link_to "取消", admin_settlements_path, class: "adm-btn" %>
+                data-preview-sheet-target="recompute"><%= t(".recompute") %></button>
+        <%= link_to t(".cancel"), admin_settlements_path, class: "adm-btn" %>
       </div>
     </div>
   <% end %>

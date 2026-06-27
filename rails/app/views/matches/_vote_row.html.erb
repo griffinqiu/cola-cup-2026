@@ -9,6 +9,6 @@
       <span class="res <%= entry.delta >= 0 ? "w" : "l" %>"><%= format_bottles(entry.delta) %> 🥤</span>
     <% end %>
   <% else %>
-    <span class="pk">🥤 <b><%= bottles_count(vote.stake) %></b> 瓶</span>
+    <span class="pk">🥤 <b><%= bottles_count(vote.stake) %></b> <%= t(".bottles") %></span>
   <% end %>
 </div>

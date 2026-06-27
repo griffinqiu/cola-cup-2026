@@ -1,7 +1,7 @@
 <% featured_index = odds_featured_index(outcomes) %>
 <% lead_index = odds_lead_index(outcomes) %>
 <div class="oc" id="odds_compare_<%= match.id %>">
-  <h2 class="disp">赔率对比</h2>
+  <h2 class="disp"><%= t(".odds_compare") %></h2>
 
   <% outcomes.each_with_index do |o, i| %>
     <% featured = (i == featured_index) %>
@@ -12,12 +12,12 @@
       </div>
       <div class="odds-bars">
         <div class="ob">
-          <span class="ob-lbl mk">⚽ 市场</span>
+          <span class="ob-lbl mk">⚽ <%= t(".market") %></span>
           <span class="ob-track"><i class="mk" style="width: <%= odds_clamp_width(o[:market_p]) %>%"></i></span>
           <span class="ob-pct mk"><%= odds_pct_text(o[:market_p]) %></span>
         </div>
         <div class="ob">
-          <span class="ob-lbl cr">🥤 同事</span>
+          <span class="ob-lbl cr">🥤 <%= t(".colleagues") %></span>
           <span class="ob-track"><i class="cr" style="width: <%= odds_clamp_width(o[:crowd_p]) %>%"></i></span>
           <span class="ob-pct cr"><%= odds_pct_text(o[:crowd_p]) %></span>
         </div>
@@ -28,17 +28,17 @@
   <%# Polymarket keeps moving after we freeze the line — always say which moment
       this market line belongs to. %>
   <p class="oc-foot">
-    结算只看同事预测
-    <% if low_sample %>· 同事样本少，赔率仅供参考 <% end %>·
+    <%= t(".settle_note") %>
+    <% if low_sample %>· <%= t(".low_sample") %> <% end %>·
     <% if polymarket_url %>
-      <a class="market-link" href="<%= polymarket_url %>" target="_blank" rel="noopener noreferrer">市场数据 <span class="arrow">↗</span></a> 仅作参考
+      <a class="market-link" href="<%= polymarket_url %>" target="_blank" rel="noopener noreferrer"><%= t(".market_data") %> <span class="arrow">↗</span></a> <%= t(".for_reference") %>
     <% else %>
-      市场仅作参考
+      <%= t(".market_for_reference") %>
     <% end %>
     <% if market_snapshot %>
-      · <%= market_snapshot.locked? ? "锁定于 #{format_snapshot_time(market_snapshot.taken_at)}" : "更新于 #{format_snapshot_time(market_snapshot.taken_at)}" %>
+      · <%= market_snapshot.locked? ? t(".locked_at", time: format_snapshot_time(market_snapshot.taken_at)) : t(".updated_at", time: format_snapshot_time(market_snapshot.taken_at)) %>
     <% else %>
-      · 未开盘
+      · <%= t(".not_opened") %>
     <% end %>
   </p>
 </div>

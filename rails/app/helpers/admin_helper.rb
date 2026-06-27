@@ -2,16 +2,16 @@ module AdminHelper
   # Outcome groups [pick, label] for a match's roster, in home/[draw]/away order.
   def roster_groups(match)
     groups = [ [ "home", team_display_name(match.home_team, match.home_label) ] ]
-    groups << [ "draw", "平局" ] if match.allows_draw?
+    groups << [ "draw", I18n.t("matches.result_label.draw") ] if match.allows_draw?
     groups << [ "away", team_display_name(match.away_team, match.away_label) ]
     groups
   end
 
   def result_team_name(match, pick)
     case pick
-    when "home" then team_display_name(match&.home_team, match&.home_label).presence || "主胜"
-    when "away" then team_display_name(match&.away_team, match&.away_label).presence || "客胜"
-    else "平局"
+    when "home" then team_display_name(match&.home_team, match&.home_label).presence || I18n.t("matches.result_label.home")
+    when "away" then team_display_name(match&.away_team, match&.away_label).presence || I18n.t("matches.result_label.away")
+    else I18n.t("matches.result_label.draw")
     end
   end
 

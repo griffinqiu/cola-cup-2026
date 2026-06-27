@@ -14,25 +14,25 @@
     <span class="em"><%= entry.emoji || "👤" %></span>
     <span class="who">
       <div class="nm"><%= entry.nickname %></div>
-      <div class="m"><%= bets %> 场 · 猜中 <%= wins %><% if bets > 0 %> · <%= hit_pct %>% 命中<% end %></div>
+      <div class="m"><%= t(".bets_wins", bets: bets, wins: wins) %><% if bets > 0 %><%= t(".hit_suffix", hit_pct: hit_pct) %><% end %></div>
     </span>
     <span class="n">
       <% case board.metric %>
       <% when :hit_rate %>
-        <div class="b pos"><span class="lbl">神预分</span><%= rank_score ? format('%.1f', rank_score) : "—" %></div>
-        <div class="st">命中率 <%= hit_pct ? "#{hit_pct}%" : "—" %></div>
+        <div class="b pos"><span class="lbl"><%= t(".prophet_score") %></span><%= rank_score ? format('%.1f', rank_score) : "—" %></div>
+        <div class="st"><%= t(".hit_rate", value: hit_pct ? "#{hit_pct}%" : "—") %></div>
       <% when :miss_rate %>
-        <div class="b neg"><span class="lbl">毒奶分</span><%= rank_score ? format('%.1f', rank_score) : "—" %></div>
-        <div class="st">失误率 <%= hit_pct ? "#{100 - hit_pct}%" : "—" %> · 押错 <%= bets - wins %>/<%= bets %></div>
+        <div class="b neg"><span class="lbl"><%= t(".jinx_score") %></span><%= rank_score ? format('%.1f', rank_score) : "—" %></div>
+        <div class="st"><%= t(".miss_rate", value: hit_pct ? "#{100 - hit_pct}%" : "—", misses: bets - wins, bets: bets) %></div>
       <% when :redeemed %>
-        <div class="b pos"><span class="lbl">兑换</span><%= format('%.1f', redeemed) %></div>
-        <div class="st">战绩 <%= format_bottles(total) %></div>
+        <div class="b pos"><span class="lbl"><%= t(".redeemed") %></span><%= format('%.1f', redeemed) %></div>
+        <div class="st"><%= t(".record", value: format_bottles(total)) %></div>
       <% else %>
-        <div class="<%= total_class %>"><span class="lbl">战绩</span><%= format_bottles(total) %></div>
+        <div class="<%= total_class %>"><span class="lbl"><%= t(".record_label") %></span><%= format_bottles(total) %></div>
         <% if redeemed > 0 %>
-          <div class="st hint" title="已兑换不计入排名">已兑 <%= format('%.1f', redeemed) %></div>
+          <div class="st hint" title="<%= t(".redeemed_excluded_title") %>"><%= t(".redeemed_short", value: format('%.1f', redeemed)) %></div>
         <% else %>
-          <div class="st">未兑换</div>
+          <div class="st"><%= t(".not_redeemed") %></div>
         <% end %>
       <% end %>
     </span>

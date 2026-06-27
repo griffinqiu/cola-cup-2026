@@ -3,11 +3,11 @@
     <span class="dot <%= row.won ? "w" : "l" %>"></span>
     <span class="info">
       <div class="t"><%= row.match.home_team&.flag %> <%= team_display_name(row.match.home_team, row.match.home_label) %> vs <%= team_display_name(row.match.away_team, row.match.away_label) %> <%= row.match.away_team&.flag %></div>
-      <div class="m"><%= Match.stage_label(row.match.stage) %> · 看好 <%= Match.pick_label(row.pick) %></div>
+      <div class="m"><%= Match.stage_label(row.match.stage) %> · <%= t(".pick", pick: Match.pick_label(row.pick)) %></div>
     </span>
     <span class="d <%= row.won ? "w" : "l" %>">
-      <span class="amt"><%= row.won ? "赢" : "请" %> <%= format("%.2f", row.delta.abs) %> 🥤</span>
-      <span class="sub">押 <%= bottles_count(row.stake) %> 瓶</span>
+      <span class="amt"><%= row.won ? t(".won") : t(".owe") %> <%= format("%.2f", row.delta.abs) %> 🥤</span>
+      <span class="sub"><%= t(".staked", count: bottles_count(row.stake)) %></span>
     </span>
   <% end %>
   <hr class="rule">

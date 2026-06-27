@@ -1,12 +1,12 @@
 <%
   user = signed_in_user
   tabs = [
-    { href: "/",            icon: "⚽", label: "赛程" },
-    { href: "/leaderboard", icon: "🏆", label: "排行" },
-    { href: "/me",          icon: "🥤", label: "兑换" },
-    { href: "/about",       icon: "📖", label: "说明" }
+    { href: "/",            icon: "⚽", label: t(".tab_schedule") },
+    { href: "/leaderboard", icon: "🏆", label: t(".tab_leaderboard") },
+    { href: "/me",          icon: "🥤", label: t(".tab_redeem") },
+    { href: "/about",       icon: "📖", label: t(".tab_about") }
   ]
-  tabs << { href: "/admin", icon: "⚙️", label: "管理" } if user&.settler?
+  tabs << { href: "/admin", icon: "⚙️", label: t(".tab_admin") } if user&.settler?
 %>
 <header class="site-head">
   <div class="shell">
@@ -28,7 +28,7 @@
             <%= user.emoji || "👤" %> <%= user.nickname %>
           <% end %>
         <% else %>
-          <%= link_to "登录", "/identity", class: "identity" %>
+          <%= link_to t(".sign_in"), "/identity", class: "identity" %>
         <% end %>
       </div>
     </div>

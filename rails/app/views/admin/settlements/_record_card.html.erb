@@ -2,10 +2,10 @@
 <details class="adm-rec">
   <summary class="head">
     <span>
-      <span class="id">结算 #<%= record.id %></span>
+      <span class="id"><%= t(".settlement_label") %>#<%= record.id %></span>
       <span class="when"><%= format_kickoff(record.created_at) %></span>
     </span>
-    <span class="meta"><%= record.match_count %> 场 · <%= payouts.size %> 人 · <%= bottles_label(record.bottles) %> 瓶</span>
+    <span class="meta"><%= record.match_count %> <%= t(".matches_unit") %> · <%= payouts.size %> <%= t(".people_unit") %> · <%= bottles_label(record.bottles) %> <%= t(".bottles_unit") %></span>
   </summary>
   <div class="body">
     <% record.matches.chronological.each do |match| %>
@@ -30,14 +30,14 @@
     <hr class="adm-divider">
 
     <% if payouts.empty? %>
-      <p class="adm-empty">本批无人下注。</p>
+      <p class="adm-empty"><%= t(".no_bets") %></p>
     <% else %>
       <% payouts.each do |payout| %>
         <div class="adm-pay">
           <span class="who"><%= payout.user&.emoji.presence || "🙂" %> <%= payout.user&.nickname || "?" %></span>
           <span class="amt">
             <span class="<%= payout.net.positive? ? "recv" : payout.net.negative? ? "owe" : "zero" %>">
-              <%= format_bottles(payout.net) %> 瓶
+              <%= format_bottles(payout.net) %> <%= t(".bottles_unit") %>
             </span>
           </span>
         </div>

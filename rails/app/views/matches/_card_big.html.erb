@@ -7,16 +7,16 @@
       <div class="cap"><%= big[:cap] %></div>
     <% end %>
   <% when :market %>
-    <div class="srclbl">市场·<%= big[:short] %></div>
+    <div class="srclbl"><%= t(".market") %>·<%= big[:short] %></div>
     <div class="pct"><%= big[:pct] %>%</div>
     <% if (dv = big[:divergence]) %>
       <div class="dv hot <%= dv[:tone] %>"><%= dv[:text] %></div>
     <% end %>
   <% when :crowd %>
-    <div class="srclbl cr">同事·<%= big[:short] %></div>
+    <div class="srclbl cr"><%= t(".colleagues") %>·<%= big[:short] %></div>
     <div class="pct"><%= big[:pct] %>%</div>
     <div class="cap"><%= big[:cap] %></div>
   <% else %>
-    <div class="cap">暂无赔率</div>
+    <div class="cap"><%= t(".no_odds") %></div>
   <% end %>
 </div>

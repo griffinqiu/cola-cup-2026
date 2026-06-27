@@ -1,4 +1,4 @@
 <div class="subtabs">
-  <%= link_to "账本", me_path, class: ("on" if current_page?(me_path)) %>
-  <%= link_to "设置", me_settings_path, class: ("on" if current_page?(me_settings_path)) %>
+  <%= link_to t(".ledger"), me_path, class: ("on" if current_page?(me_path)) %>
+  <%= link_to t(".settings"), me_settings_path, class: ("on" if current_page?(me_settings_path)) %>
 </div>

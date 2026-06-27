@@ -3,7 +3,7 @@
   <span class="x"><%= match_score_token(match) %></span>
   <span class="t<%= " predicted" unless match.away_team %>"><%= card_team_html(match.away_team, match.away_label) %></span>
   <% if focus_match?(match) %>
-    <span class="focus-mark" data-tip="焦点大战"
-          tabindex="0" role="img" aria-label="焦点大战">🔥</span>
+    <span class="focus-mark" data-tip="<%= t(".focus_match") %>"
+          tabindex="0" role="img" aria-label="<%= t(".focus_match") %>">🔥</span>
   <% end %>
 </div>

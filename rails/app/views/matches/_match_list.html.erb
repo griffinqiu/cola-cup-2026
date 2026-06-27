@@ -4,14 +4,14 @@
     list. Cards reuse matches/_match_card. Needs @tallies / @market_odds /
     @voted_match_ids in scope (assign_schedule_data). %>
 <% if matches.empty? %>
-  <p class="standings-empty">暂无比赛</p>
+  <p class="standings-empty"><%= t(".no_matches") %></p>
 <% else %>
   <% today_key = day_key(Time.current) %>
   <% matches.group_by { |match| day_key(match.kickoff_at) }.each do |key, day_matches| %>
     <% primary, is_today = relative_day_heading(key, today_key) %>
     <div class="daylabel">
       <span class="big<%= " today" if is_today %>"><%= primary || format_day_label(day_matches.first.kickoff_at) %></span>
-      <span class="sm"><% if primary %><%= format_day_label(day_matches.first.kickoff_at) %> · <% end %><%= day_matches.size %> 场</span>
+      <span class="sm"><% if primary %><%= format_day_label(day_matches.first.kickoff_at) %> · <% end %><%= t(".match_count", count: day_matches.size) %></span>
     </div>
     <hr class="rule">
     <div class="day-rows">

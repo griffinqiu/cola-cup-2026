@@ -1,30 +1,30 @@
-<% content_for :title, "小组积分榜 · The Cola of Cup" %>
+<% content_for :title, t(".page_title") %>
 <section>
   <div class="detail-head">
     <%= link_to root_path, class: "back-btn", data: { controller: "back", action: "click->back#go" } do %>
-      <span class="bk-arrow">←</span> 返回
+      <span class="bk-arrow">←</span> <%= t(".back") %>
     <% end %>
-    <%= link_to "第三名出线排行", third_place_path, class: "detail-crumb" %>
-    <%= link_to "射手榜", scorers_path, class: "detail-crumb" %>
+    <%= link_to t(".third_place_crumb"), third_place_path, class: "detail-crumb" %>
+    <%= link_to t(".scorers_crumb"), scorers_path, class: "detail-crumb" %>
   </div>
   <hr class="rule ink">
 
   <div class="lbh">
-    <h1 class="disp">小组积分榜</h1>
-    <div class="sub">全部 12 个小组 · 前 2 名直接出线，第 3 名争夺最佳第三名席位</div>
+    <h1 class="disp"><%= t(".heading") %></h1>
+    <div class="sub"><%= t(".subtitle") %></div>
   </div>
 
   <% if @groups.empty? %>
-    <p class="standings-empty">小组赛尚未开始</p>
+    <p class="standings-empty"><%= t(".empty") %></p>
   <% else %>
     <div class="st-legend">
-      <span><i class="dot qual"></i>前 2 名出线</span>
-      <span><i class="dot third"></i>第 3 名（争最佳第三名）</span>
+      <span><i class="dot qual"></i><%= t(".legend_qualified") %></span>
+      <span><i class="dot third"></i><%= t(".legend_third") %></span>
     </div>
     <% @groups.each do |group| %>
       <div class="daylabel">
         <span class="big"><%= group.name %></span>
-        <%= link_to "查看小组 →", group_path(group.letter), class: "sm" %>
+        <%= link_to t(".view_group"), group_path(group.letter), class: "sm" %>
       </div>
       <%= render "standings/table", group: group, legend: false %>
     <% end %>
