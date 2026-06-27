@@ -231,7 +231,7 @@ en:
     score_saved: Score saved
     select_matches: Please select the matches to settle
     settled: Settled %{count} matches
-    golden_boot_not_ready: The final hasn't finished yet — can't settle
+    golden_boot_not_ready: The final hasn't finished or its goals aren't fully synced yet — can't settle
     golden_boot_opened: Golden Boot settled
   admin:
     settlements:
@@ -275,7 +275,7 @@ en:
       outright:
         heading: Outright settlement (Champion / Golden Boot)
         golden_boot_open: Settle Golden Boot (settle remaining candidates)
-        final_required: Can only settle after the final has finished.
+        final_required: Can only settle once the final has finished and its goals are fully synced.
         empty: No outright settlements yet.
         people: "%{count} people"
         bottles: "%{count} bottles"
@@ -413,6 +413,7 @@ en:
       back_to_leaderboard: "← Back to leaderboard"
       participation: "%{count} matches · %{wins} correct"
       ledger_heading: Settlement records
+      outright_heading: Outright settlement
       empty_ledger: They have no settlement records yet
   standings:
     third_place:

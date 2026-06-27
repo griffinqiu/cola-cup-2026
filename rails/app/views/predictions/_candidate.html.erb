@@ -11,9 +11,9 @@
     <span class="ocard-flag"><%= subject.team&.flag.presence || (champion ? "🏳️" : "👤") %></span>
     <% if subject.team %>
       <%# Same as a match page: the name opens the team's schedule (upcoming matches). %>
-      <%= link_to team_path(subject.team), class: "ocard-name" do %><%= subject.subject_label %> <span class="oname-go">›</span><% end %>
+      <%= link_to team_path(subject.team), class: "ocard-name" do %><%= subject.display_label %> <span class="oname-go">›</span><% end %>
     <% else %>
-      <span class="ocard-name"><%= subject.subject_label %></span>
+      <span class="ocard-name"><%= subject.display_label %></span>
     <% end %>
     <% if champion && row.prob %>
       <span class="ocard-prob"><%= t(".market") %> <%= outright_market_pct(row.prob) %></span>

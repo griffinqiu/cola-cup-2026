@@ -84,8 +84,18 @@ module GoldenBoot
     end
   end
 
+  # The reveal must run on COMPLETE goal data, but a match's result
+  # (football-data.org, ~1 min after final whistle) lands long before its goals
+  # (openfootball, re-imported ~every 3h). Gate on the final's goal events
+  # reconciling with its recorded score, so the top scorer is read off a fully
+  # synced board rather than a half-synced one. A penalty-shootout final needs
+  # no shootout goals (they never enter the board, nor the regulation+ET score),
+  # so its events already equal the score and it still opens immediately.
   def can_open_final?
-    Match.find_by(stage: "final")&.result.present?
+    final = Match.find_by(stage: "final")
+    return false unless final&.result.present?
+
+    final.goals.count == final.home_score.to_i + final.away_score.to_i
   end
 
   # Distinct golden-boot subjects that drew bets: [subject_key, team_id, label].

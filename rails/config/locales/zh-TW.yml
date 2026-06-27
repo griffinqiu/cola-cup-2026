@@ -230,7 +230,7 @@ zh-TW:
     score_saved: 比分已儲存
     select_matches: 請選擇要結算的比賽
     settled: 已結算 %{count} 場
-    golden_boot_not_ready: 決賽尚未出結果，無法開獎
+    golden_boot_not_ready: 決賽尚未結束、或終場進球資料尚未同步完成，無法開獎
     golden_boot_opened: 金靴獎已開獎
   admin:
     settlements:
@@ -274,7 +274,7 @@ zh-TW:
       outright:
         heading: 競猜結算（猜冠軍 / 金靴）
         golden_boot_open: 金靴開獎（結算剩餘候選）
-        final_required: 決賽出結果後方可開獎。
+        final_required: 需決賽結束、且終場進球資料同步完成後方可開獎。
         empty: 還沒有競猜結算。
         people: "%{count} 人"
         bottles: "%{count} 瓶"
@@ -412,6 +412,7 @@ zh-TW:
       back_to_leaderboard: "← 返回排行榜"
       participation: 參與 %{count} 場 · 猜中 %{wins}
       ledger_heading: 結算記錄
+      outright_heading: 競猜結算
       empty_ledger: TA 還沒有結算記錄
   standings:
     third_place:

@@ -21,5 +21,11 @@
     <%= render "profiles/ledger", ledger: @ledger %>
   <% end %>
 
+  <% if @outright_ledger.any? %>
+    <div class="ledh disp"><%= t("users_views.show.outright_heading") %></div>
+    <hr class="rule">
+    <%= render "profiles/outright_ledger", ledger: @outright_ledger %>
+  <% end %>
+
   <%= render "profiles/redemption_records", redemptions: @redemptions %>
 </section>

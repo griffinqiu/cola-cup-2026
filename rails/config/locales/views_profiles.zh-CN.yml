@@ -62,4 +62,5 @@ zh-CN:
       back_to_leaderboard: "← 返回排行榜"
       participation: "参与 %{count} 场 · 猜中 %{wins}"
       ledger_heading: "结算记录"
+      outright_heading: "竞猜结算"
       empty_ledger: "TA 还没有结算记录"

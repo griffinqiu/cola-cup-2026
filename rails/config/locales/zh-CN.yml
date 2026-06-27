@@ -167,5 +167,5 @@ zh-CN:
     score_saved: "比分已保存"
     select_matches: "请选择要结算的比赛"
     settled: "已结算 %{count} 场"
-    golden_boot_not_ready: "决赛尚未出结果，无法开奖"
+    golden_boot_not_ready: "决赛尚未结束、或终场进球数据尚未同步完成，无法开奖"
     golden_boot_opened: "金靴奖已开奖"

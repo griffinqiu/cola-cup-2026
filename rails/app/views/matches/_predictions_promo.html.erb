@@ -11,8 +11,8 @@
         <span class="promo-new"><%= t(".new_tag") %></span>
         <span class="promo-title"><%= t(".title_html") %></span>
         <span class="promo-sub"><%= t(".sub") %></span>
+        <span class="promo-go"><%= my_picks.positive? ? t(".my_picks", count: my_picks) : t(".go_bet") %> ›</span>
       </span>
-      <span class="promo-go"><%= my_picks.positive? ? t(".my_picks", count: my_picks) : t(".go_bet") %> ›</span>
     <% end %>
     <button type="button" class="promo-close" data-action="dismissable#close" aria-label="<%= t(".close") %>">×</button>
   </div>

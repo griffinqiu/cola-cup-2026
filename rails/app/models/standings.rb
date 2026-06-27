@@ -19,7 +19,7 @@ module Standings
     end
 
     def display_name
-      name_zh.presence || name
+      TeamName.localized(name, name_zh)
     end
   end
 

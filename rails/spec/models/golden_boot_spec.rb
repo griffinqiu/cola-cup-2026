@@ -107,4 +107,37 @@ RSpec.describe GoldenBoot do
       expect(trailer.delta).to eq(-1.0)
     end
   end
+
+  describe ".can_open_final?" do
+    it "is false when the final has no result yet" do
+      create(:match, :knockout, stage: "final", result: nil)
+      expect(described_class.can_open_final?).to be(false)
+    end
+
+    it "is false when the final has a result but its goals aren't fully synced" do
+      final = create(:match, :knockout, stage: "final",
+                     result: "home", home_score: 2, away_score: 1, result_at: Time.current)
+      create(:goal, match: final, team: final.home_team) # only 1 of 3 goals imported
+
+      expect(described_class.can_open_final?).to be(false)
+    end
+
+    it "is true once the goal events reconcile with the final score" do
+      final = create(:match, :knockout, stage: "final",
+                     result: "home", home_score: 2, away_score: 1, result_at: Time.current)
+      2.times { create(:goal, match: final, team: final.home_team) }
+      create(:goal, match: final, team: final.away_team)
+
+      expect(described_class.can_open_final?).to be(true)
+    end
+
+    it "opens a penalty-shootout final immediately (draw score, shootout goals never hit the board)" do
+      final = create(:match, :knockout, stage: "final",
+                     result: "home", home_score: 1, away_score: 1, result_at: Time.current)
+      create(:goal, match: final, team: final.home_team)
+      create(:goal, match: final, team: final.away_team)
+
+      expect(described_class.can_open_final?).to be(true)
+    end
+  end
 end

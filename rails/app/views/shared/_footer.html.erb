@@ -1,0 +1,7 @@
+<footer class="site-foot">
+  <div class="shell foot-row">
+    <%= link_to t("shared.nav.tab_about"), about_path,
+          class: [ "foot-about", ("on" if nav_tab_active?(about_path)) ] %>
+    <%= render "shared/locale_inline" %>
+  </div>
+</footer>

@@ -20,7 +20,23 @@ RSpec.describe "Admin golden boot", type: :request do
       post admin_golden_boot_open_path
       expect(response).to redirect_to(admin_settlements_path)
       follow_redirect!
-      expect(response.body).to include("决赛尚未出结果")
+      expect(response.body).to include("无法开奖")
+    end
+
+    it "refuses while the final's goals are still syncing (result in, goals incomplete)" do
+      team = create(:team)
+      create(:outright_candidate, market: "golden_boot", subject_key: "scorer:#{team.id}:Top",
+             subject_label: "Top", team_id: team.id, meta: { "team_id" => team.id, "goals_at_lock" => 5 })
+      create(:outright_pick, user: create(:user), market: "golden_boot",
+             subject_key: "scorer:#{team.id}:Top", subject_label: "Top", team_id: team.id, pick: "yes")
+      final = create(:match, stage: "final", group_name: nil, home_team: team, away_team: create(:team),
+                     result: "home", home_score: 2, away_score: 1, result_at: Time.current)
+      create(:goal, match: final, team: team) # only 1 of the final's 3 goals imported so far
+
+      post admin_golden_boot_open_path
+
+      expect(response).to redirect_to(admin_settlements_path)
+      expect(OutrightLedgerEntry.count).to eq(0)
     end
 
     it "reveals the top scorer and records the settler once the final is decided" do

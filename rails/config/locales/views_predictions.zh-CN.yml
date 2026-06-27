@@ -56,7 +56,7 @@ zh-CN:
       outright:
         heading: "竞猜结算（猜冠军 / 金靴）"
         golden_boot_open: "金靴开奖（结算剩余候选）"
-        final_required: "决赛出结果后方可开奖。"
+        final_required: "需决赛结束、且终场进球数据同步完成后方可开奖。"
         empty: "还没有竞猜结算。"
         people: "%{count} 人"
         bottles: "%{count} 瓶"

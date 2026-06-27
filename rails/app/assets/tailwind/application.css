@@ -144,7 +144,7 @@ a {
 .site-head .bar {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   padding: 14px 0 13px;
   height: var(--head-h);
 }
@@ -189,10 +189,10 @@ a {
 .nav a {
   font-family: var(--disp);
   font-weight: 800;
-  font-size: 16px;
+  font-size: 15px;
   letter-spacing: 0.02em;
   color: var(--low);
-  padding: 6px 12px;
+  padding: 6px 10px;
   border-radius: 4px;
   line-height: 1;
   display: inline-flex;
@@ -233,8 +233,8 @@ a {
   cursor: pointer;
   font-family: var(--body);
 }
-/* Language picker in the nav / settings. Compact so the wider translated nav
-   labels still fit on mobile. */
+/* Compact <select> language picker used on the settings page. The global
+   footer uses the inline .lang-row variant instead. */
 .locale-switch {
   display: inline-flex;
   align-items: center;
@@ -269,6 +269,56 @@ main {
   padding: 8px 0 40px;
 }
 
+/* ───────── footer ───────── */
+/* Home for secondary actions (Guide + language). On mobile it sits in normal
+   flow above the fixed bottom tab bar; the body's padding-bottom keeps it clear. */
+.site-foot {
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+.foot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding-top: 16px;
+  padding-bottom: 24px;
+}
+.foot-about {
+  font-size: 13px;
+  color: var(--mid);
+}
+.foot-about:hover,
+.foot-about.on {
+  color: var(--hi);
+}
+.lang-row {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.lang {
+  font-family: var(--body);
+  font-size: 13px;
+  color: var(--low);
+  background: transparent;
+  border: 0;
+  padding: 4px 8px;
+  border-radius: 999px;
+  line-height: 1;
+  cursor: pointer;
+}
+.lang:hover {
+  color: var(--hi);
+}
+.lang.on {
+  color: var(--hi);
+  font-weight: 700;
+  cursor: default;
+}
+
 /* ───────── masthead (home) ───────── */
 .masthead {
   padding: 24px 0 18px;
@@ -284,6 +334,15 @@ main {
 .masthead .headline em {
   font-style: normal;
   color: var(--red);
+}
+/* The headline copy is far longer in English (and, to a lesser degree, Japanese)
+   than the short CJK strings it was sized for, so cap the display size per locale
+   to keep each line from wrapping or overflowing the masthead. */
+html[lang="en"] .masthead .headline {
+  font-size: clamp(28px, 6.5vw, 44px);
+}
+html[lang="ja"] .masthead .headline {
+  font-size: clamp(40px, 9vw, 64px);
 }
 .masthead .tagline {
   font-size: 15px;
@@ -307,7 +366,12 @@ main {
   gap: 22px;
   padding: 16px 0 2px;
   font-size: 14px;
-  flex-wrap: wrap;
+  /* Stay one line and scroll sideways when translated labels run long, rather
+     than wrapping a tab onto a second row with an orphaned underline. */
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 .subtabs button {
   background: none;
@@ -702,7 +766,11 @@ main {
   align-items: center;
   gap: 14px;
   padding: 16px 0 14px;
-  flex-wrap: wrap;
+  /* One line + sideways scroll: long translated breadcrumbs no longer wrap a
+     lone crumb (with its underline) onto a second row. Back button stays pinned. */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 /* Clean, borderless back affordance (← 返回) — consistent on every sub-page,
    returns to the previous page via the back controller. */
@@ -1375,16 +1443,27 @@ main {
    down on narrow phones so it never wraps (iPhone 12 ≈ 346px content). */
 .lb-tabs {
   display: flex;
-  gap: 4px;
+  gap: 20px;
   padding: 16px 0 2px;
+  /* Content-width tabs on one scrollable line. Equal flex:1 columns forced the
+     long translated labels to collide; scrolling sideways keeps them readable. */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 .lb-tabs a {
-  flex: 1;
-  text-align: center;
+  flex: 0 0 auto;
   white-space: nowrap;
   color: var(--low);
-  font-size: clamp(11px, 3vw, 14px);
+  font-size: 14px;
   padding: 0 0 8px;
+}
+/* Hide the horizontal scrollbar on the sideways-scrolling nav rows (WebKit;
+   Firefox is covered by scrollbar-width: none on each). */
+.subtabs::-webkit-scrollbar,
+.detail-head::-webkit-scrollbar,
+.lb-tabs::-webkit-scrollbar {
+  display: none;
 }
 .lb-tabs a:hover {
   color: var(--mid);
@@ -3394,9 +3473,9 @@ a.ocard-name:hover {
 }
 .promo-main {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 13px;
-  padding: 14px 40px 14px 15px; /* right space keeps the CTA clear of the × */
+  padding: 15px 44px 16px 15px; /* right space keeps the badge clear of the × */
   color: #fff;
   text-decoration: none;
 }
@@ -3428,12 +3507,14 @@ a.ocard-name:hover {
   flex: 0 0 auto;
   font-size: 30px;
   line-height: 1;
+  margin-top: 1px;
 }
 .promo-body {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 .promo-new {
   align-self: flex-start;
@@ -3449,18 +3530,21 @@ a.ocard-name:hover {
 .promo-title {
   font-family: var(--disp);
   font-weight: 800;
-  font-size: 18px;
-  line-height: 1.1;
+  font-size: 19px;
+  line-height: 1.05;
+  margin-top: 1px;
 }
 .promo-sub {
-  font-size: 12px;
+  font-size: 12.5px;
   opacity: 0.92;
-  margin-top: 3px;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
+  margin-top: 4px;
+  line-height: 1.45;
 }
+/* CTA sits below the copy so a long translated description gets the full card
+   width instead of being squeezed into a tall narrow column beside the button. */
 .promo-go {
-  flex: 0 0 auto;
+  align-self: flex-start;
+  margin-top: 11px;
   padding: 8px 16px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 999px;
@@ -3468,14 +3552,4 @@ a.ocard-name:hover {
   font-weight: 800;
   font-size: 14px;
   white-space: nowrap;
-}
-/* Narrow phones: drop the CTA below the text so it never crowds the line. */
-@media (max-width: 479px) {
-  .promo-main {
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-  .promo-go {
-    margin: 9px 0 0 43px; /* line up under the body, past the icon column */
-  }
 }

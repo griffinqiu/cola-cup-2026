@@ -230,7 +230,7 @@ ja:
     score_saved: スコアを保存しました
     select_matches: 精算する試合を選択してください
     settled: "%{count}試合を精算しました"
-    golden_boot_not_ready: 決勝の結果がまだ出ていないため、開示できません
+    golden_boot_not_ready: 決勝が終了していない、または最終戦の得点データが未同期のため、開示できません
     golden_boot_opened: 得点王を開示しました
   admin:
     settlements:
@@ -274,7 +274,7 @@ ja:
       outright:
         heading: アウトライト精算（優勝予想 / 得点王）
         golden_boot_open: 得点王を開示（残りの候補を精算）
-        final_required: 決勝の結果が出てから開示できます。
+        final_required: 決勝が終了し、最終戦の得点データが同期された後に開示できます。
         empty: まだアウトライト精算はありません。
         people: "%{count} 人"
         bottles: "%{count} 本"
@@ -412,6 +412,7 @@ ja:
       back_to_leaderboard: "← ランキングに戻る"
       participation: "%{count}試合に参加 · 的中 %{wins}"
       ledger_heading: 精算記録
+      outright_heading: アウトライト精算
       empty_ledger: この人にはまだ精算記録がありません
   standings:
     third_place:

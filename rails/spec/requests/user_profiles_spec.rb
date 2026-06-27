@@ -33,6 +33,23 @@ RSpec.describe "GET /users/:id", type: :request do
     expect(response.body).not_to include("结算明细")
   end
 
+  it "shows the user's outright (champion/golden boot) settlement records" do
+    viewer = create(:user)
+    target = create(:user, nickname: "阿强")
+    team = create(:team, name: "Argentina", name_zh: "阿根廷")
+    create(:outright_ledger_entry, user: target, market: "champion",
+           subject_key: "team:#{team.id}", subject_label: "阿根廷", team: team,
+           pick: "yes", stake: 2.0, d_used: 2.0, won: false, delta: -2.0, outcome: "lost")
+    sign_in viewer
+
+    get user_path(target)
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("竞猜结算", "阿根廷")
+    expect(response.body).to include("2.00")
+    expect(response.body).to include(%(href="#{predictions_path(tab: "champion")}"))
+  end
+
   it "404s for a soft-deleted user" do
     viewer = create(:user)
     target = create(:user)

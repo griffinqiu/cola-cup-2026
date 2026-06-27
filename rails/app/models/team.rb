@@ -4,18 +4,9 @@ class Team < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  # Localized team name for display. `name` (English) stays the third-party
-  # matching key (openfootball / football-data / Polymarket) and is never
-  # translated in the DB; translation happens only here at render time:
-  #   en    -> English `name`
-  #   zh-CN -> the seeded `name_zh`
-  #   zh-TW / ja -> i18n `teams.<English name>` (config/locales/teams.*.yml),
-  #                 falling back to name_zh / name when a team isn't listed.
+  # Localized team name for display. The locale rules live in TeamName so the
+  # denormalized Standings/Scorers value rows localize identically.
   def display_name
-    case I18n.locale.to_s
-    when "en" then name
-    when "zh-CN" then name_zh.presence || name
-    else I18n.t(name, scope: :teams, default: name_zh.presence || name)
-    end
+    TeamName.localized(name, name_zh)
   end
 end

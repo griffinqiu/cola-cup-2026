@@ -1,0 +1,13 @@
+<%# Footer language picker: every language laid out at once, the current one
+    marked active. Each option is a real submit button, so it switches without
+    JS and stays keyboard/screen-reader accessible. %>
+<%= form_with url: locale_path, method: :patch, class: "lang-row",
+      "aria-label": t("locale_switcher.label") do %>
+  <% User::LOCALE_NAMES.each do |code, name| %>
+    <% if code == I18n.locale.to_s %>
+      <span class="lang on" aria-current="true"><%= name %></span>
+    <% else %>
+      <%= button_tag name, type: "submit", name: "locale", value: code, class: "lang" %>
+    <% end %>
+  <% end %>
+<% end %>
