@@ -1,14 +1,12 @@
 module Admin
   class OddsSnapshotsController < BaseController
-    PROBABILITY_ERROR = "概率需为 0–1 之间（小数）".freeze
-
     # Manual odds entry — there is no UI for this in the panel, but the endpoint
     # is kept (legacy /api/admin/odds). Stores a non-locked "manual" snapshot.
     def create
       match = Match.find(params[:match_id])
       probabilities = parse_probabilities(match)
       unless probabilities
-        return redirect_to(admin_settlements_path, alert: PROBABILITY_ERROR, status: :see_other)
+        return redirect_to(admin_settlements_path, alert: I18n.t("errors.odds.bad_probability"), status: :see_other)
       end
 
       match.odds_snapshots.create!(
@@ -19,7 +17,7 @@ module Admin
         d_away: DecimalOdds.price_to_decimal(probabilities[:away]),
         taken_at: Time.current
       )
-      redirect_to admin_settlements_path, notice: "赔率已更新", status: :see_other
+      redirect_to admin_settlements_path, notice: I18n.t("flash.odds_updated"), status: :see_other
     end
 
     private

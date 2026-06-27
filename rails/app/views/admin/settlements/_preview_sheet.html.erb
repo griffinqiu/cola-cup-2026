@@ -28,7 +28,7 @@
             <div class="adm-votes">
               <% roster_groups(match).each do |pick, label| %>
                 <div class="vline">
-                  <span class="vk"><%= MatchesHelper::PICK_SHORT[pick] %> <%= label %></span>
+                  <span class="vk"><%= pick_short(pick) %> <%= label %></span>
                   <span class="vlist">
                     <% list = preview_match.votes.select { |vote| vote.pick == pick } %>
                     <% if list.empty? %>

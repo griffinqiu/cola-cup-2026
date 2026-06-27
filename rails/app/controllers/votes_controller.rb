@@ -11,9 +11,9 @@ class VotesController < ApplicationController
   def create
     pick = params[:pick].to_s
     stake = params[:stake].to_f
-    return panel_error("该比赛不支持这个投注选项", :unprocessable_content) unless @match.valid_picks.include?(pick)
-    return panel_error("该比赛不支持这个押注瓶数", :unprocessable_content) unless @match.valid_stake?(stake)
-    return panel_error("该比赛当前无法预测（未开放、已截止或对阵未定）", :conflict) unless @match.votable?
+    return panel_error(I18n.t("errors.vote.bad_pick"), :unprocessable_content) unless @match.valid_picks.include?(pick)
+    return panel_error(I18n.t("errors.vote.bad_stake"), :unprocessable_content) unless @match.valid_stake?(stake)
+    return panel_error(I18n.t("errors.vote.not_votable"), :conflict) unless @match.votable?
 
     vote = Vote.find_or_initialize_by(match: @match, user: current_user)
     vote.update!(pick: pick, stake: stake)
@@ -21,7 +21,7 @@ class VotesController < ApplicationController
   end
 
   def destroy
-    return panel_error("该比赛当前无法取消预测（未开放、已截止或对阵未定）", :conflict) unless @match.votable?
+    return panel_error(I18n.t("errors.vote.not_cancelable"), :conflict) unless @match.votable?
 
     Vote.where(match: @match, user: current_user).delete_all
     render_fragments

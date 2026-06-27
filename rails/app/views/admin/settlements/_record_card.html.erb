@@ -17,7 +17,7 @@
           </span>
           <span class="sc">
             <%= match.home_score || "-" %>:<%= match.away_score || "-" %> ·
-            <%= match.result ? MatchesHelper::RESULT_LABEL[match.result] : "—" %>
+            <%= match.result ? Match.pick_label(match.result) : "—" %>
           </span>
         </div>
         <% entries = match.ledger_entries.includes(:user).order(:created_at) %>

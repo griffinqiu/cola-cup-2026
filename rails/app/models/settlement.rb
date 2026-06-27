@@ -58,7 +58,7 @@ class Settlement < ApplicationRecord
         detailed = Vote.detailed_for(match).to_a
         participating = resolve_participants(match_id, included, detailed)
         if participating == :skip
-          skipped << { match_id: match_id, reason: "未选择参与者" }
+          skipped << { match_id: match_id, reason: I18n.t("errors.settlement.no_participants") }
           next
         end
 
@@ -74,7 +74,7 @@ class Settlement < ApplicationRecord
 
       Preview.new(
         ok: preview_matches.any?,
-        error: preview_matches.any? ? nil : (skipped.first&.fetch(:reason, nil) || "没有可结算的比赛"),
+        error: preview_matches.any? ? nil : (skipped.first&.fetch(:reason, nil) || I18n.t("errors.settlement.nothing_to_settle")),
         matches: preview_matches,
         skipped: skipped,
         users: preview_users(net_by_user)
@@ -103,7 +103,7 @@ class Settlement < ApplicationRecord
           detailed = Vote.detailed_for(match).to_a
           participating = resolve_participants(match_id, included, detailed)
           if participating == :skip
-            skipped << { match_id: match_id, reason: "未选择参与者" }
+            skipped << { match_id: match_id, reason: I18n.t("errors.settlement.no_participants") }
             next
           end
 
@@ -113,7 +113,7 @@ class Settlement < ApplicationRecord
           settled += 1
         end
 
-        raise CommitError, (skipped.first&.fetch(:reason, nil) || "没有可结算的比赛") if settled.zero?
+        raise CommitError, (skipped.first&.fetch(:reason, nil) || I18n.t("errors.settlement.nothing_to_settle")) if settled.zero?
 
         settlement.update!(match_count: settled)
         CommitResult.new(settlement: settlement, settled: settled, skipped: skipped)
@@ -123,9 +123,9 @@ class Settlement < ApplicationRecord
     private
 
     def settle_block_reason(match)
-      return "比赛不存在" if match.nil?
-      return "已结算" if match.settled?
-      return "尚未录入赛果" if match.result.blank?
+      return I18n.t("errors.settlement.match_missing") if match.nil?
+      return I18n.t("errors.settlement.already_settled") if match.settled?
+      return I18n.t("errors.settlement.no_result") if match.result.blank?
 
       nil
     end

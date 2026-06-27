@@ -20,8 +20,8 @@ class Redemption < ApplicationRecord
   # RedeemError (Chinese message) on an unknown drink or a non-positive quantity.
   def self.redeem!(user:, drink_key:, qty:)
     drink = Drink.find(drink_key)
-    raise RedeemError, "未知饮料" unless drink
-    raise RedeemError, "兑换数量需为正整数" unless qty.is_a?(Integer) && qty >= 1
+    raise RedeemError, I18n.t("errors.redemption.unknown_drink") unless drink
+    raise RedeemError, I18n.t("errors.redemption.invalid_quantity") unless qty.is_a?(Integer) && qty >= 1
 
     cost = drink.cost * qty
     create!(user: user, drink: drink.key, qty: qty, unit_cost: drink.cost, cost: cost)

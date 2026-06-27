@@ -6,7 +6,6 @@ class User < ApplicationRecord
     omniauth_providers: [ :twitter2, :openid_connect ]
 
   MAX_NICKNAME = 16
-  FALLBACK_NICKNAME = "球迷"
 
   # Supported UI locales, in display order. Single source of truth for the
   # locale validation, the Accept-Language resolver fallback set, and the
@@ -43,44 +42,24 @@ class User < ApplicationRecord
   # A leaderboard variant. Every board re-ranks the same cached Entry list
   # (User.leaderboard) in memory — no extra queries. `metric` tells the row
   # template which value to headline; the ranking itself lives in leaderboard_for.
-  # `explainer` (+ optional `formula`) is the public, plain-language description of
-  # how the board is computed, shown beneath the table on the leaderboard page.
+  # The public-facing text (name / subtitle / explainer / optional formula) is
+  # localized — looked up lazily by board key from leaderboards.boards.* so the
+  # leaderboard page renders in the viewer's language. Caching is unaffected: the
+  # cache stores Entry primitives, and the signature keys on data, not text.
   # The first board is the default (rendered at /leaderboard and broadcast live).
-  Board = Data.define(:key, :name, :emoji, :subtitle, :metric, :explainer, :formula)
+  Board = Data.define(:key, :emoji, :metric) do
+    def name = I18n.t("leaderboards.boards.#{key}.name")
+    def subtitle = I18n.t("leaderboards.boards.#{key}.subtitle")
+    def explainer = I18n.t("leaderboards.boards.#{key}.explainer")
+    def formula = I18n.t("leaderboards.boards.#{key}.formula", default: nil)
+  end
 
   BOARDS = [
-    Board.new(
-      key: "reaper", name: "镰刀榜", emoji: "🔪", metric: :total,
-      subtitle: "可乐净分最高 · 收割之王（兑换不影响排名）",
-      explainer: "按可乐净分（赢的瓶数减去输的瓶数）从高到低排名。兑换饮料只是花掉额度，不影响排名。",
-      formula: nil
-    ),
-    Board.new(
-      key: "leek", name: "韭菜榜", emoji: "🌱", metric: :total,
-      subtitle: "可乐净分最低 · 被割得最惨",
-      explainer: "镰刀榜的反面：按可乐净分从低到高排，输得最惨的排最前。只统计参与过预测的人。",
-      formula: nil
-    ),
-    Board.new(
-      key: "oracle", name: "神预榜", emoji: "🔮", metric: :hit_rate,
-      subtitle: "命中率最高 · 贝叶斯加权，场数越多越稳",
-      explainer: "按预测命中率排名，但做了「场数」修正：光靠手气猜中几场不够，要又准又多才稳。" \
-                 "只猜 1 场全中不会直接霸榜，会先按全场平均命中率打个折；预测场数越多，你的真实水平占比越高。",
-      formula: "贝叶斯加权 =（命中数 + 5 × 全场平均命中率）÷（预测场数 + 5），公开算法，同 IMDB Top 250 加权评分。"
-    ),
-    Board.new(
-      key: "jinx", name: "毒奶榜", emoji: "🥛", metric: :miss_rate,
-      subtitle: "押谁谁输 · 最稳定押错的人",
-      explainer: "神预榜的反面：按「押错率」排名，同样做了场数修正。偶尔押错一两次不算毒奶，" \
-                 "要稳定地押谁谁输、且场数够多，才能名列前茅。",
-      formula: "Wilson 置信区间下界（押错率，z = 1.96），公开算法，同 Reddit 评论排序。"
-    ),
-    Board.new(
-      key: "otaku", name: "肥宅榜", emoji: "🥤", metric: :redeemed,
-      subtitle: "可乐兑换最多 · 肥宅快乐",
-      explainer: "按累计兑换的额度从高到低排名，喝得最多的肥宅排最前。只统计兑换过饮料的人。",
-      formula: nil
-    )
+    Board.new(key: "reaper", emoji: "🔪", metric: :total),
+    Board.new(key: "leek",   emoji: "🌱", metric: :total),
+    Board.new(key: "oracle", emoji: "🔮", metric: :hit_rate),
+    Board.new(key: "jinx",   emoji: "🥛", metric: :miss_rate),
+    Board.new(key: "otaku",  emoji: "🥤", metric: :redeemed)
   ].freeze
 
   BOARDS_BY_KEY = BOARDS.index_by(&:key).freeze
@@ -237,7 +216,7 @@ class User < ApplicationRecord
   end
 
   def self.nickname_from(name)
-    (name.presence || FALLBACK_NICKNAME).to_s[0, MAX_NICKNAME]
+    (name.presence || I18n.t("users.fallback_nickname")).to_s[0, MAX_NICKNAME]
   end
 
   # Available balance = settled net (Σ ledger delta) − credits spent on drinks.
