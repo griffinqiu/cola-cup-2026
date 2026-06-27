@@ -1,7 +1,9 @@
 <%
   user = signed_in_user
-  tabs = [
-    { href: "/",            icon: "⚽", label: t(".tab_schedule") },
+  tabs = [ { href: "/", icon: "⚽", label: t(".tab_schedule") } ]
+  # The champion tab appears the moment the first round-of-16 team is known.
+  tabs << { href: "/predictions", icon: "👑", label: t(".tab_champion") } if Champion.available?
+  tabs += [
     { href: "/leaderboard", icon: "🏆", label: t(".tab_leaderboard") },
     { href: "/me",          icon: "🥤", label: t(".tab_redeem") },
     { href: "/about",       icon: "📖", label: t(".tab_about") }

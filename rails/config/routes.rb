@@ -11,6 +11,10 @@ Rails.application.routes.draw do
     resource :vote, only: [ :create, :destroy ]
   end
 
+  get "/predictions", to: "predictions#index", as: :predictions
+  post "/outright_picks", to: "outright_picks#create", as: :outright_picks
+  delete "/outright_picks", to: "outright_picks#destroy"
+
   resources :teams, only: [ :show ]
   get "/groups", to: "groups#index", as: :groups
   get "/groups/:letter", to: "groups#show", as: :group, constraints: { letter: /[A-L]/ }
@@ -42,6 +46,7 @@ Rails.application.routes.draw do
     resources :users, only: [ :index, :destroy ] do
       patch :restore, on: :member
     end
+    post "golden_boot/open", to: "golden_boot#open", as: :golden_boot_open
   end
 
   # Solid Queue dashboard — gated by Admin::BaseController (settlers only).

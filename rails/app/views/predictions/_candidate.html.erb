@@ -1,0 +1,121 @@
+<% subject = row.subject %>
+<% tally = row.tally %>
+<% market = subject.market %>
+<% champion = market == "champion" %>
+<% yes = tally.yes %>
+<% no = tally.no %>
+<% total = yes + no %>
+<% current_stake = (row.my_stake || OutrightPick::DEFAULT_STAKE).to_i %>
+<div class="ocard" id="<%= outright_dom_id(market, subject.subject_key) %>">
+  <div class="ocard-top">
+    <span class="ocard-flag"><%= subject.team&.flag.presence || (champion ? "🏳️" : "👤") %></span>
+    <% if subject.team %>
+      <%# Same as a match page: the name opens the team's schedule (upcoming matches). %>
+      <%= link_to team_path(subject.team), class: "ocard-name" do %><%= subject.subject_label %> <span class="oname-go">›</span><% end %>
+    <% else %>
+      <span class="ocard-name"><%= subject.subject_label %></span>
+    <% end %>
+    <% if champion && row.prob %>
+      <span class="ocard-prob">市场 <%= outright_market_pct(row.prob) %></span>
+    <% elsif !champion && subject.meta&.dig("goals_at_lock") %>
+      <span class="ocard-tag"><%= subject.meta["goals_at_lock"] %> 球</span>
+    <% end %>
+  </div>
+
+  <div class="ocard-bar" aria-hidden="true">
+    <% if total.positive? %>
+      <span class="seg yes" style="flex-grow:<%= yes %>"></span>
+      <span class="seg no" style="flex-grow:<%= no %>"></span>
+    <% else %>
+      <span class="seg empty"></span>
+    <% end %>
+  </div>
+  <div class="ocard-counts">
+    <span class="cy">对 <b><%= bottles_count(yes) %></b> 🥤</span>
+    <span class="cn"><b><%= bottles_count(no) %></b> 🥤 否</span>
+  </div>
+
+  <% if champion %>
+    <div class="ocard-compare">
+      <span>市场夺冠 <b><%= outright_market_pct(row.prob) || "—" %></b></span>
+      <span>同事看好 <b><%= outright_crowd_pct(tally) || "—" %></b></span>
+    </div>
+  <% end %>
+
+  <% if row.outcome.present? %>
+    <div class="ocard-result <%= row.outcome == "won_title" ? "win" : "out" %>">
+      <span class="rbadge">
+        <%= outright_result_label(market, row.outcome) %><%= row.outcome == "won_title" ? (champion ? " 👑" : " ⚽") : "" %>
+      </span>
+      <% if row.my_entry %>
+        <span class="rmine <%= row.my_entry.won ? "w" : "l" %>">
+          押<%= outright_pick_label(row.my_entry.pick) %> · <%= outright_delta_verb(row.my_entry.delta) %> <%= format("%.2f", row.my_entry.delta.abs) %> 🥤
+        </span>
+      <% end %>
+    </div>
+  <% elsif row.open %>
+    <%# Per-team window: locks 1h before this team's R16 match. Pick a side → a
+        popover asks how many bottles → that button submits. The popover is
+        absolutely positioned so it never shifts the card (no jitter). %>
+    <div class="ocard-live" data-controller="countdown" data-countdown-closes-at-value="<%= row.deadline.iso8601 %>">
+      <div class="ocard-deadline">⏳ 距封盘 <b data-countdown-target="display"><%= outright_countdown_text(row.deadline) %></b> · <%= format_kickoff(row.deadline) %></div>
+      <%= form_with url: outright_picks_path, method: :post, class: "ocard-form" do %>
+        <%= hidden_field_tag :market, market %>
+        <%= hidden_field_tag :subject_key, subject.subject_key %>
+        <div class="ocard-pick" data-controller="stake-popup">
+          <label class="pbtn yes<%= " sel" if row.my_pick == "yes" %>">
+            <input type="radio" name="pick" value="yes" autocomplete="off" data-action="change->stake-popup#open">
+            <span>对</span>
+            <small><%= row.my_pick == "yes" ? "已押 #{current_stake} 瓶" : "会#{champion ? "夺冠" : "拿金靴"}" %></small>
+          </label>
+          <label class="pbtn no<%= " sel" if row.my_pick == "no" %>">
+            <input type="radio" name="pick" value="no" autocomplete="off" data-action="change->stake-popup#open">
+            <span>否</span>
+            <small><%= row.my_pick == "no" ? "已押 #{current_stake} 瓶" : "不会" %></small>
+          </label>
+          <div class="stake-pop">
+            <span class="sp-label">押几瓶？猜错就请这几瓶</span>
+            <div class="sp-opts">
+              <% OutrightPick::STAKE_OPTIONS.each do |amount| %>
+                <button type="submit" name="stake" value="<%= amount.to_i %>"
+                        class="sp-btn<%= " sel" if row.my_pick && current_stake == amount.to_i %>"><%= amount.to_i %> 瓶</button>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="ocard-foot">
+        <% if row.my_pick %>
+          <span class="hint">想改就点上面重选</span>
+          <%= button_to "撤销", outright_picks_path, method: :delete,
+                params: { market: market, subject_key: subject.subject_key },
+                class: "ocard-cancel", form: { style: "display:inline" } %>
+        <% else %>
+          <span class="hint">点「对」或「否」下注</span>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class="ocard-locked">
+      <% if row.my_pick %>
+        🔒 已封盘 · 你押了 <b><%= outright_pick_label(row.my_pick) %></b> <%= current_stake %> 瓶，等赛果结算
+      <% else %>
+        🔒 已封盘 · 你没押这队（该队 16 强开赛前 1 小时截止）
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if row.roster.any? %>
+    <details class="ocard-who">
+      <summary>👥 <%= row.roster.size %> 人投了 · 看看谁押了什么</summary>
+      <div class="who-list">
+        <% row.roster.each do |entry| %>
+          <span class="who-item <%= entry.pick %>">
+            <%= entry.user.emoji.presence || "🙂" %> <%= entry.user.nickname %>
+            <b><%= outright_pick_label(entry.pick) %></b> · <%= bottles_count(entry.stake) %> 瓶
+          </span>
+        <% end %>
+      </div>
+    </details>
+  <% end %>
+</div>

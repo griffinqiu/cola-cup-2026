@@ -1,0 +1,19 @@
+<%# New-feature funnel on the schedule home page. Shown only once the first
+    round-of-16 team is known (so betting is actually possible) and retires
+    itself when the bracket is over. The × dismisses it for this browser; the
+    冠军 nav tab stays as the permanent entry. %>
+<% if Champion.available? %>
+  <% my_picks = signed_in_user&.outright_picks&.count.to_i %>
+  <div class="promo-card" data-controller="dismissable" data-dismissable-key-value="promo-predictions">
+    <%= link_to predictions_path, class: "promo-main" do %>
+      <span class="promo-ico">👑</span>
+      <span class="promo-body">
+        <span class="promo-new">新玩法</span>
+        <span class="promo-title">猜冠军 &amp; 金靴奖</span>
+        <span class="promo-sub">押谁夺冠、谁拿金靴 · 1 瓶起，被淘汰即结算</span>
+      </span>
+      <span class="promo-go"><%= my_picks.positive? ? "我的 #{my_picks} 注" : "去押注" %> ›</span>
+    <% end %>
+    <button type="button" class="promo-close" data-action="dismissable#close" aria-label="关闭">×</button>
+  </div>
+<% end %>

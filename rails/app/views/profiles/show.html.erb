@@ -36,4 +36,10 @@
   <% else %>
     <%= render "profiles/ledger", ledger: @ledger %>
   <% end %>
+
+  <% if @outright_ledger.any? %>
+    <div class="ledh disp">竞猜结算</div>
+    <hr class="rule">
+    <%= render "profiles/outright_ledger", ledger: @outright_ledger %>
+  <% end %>
 </section>

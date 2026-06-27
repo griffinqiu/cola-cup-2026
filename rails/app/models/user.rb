@@ -68,6 +68,8 @@ class User < ApplicationRecord
   has_many :accounts, dependent: :destroy
   has_many :votes, dependent: :destroy
   has_many :ledger_entries, dependent: :destroy
+  has_many :outright_picks, dependent: :destroy
+  has_many :outright_ledger_entries, dependent: :destroy
   has_many :redemptions, dependent: :destroy
 
   validates :nickname, presence: true, length: { maximum: MAX_NICKNAME }
@@ -111,7 +113,8 @@ class User < ApplicationRecord
     active
       .select(
         "users.id, users.avatar_url, users.emoji, users.nickname, users.created_at",
-        "COALESCE((SELECT SUM(delta) FROM ledger_entries WHERE user_id = users.id), 0) AS total",
+        "(COALESCE((SELECT SUM(delta) FROM ledger_entries WHERE user_id = users.id), 0) + " \
+          "COALESCE((SELECT SUM(delta) FROM outright_ledger_entries WHERE user_id = users.id), 0)) AS total",
         "COALESCE((SELECT SUM(cost) FROM redemptions WHERE user_id = users.id), 0) AS redeemed",
         "(SELECT COUNT(*) FROM ledger_entries WHERE user_id = users.id) AS bets",
         "COALESCE((SELECT SUM(won) FROM ledger_entries WHERE user_id = users.id), 0) AS wins"
@@ -126,6 +129,7 @@ class User < ApplicationRecord
   def self.leaderboard_signature
     [
       LedgerEntry.maximum(:id),
+      OutrightLedgerEntry.maximum(:id),
       Redemption.maximum(:id),
       User.maximum(:updated_at).to_f,
       User.active.count
@@ -219,9 +223,10 @@ class User < ApplicationRecord
     (name.presence || I18n.t("users.fallback_nickname")).to_s[0, MAX_NICKNAME]
   end
 
-  # Available balance = settled net (Σ ledger delta) − credits spent on drinks.
+  # Available balance = settled net (Σ ledger delta, incl. outright pools) −
+  # credits spent on drinks.
   def net_balance
-    ledger_entries.sum(:delta) - redemptions.sum(:cost)
+    ledger_entries.sum(:delta) + outright_ledger_entries.sum(:delta) - redemptions.sum(:cost)
   end
 
   def soft_delete!

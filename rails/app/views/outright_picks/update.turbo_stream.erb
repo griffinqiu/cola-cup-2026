@@ -1,0 +1,3 @@
+<%= turbo_stream.replace outright_dom_id(@row.subject.market, @row.subject.subject_key) do %>
+  <%= render "predictions/candidate", row: @row %>
+<% end %>

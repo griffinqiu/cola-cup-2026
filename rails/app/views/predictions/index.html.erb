@@ -1,0 +1,49 @@
+<% content_for :title, "冠军 · The Cola of Cup" %>
+<section>
+  <%= turbo_stream_from "predictions" %>
+  <div class="masthead">
+    <h1 class="headline disp">
+      谁是<em>冠军</em> 👑<br>
+      谁拿<em>金靴</em> ⚽
+    </h1>
+    <p class="tagline">
+      押「对 / 否」，每注自选 1/2/3 瓶，被淘汰即结算。
+      <%= link_to "什么是「可乐」？", about_path %>
+    </p>
+  </div>
+
+  <hr class="rule ink">
+
+  <% if @my_pick_count.to_i.positive? %>
+    <p class="pred-mine">你已押 <b><%= bottles_count(@my_bottles) %></b> 瓶 · <%= @my_pick_count %> 注</p>
+  <% end %>
+
+  <%= render "predictions/status", available: @available %>
+
+  <div class="subtabs">
+    <% [ [ "champion", "👑 猜冠军" ], [ "golden_boot", "⚽ 金靴奖" ] ].each do |value, label| %>
+      <%= link_to label, predictions_path(tab: value), class: ("on" if @tab == value) %>
+    <% end %>
+  </div>
+
+  <% if @yes_count.to_i >= 3 %>
+    <p class="pred-warn">
+      ⚠️ 你已对 <b><%= @yes_count %></b> 个<%= @tab == "golden_boot" ? "球员押「会拿金靴」" : "球队押「会夺冠」" %>——
+      <%= @tab == "golden_boot" ? "金靴" : "冠军" %>只有一个，多数会落空，留意别押太散。
+    </p>
+  <% end %>
+
+  <% if !@available %>
+    <p class="schedule-empty" style="padding:40px 0;text-align:center;color:var(--low);font-size:13px;">
+      竞猜将在 16 强产生后开放，敬请期待。
+    </p>
+  <% elsif @rows.empty? %>
+    <p class="schedule-empty" style="padding:40px 0;text-align:center;color:var(--low);font-size:13px;">
+      <%= @tab == "golden_boot" ? "暂无进球 ≥ 3 的球员可投。" : "暂无可投球队。" %>
+    </p>
+  <% else %>
+    <div id="outright_list" class="outrights">
+      <%= render partial: "predictions/candidate", collection: @rows, as: :row %>
+    </div>
+  <% end %>
+</section>
