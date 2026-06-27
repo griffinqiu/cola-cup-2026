@@ -97,7 +97,11 @@
     </div>
   <% else %>
     <div class="ocard-locked">
-      <% if row.my_pick %>🔒 你押了 <b><%= outright_pick_label(row.my_pick) %></b> · <%= current_stake %> 瓶 · 待结算<% else %>🔒 已封盘 · 未参与<% end %>
+      <% if row.my_pick %>
+        🔒 已封盘 · 你押了 <b><%= outright_pick_label(row.my_pick) %></b> <%= current_stake %> 瓶，等赛果结算
+      <% else %>
+        🔒 已封盘 · 你没押这队（该队 16 强开赛前 1 小时截止）
+      <% end %>
     </div>
   <% end %>
 

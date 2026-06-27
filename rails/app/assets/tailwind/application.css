@@ -3355,9 +3355,9 @@ a.ocard-name:hover {
 }
 .promo-main {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 36px 15px 15px;
+  align-items: center;
+  gap: 13px;
+  padding: 14px 40px 14px 15px; /* right space keeps the CTA clear of the × */
   color: #fff;
   text-decoration: none;
 }
@@ -3387,8 +3387,7 @@ a.ocard-name:hover {
 }
 .promo-ico {
   flex: 0 0 auto;
-  margin-top: 1px;
-  font-size: 28px;
+  font-size: 30px;
   line-height: 1;
 }
 .promo-body {
@@ -3422,13 +3421,22 @@ a.ocard-name:hover {
   overflow-wrap: anywhere;
 }
 .promo-go {
-  align-self: flex-start;
-  margin-top: 8px;
-  padding: 5px 13px;
-  background: rgba(255, 255, 255, 0.18);
+  flex: 0 0 auto;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 999px;
   font-family: var(--disp);
   font-weight: 800;
-  font-size: 13px;
+  font-size: 14px;
   white-space: nowrap;
+}
+/* Narrow phones: drop the CTA below the text so it never crowds the line. */
+@media (max-width: 479px) {
+  .promo-main {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .promo-go {
+    margin: 9px 0 0 43px; /* line up under the body, past the icon column */
+  }
 }
