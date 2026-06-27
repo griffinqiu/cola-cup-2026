@@ -1,15 +1,16 @@
 <%
   user = signed_in_user
+  # Only the four high-frequency destinations live in the primary nav. Admin,
+  # language and Guide are tucked into the account menu (see _account_menu) so
+  # the header stays uncluttered and translated labels never overflow it.
   tabs = [ { href: "/", icon: "⚽", label: t(".tab_schedule") } ]
-  # The champion tab appears the moment the first round-of-16 team is known.
-  tabs << { href: "/predictions", icon: "👑", label: t(".tab_champion") } if Champion.available?
+  # The champion tab is always visible; the page itself explains the rules and
+  # that betting opens once the round of 16 is set.
+  tabs << { href: "/predictions", icon: "👑", label: t(".tab_champion") }
   tabs += [
     { href: "/leaderboard", icon: "🏆", label: t(".tab_leaderboard") },
     { href: "/me",          icon: "🥤", label: t(".tab_redeem") }
   ]
-  tabs << { href: "/admin", icon: "⚙️", label: t(".tab_admin") } if user&.settler?
-  # "Guide" and the language picker are secondary, so they live in the footer —
-  # this keeps the primary nav narrow enough that translated labels don't overflow.
 %>
 <header class="site-head">
   <div class="shell">
@@ -26,11 +27,8 @@
         <% end %>
       </nav>
       <div class="head-right">
-        <% if user %>
-          <%= link_to me_settings_path, class: "identity" do %>
-            <%= user.emoji || "👤" %> <%= user.nickname %>
-          <% end %>
-        <% else %>
+        <%= render "shared/account_menu", user: user %>
+        <% unless user %>
           <%= link_to t(".sign_in"), "/identity", class: "identity" %>
         <% end %>
       </div>
@@ -41,7 +39,17 @@
 <nav class="tabbar">
   <% tabs.each do |tab| %>
     <%= link_to tab[:href], class: ("on" if nav_tab_active?(tab[:href])) do %>
-      <span class="ic"><%= tab[:icon] %></span><%= tab[:label] %>
+      <span class="ic"><%= tab[:icon] %></span><span class="tb-label"><%= tab[:label] %></span>
+    <% end %>
+  <% end %>
+  <%# Account tab: own settings when signed in, sign-in otherwise. %>
+  <% if user %>
+    <%= link_to me_settings_path, class: ("on" if nav_tab_active?("/me/settings")) do %>
+      <span class="ic"><%= user.emoji.presence || "👤" %></span><span class="tb-label"><%= t("profiles.edit.heading") %></span>
+    <% end %>
+  <% else %>
+    <%= link_to "/identity", class: ("on" if nav_tab_active?("/identity")) do %>
+      <span class="ic">👤</span><span class="tb-label"><%= t(".sign_in") %></span>
     <% end %>
   <% end %>
 </nav>

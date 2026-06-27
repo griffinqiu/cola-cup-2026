@@ -1,0 +1,67 @@
+<%# Header account / utility menu. Low-frequency, role-gated items (Admin,
+    language, Guide) collapse behind the identity pill so the header keeps only
+    the four primary destinations. Anonymous visitors get the same picker for
+    language + Guide; the sign-in button sits beside it in the nav.
+
+    Language opens a second-level panel: a flyout on desktop, a bottom sheet on
+    mobile. The current language shows in its own script with a check. %>
+<div class="idmenu" data-controller="menu">
+  <% if user %>
+    <button type="button" class="idmenu-trigger" data-menu-target="trigger"
+            data-action="menu#toggle" aria-haspopup="true" aria-expanded="false">
+      <span class="idmenu-emoji"><%= user.emoji.presence || "👤" %></span>
+      <span class="idmenu-name"><%= user.nickname %></span>
+      <span class="idmenu-caret" aria-hidden="true">▾</span>
+    </button>
+  <% else %>
+    <button type="button" class="idmenu-trigger idmenu-icon" data-menu-target="trigger"
+            data-action="menu#toggle" aria-haspopup="true" aria-expanded="false"
+            aria-label="<%= t("locale_switcher.label") %>">
+      🌐 <span class="idmenu-caret" aria-hidden="true">▾</span>
+    </button>
+  <% end %>
+
+  <div class="idmenu-pop" data-menu-target="menu" hidden>
+    <% if user&.settler? %>
+      <%= link_to "/admin", class: "idmenu-item" do %>
+        <span><%= t("shared.nav.tab_admin") %></span>
+        <span class="idmenu-badge num">settler</span>
+      <% end %>
+    <% end %>
+
+    <div class="idmenu-langwrap">
+      <button type="button" class="idmenu-item idmenu-langbtn" data-menu-target="langTrigger"
+              data-action="menu#toggleLang" aria-haspopup="true" aria-expanded="false">
+        <span><%= t("locale_switcher.label") %></span>
+        <span class="idmenu-langcur"><%= User::LOCALE_NAMES[I18n.locale.to_s] %>
+          <span class="idmenu-caret" aria-hidden="true">›</span></span>
+      </button>
+
+      <div class="lang-panel" data-menu-target="langPanel" hidden>
+        <div class="lang-sheet">
+          <div class="lang-panel-h"><%= t("locale_switcher.label") %></div>
+          <%= form_with url: locale_path, method: :patch, class: "lang-list" do %>
+            <% User::LOCALE_NAMES.each do |code, name| %>
+              <% if code == I18n.locale.to_s %>
+                <span class="lang-opt on" aria-current="true">
+                  <span><%= name %></span><span class="lang-check" aria-hidden="true">✓</span>
+                </span>
+              <% else %>
+                <%= button_tag type: "submit", name: "locale", value: code, class: "lang-opt" do %>
+                  <span><%= name %></span>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <%= link_to about_path, class: "idmenu-item" do %><span><%= t("shared.nav.tab_about") %></span><% end %>
+
+    <% if user %>
+      <div class="idmenu-sep"></div>
+      <%= link_to me_settings_path, class: "idmenu-item idmenu-quiet" do %><span><%= t("profiles.edit.heading") %></span><% end %>
+    <% end %>
+  </div>
+</div>

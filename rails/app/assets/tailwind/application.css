@@ -144,7 +144,8 @@ a {
 .site-head .bar {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 16px;
   padding: 14px 0 13px;
   height: var(--head-h);
 }
@@ -181,27 +182,26 @@ a {
   line-height: 0.85;
   margin-top: 1px;
 }
+/* Four primary destinations, sized up and centred per the redesign now that the
+   utility items have moved into the account menu. */
 .nav {
   display: flex;
-  gap: 4px;
-  margin-left: 8px;
+  gap: 22px;
 }
 .nav a {
   font-family: var(--disp);
-  font-weight: 800;
-  font-size: 15px;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: 0.01em;
   color: var(--low);
-  padding: 6px 10px;
-  border-radius: 4px;
   line-height: 1;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   white-space: nowrap;
 }
 .nav a .ic {
-  font-size: 14px;
+  font-size: 16px;
 }
 .nav a:hover {
   color: var(--mid);
@@ -210,7 +210,6 @@ a {
   color: var(--red);
 }
 .head-right {
-  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -233,8 +232,8 @@ a {
   cursor: pointer;
   font-family: var(--body);
 }
-/* Compact <select> language picker used on the settings page. The global
-   footer uses the inline .lang-row variant instead. */
+/* Compact <select> language picker used on the settings page. The header
+   account menu uses the inline .lang-row variant instead. */
 .locale-switch {
   display: inline-flex;
   align-items: center;
@@ -269,54 +268,187 @@ main {
   padding: 8px 0 40px;
 }
 
-/* ───────── footer ───────── */
-/* Home for secondary actions (Guide + language). On mobile it sits in normal
-   flow above the fixed bottom tab bar; the body's padding-bottom keeps it clear. */
-.site-foot {
-  border-top: 1px solid var(--border);
-  margin-top: 40px;
+/* ───────── account / utility menu (header) ───────── */
+/* Low-frequency, role-gated items (Admin, language, Guide) collapse behind the
+   identity pill so the header keeps only the four primary destinations — the
+   footer is gone entirely. */
+.idmenu {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
-.foot-row {
+.idmenu-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--body);
+  font-size: 12px;
+  color: var(--mid);
+  background: transparent;
+  border: 1px solid var(--border-hi);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.idmenu-trigger:hover {
+  border-color: var(--red);
+  color: var(--hi);
+}
+.idmenu-name {
+  max-width: clamp(64px, 22vw, 160px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.idmenu-caret {
+  font-size: 10px;
+  color: var(--low);
+}
+.idmenu-pop {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 232px;
+  background: #fff;
+  border: 1px solid var(--border-hi);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px -8px color-mix(in srgb, var(--ink) 22%, transparent);
+  padding: 6px;
+  z-index: 50;
+}
+.idmenu-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-  padding-top: 16px;
-  padding-bottom: 24px;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 7px;
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--hi);
+  text-decoration: none;
 }
-.foot-about {
-  font-size: 13px;
+.idmenu-item:hover {
+  background: color-mix(in srgb, var(--red) 7%, transparent);
+}
+.idmenu-quiet {
   color: var(--mid);
 }
-.foot-about:hover,
-.foot-about.on {
-  color: var(--hi);
+.idmenu-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--amber);
+  letter-spacing: 0.04em;
 }
-.lang-row {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2px;
+.idmenu-sep {
+  height: 1px;
+  background: var(--border);
+  margin: 5px 8px;
 }
-.lang {
-  font-family: var(--body);
-  font-size: 13px;
-  color: var(--low);
+/* Language submenu — a flyout to the left of the account menu on desktop; on
+   mobile it expands inline inside the dropdown (a fixed bottom sheet nested in
+   the blurred header fought the bottom tab bar's stacking context). The current
+   language shows in its own script next to the row and is checked in the list. */
+.idmenu-langwrap {
+  position: relative;
+}
+.idmenu-langbtn {
+  width: 100%;
   background: transparent;
   border: 0;
-  padding: 4px 8px;
-  border-radius: 999px;
-  line-height: 1;
+  cursor: pointer;
+  text-align: left;
+}
+.idmenu-langcur {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--low);
+  font-size: 13px;
+}
+.lang-panel {
+  position: absolute;
+  right: calc(100% + 8px);
+  top: -6px;
+  width: 184px;
+  z-index: 60;
+}
+.lang-sheet {
+  background: #fff;
+  border: 1px solid var(--border-hi);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px -8px color-mix(in srgb, var(--ink) 22%, transparent);
+  padding: 6px;
+}
+.lang-panel-h {
+  font-family: var(--num);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--low);
+  padding: 5px 12px 7px;
+}
+.lang-list {
+  display: flex;
+  flex-direction: column;
+}
+.lang-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--hi);
+  text-align: left;
   cursor: pointer;
 }
-.lang:hover {
-  color: var(--hi);
+.lang-opt:hover {
+  background: color-mix(in srgb, var(--red) 7%, transparent);
 }
-.lang.on {
-  color: var(--hi);
-  font-weight: 700;
+.lang-opt.on {
+  background: color-mix(in srgb, var(--red) 10%, transparent);
   cursor: default;
+}
+.lang-check {
+  color: var(--red);
+  font-weight: 700;
+}
+
+/* Mobile: expand inline inside the dropdown — no fixed sheet, so nothing is
+   trapped behind the tab bar and tapping outside the menu dismisses it. */
+@media (max-width: 620px) {
+  /* Inline expansion can make the menu tall; cap it so it never runs off-screen
+     or under the tab bar. (Desktop keeps no overflow so the flyout isn't clipped.) */
+  .idmenu-pop {
+    max-height: calc(100vh - var(--head-h) - 24px);
+    overflow-y: auto;
+  }
+  .lang-panel {
+    position: static;
+    width: auto;
+    z-index: auto;
+  }
+  .lang-sheet {
+    border: 0;
+    border-radius: 7px;
+    box-shadow: none;
+    padding: 2px 0 4px;
+    margin: 2px 0;
+    background: color-mix(in srgb, var(--ink) 4%, transparent);
+  }
+  .lang-panel-h {
+    display: none;
+  }
+  .lang-opt {
+    padding: 11px 12px 11px 26px;
+  }
 }
 
 /* ───────── masthead (home) ───────── */
@@ -1891,28 +2023,43 @@ html[lang="ja"] .masthead .headline {
   border-top: 2px solid var(--ink);
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
+/* Icon-only per the redesign: the label stays in the DOM for screen readers but
+   is visually hidden; the active tab is marked by a red underline below its icon. */
 .tabbar a {
   flex: 1;
   min-width: 0;
-  text-align: center;
-  padding: 11px 0 10px;
-  font-family: var(--disp);
-  font-weight: 800;
-  font-size: clamp(11px, 3.2vw, 14px);
-  letter-spacing: 0.02em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 0 11px;
   color: var(--low);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.tabbar a.on {
-  color: var(--red);
+.tabbar .tb-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 .tabbar a .ic {
-  display: block;
-  font-size: 17px;
-  font-weight: 400;
-  margin-bottom: 2px;
+  font-size: 21px;
+  line-height: 1;
+  opacity: 0.5;
+}
+.tabbar a.on .ic {
+  opacity: 1;
+}
+.tabbar a::after {
+  content: "";
+  width: 18px;
+  height: 2px;
+  border-radius: 1px;
+  background: transparent;
+}
+.tabbar a.on::after {
+  background: var(--red);
 }
 
 /* ───────── identity / profile page ───────── */

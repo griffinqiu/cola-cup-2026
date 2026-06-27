@@ -1,0 +1,24 @@
+<%# Anti-FOUC for dismissable cards (e.g. the predictions promo). The Stimulus
+    `dismissable` controller only hides a closed card after it connects (the app
+    JS is deferred), so on a hard refresh the card flashes in before disappearing.
+    This runs synchronously in <head>, before the body paints, and injects a style
+    hiding any element whose dismissed:<key> flag is set — so a closed card never
+    shows. The injected <style> stays in <head> across Turbo navigations too. %>
+<script>
+  (function () {
+    try {
+      var selectors = [];
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        if (key && key.indexOf("dismissed:") === 0 && localStorage.getItem(key)) {
+          selectors.push('[data-dismissable-key-value="' + key.slice(10) + '"]');
+        }
+      }
+      if (selectors.length) {
+        var style = document.createElement("style");
+        style.textContent = selectors.join(",") + "{display:none !important}";
+        document.head.appendChild(style);
+      }
+    } catch (e) {}
+  })();
+</script>

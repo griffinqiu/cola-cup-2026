@@ -12,6 +12,9 @@
     <%= csp_meta_tag %>
     <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
 
+    <%# Hide already-dismissed cards before first paint (no flash on refresh). %>
+    <%= render "shared/dismissable_inline" %>
+
     <%= yield :head %>
 
     <link rel="icon" href="/icon.png" type="image/png">
@@ -25,6 +28,5 @@
   <body>
     <%= render "shared/nav" %>
     <main class="shell"><%= yield %></main>
-    <%= render "shared/footer" %>
   </body>
 </html>

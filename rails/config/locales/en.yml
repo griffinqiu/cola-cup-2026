@@ -560,3 +560,9 @@ en:
     status:
       available_html: The Round of 16 fills in one by one — bet on each team as soon as it's set. Each team locks <b>1 hour before its own Round of 16 match</b> (see each card's countdown); after locking you can't change or cancel, and pools with no counterparty are refunded. Eliminated settles to "No"; winning the title / Golden Boot settles to "Yes".
       unavailable: The Round of 16 isn't set yet. Once the first Round of 16 team is confirmed, you can bet "Yes/No" on it (and on players with ≥ 3 goals).
+    rules:
+      heading: How it works
+      champion_html: "<b>👑 Champion</b>: for every team that reaches the Round of 16, bet \"Yes (will win the title) / No\". One bet per team, 1 / 2 / 3 bottles."
+      settle_html: "<b>Settlement</b>: a team is eliminated → \"Yes\" backers pay \"No\" backers; the eventual champion → \"No\" backers pay \"Yes\" backers. Pari-mutuel — winners split the losers' bottles by stake."
+      golden_boot_html: "<b>⚽ Golden Boot</b>: among Round-of-16 players with ≥ 3 goals, bet whether they'll win it, ranked by current goals. A player whose team is out and who trails the leader settles to \"No\" early; the winner is revealed after the final's goals sync."
+      lock_html: "<b>Lock</b>: each team closes <b>1 hour before its own Round of 16 match</b>. After locking you can't change or cancel."

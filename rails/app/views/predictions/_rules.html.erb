@@ -1,0 +1,12 @@
+<%# Shown while the round of 16 isn't set yet: the champion tab is always
+    visible, so spell out how both pools work and that betting opens once teams
+    are confirmed. Reuses the about page's numbered .rules list — no new CSS. %>
+<div class="pred-rules">
+  <div class="ledh disp"><%= t(".heading") %></div>
+  <ol class="rules">
+    <li><span class="t"><%= t(".champion_html") %></span></li>
+    <li><span class="t"><%= t(".settle_html") %></span></li>
+    <li><span class="t"><%= t(".golden_boot_html") %></span></li>
+    <li><span class="t"><%= t(".lock_html") %></span></li>
+  </ol>
+</div>

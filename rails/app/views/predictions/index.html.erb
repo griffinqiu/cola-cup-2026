@@ -34,9 +34,7 @@
   <% end %>
 
   <% if !@available %>
-    <p class="schedule-empty" style="padding:40px 0;text-align:center;color:var(--low);font-size:13px;">
-      <%= t(".not_available") %>
-    </p>
+    <%= render "predictions/rules" %>
   <% elsif @rows.empty? %>
     <p class="schedule-empty" style="padding:40px 0;text-align:center;color:var(--low);font-size:13px;">
       <%= @tab == "golden_boot" ? t(".empty_golden_boot") : t(".empty_champion") %>

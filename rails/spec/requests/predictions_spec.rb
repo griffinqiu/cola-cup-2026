@@ -11,10 +11,11 @@ RSpec.describe "Predictions", type: :request do
   end
 
   describe "GET /predictions" do
-    it "renders the not-open state before any round-of-16 team is known" do
+    it "renders the rules and the 'wait for the round of 16' notice before any team is known" do
       get predictions_path
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("竞猜将在 16 强产生后开放")
+      expect(response.body).to include("16 强尚未产生") # when betting opens
+      expect(response.body).to include("玩法说明")        # rules block is shown
     end
 
     it "renders champion candidate cards and the countdown once the field is set" do
