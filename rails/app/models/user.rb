@@ -7,6 +7,17 @@ class User < ApplicationRecord
 
   MAX_NICKNAME = 16
   FALLBACK_NICKNAME = "球迷"
+
+  # Supported UI locales, in display order. Single source of truth for the
+  # locale validation, the Accept-Language resolver fallback set, and the
+  # language switcher. LOCALE_NAMES holds each locale's endonym for the picker.
+  LOCALES = %w[zh-CN zh-TW en ja].freeze
+  LOCALE_NAMES = {
+    "zh-CN" => "简体中文",
+    "zh-TW" => "繁體中文",
+    "en" => "English",
+    "ja" => "日本語"
+  }.freeze
   # Maps the OmniAuth strategy name to the provider value stored on Account.
   # "twitter2" is normalised to "twitter" so legacy data / SETTLER_USERNAMES
   # matching stay unchanged.
@@ -81,6 +92,7 @@ class User < ApplicationRecord
   has_many :redemptions, dependent: :destroy
 
   validates :nickname, presence: true, length: { maximum: MAX_NICKNAME }
+  validates :locale, inclusion: { in: LOCALES }
 
   scope :active, -> { where(deleted_at: nil) }
 

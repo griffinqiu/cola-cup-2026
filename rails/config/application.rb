@@ -37,7 +37,10 @@ module Cup
     # original app's DISPLAY_TIME_ZONE.
     config.time_zone = "Asia/Shanghai"
     config.i18n.default_locale = :"zh-CN"
-    config.i18n.available_locales = [ :"zh-CN", :en ]
+    config.i18n.available_locales = [ :"zh-CN", :"zh-TW", :en, :ja ]
+    # Missing translations in any locale degrade to Simplified Chinese rather
+    # than showing a raw key.
+    config.i18n.fallbacks = [ :"zh-CN" ]
 
     # Don't generate system test files.
     config.generators.system_tests = nil

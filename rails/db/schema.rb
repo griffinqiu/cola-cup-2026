@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_19_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_27_100012) do
   create_table "accounts", force: :cascade do |t|
     t.string "avatar_url"
     t.datetime "created_at", null: false
@@ -149,6 +149,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_100000) do
     t.datetime "deleted_at"
     t.string "emoji"
     t.string "encrypted_password", default: "", null: false
+    t.string "locale", default: "zh-CN", null: false
     t.string "nickname", null: false
     t.datetime "remember_created_at"
     t.string "remember_token"

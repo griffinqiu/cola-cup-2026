@@ -4,9 +4,28 @@ class ApplicationController < ActionController::Base
 
   PER_PAGE = 20
 
+  around_action :switch_locale
+
   helper_method :current_settler?
 
   private
+
+  # Resolve and apply the UI locale for the duration of the request. Priority:
+  # explicit ?locale= → signed-in user's saved choice → cookie → browser
+  # Accept-Language → app default. with_locale restores the previous locale
+  # afterwards so background threads are unaffected.
+  def switch_locale(&action)
+    I18n.with_locale(resolve_locale, &action)
+  end
+
+  def resolve_locale
+    locale = params[:locale].presence_in(User::LOCALES) ||
+      current_user&.locale&.presence_in(User::LOCALES) ||
+      cookies[:locale].presence_in(User::LOCALES) ||
+      LocaleResolver.from_header(request.headers["Accept-Language"]) ||
+      I18n.default_locale
+    locale.to_sym
+  end
 
   # Offset/limit pagination for infinite scroll. Fetches one extra row to detect
   # a next page without a separate COUNT. Returns [rows, next_page, offset].

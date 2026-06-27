@@ -6,6 +6,7 @@ RSpec.describe User do
 
     it { is_expected.to validate_presence_of(:nickname) }
     it { is_expected.to validate_length_of(:nickname).is_at_most(16) }
+    it { is_expected.to validate_inclusion_of(:locale).in_array(User::LOCALES) }
   end
 
   describe "#net_balance" do
