@@ -125,9 +125,9 @@ module Openfootball
       name_to_id = Team.pluck(:name, :id).to_h
       ActiveRecord::Base.transaction do
         matches.each do |match|
-          home_id = name_to_id[match["team1"]]
-          away_id = name_to_id[match["team2"]]
           record = Match.find_or_initialize_by(external_key: external_key(match))
+          home_id = merged_team_id(record, :home_team_id, name_to_id[match["team1"]])
+          away_id = merged_team_id(record, :away_team_id, name_to_id[match["team2"]])
           record.update!(
             group_name: match["group"],
             stage: map_stage(match["round"]),
@@ -141,6 +141,14 @@ module Openfootball
           sync_goals(record, match, home_id, away_id) if match.key?("score")
         end
       end
+    end
+
+    # Openfootball is the fallback for knockout matchups, never the authority: once a
+    # slot is resolved locally (KnockoutResolver) or by an earlier import, keep that
+    # team rather than letting a still-placeholder upstream row clear it back to nil.
+    # Group matches always carry real teams upstream, so incoming is never nil there.
+    def merged_team_id(record, attribute, incoming_id)
+      incoming_id || record.public_send(attribute)
     end
 
     # openfootball lists goalscorers per side once a match is played: goals1

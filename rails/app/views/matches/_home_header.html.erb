@@ -1,0 +1,19 @@
+<%# Full schedule-home masthead, reused by the standings & scorers boards so they
+    keep the home layout instead of a detail-page header. Pass active:
+    "groups"/"scorers" to light up the matching tab; nil on the schedule home. %>
+<div class="masthead">
+  <h1 class="headline disp">
+    <%= t("matches.index.headline_line1") %><br>
+    <em><%= t("matches.index.headline_emph") %></em> 🥤
+  </h1>
+  <p class="tagline">
+    <%= t("matches.index.tagline") %>
+    <%= link_to t("matches.index.what_is_cola"), about_path %>
+  </p>
+</div>
+
+<%= render "matches/predictions_promo" %>
+
+<hr class="rule ink">
+
+<%= render "matches/subtabs", active: active %>

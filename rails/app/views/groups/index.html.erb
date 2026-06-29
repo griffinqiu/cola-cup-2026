@@ -1,18 +1,6 @@
 <% content_for :title, t(".page_title") %>
 <section>
-  <div class="detail-head">
-    <%= link_to root_path, class: "back-btn", data: { controller: "back", action: "click->back#go" } do %>
-      <span class="bk-arrow">←</span> <%= t(".back") %>
-    <% end %>
-    <%= link_to t(".third_place_crumb"), third_place_path, class: "detail-crumb" %>
-    <%= link_to t(".scorers_crumb"), scorers_path, class: "detail-crumb" %>
-  </div>
-  <hr class="rule ink">
-
-  <div class="lbh">
-    <h1 class="disp"><%= t(".heading") %></h1>
-    <div class="sub"><%= t(".subtitle") %></div>
-  </div>
+  <%= render "matches/home_header", active: "groups" %>
 
   <% if @groups.empty? %>
     <p class="standings-empty"><%= t(".empty") %></p>

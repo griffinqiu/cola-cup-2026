@@ -3,34 +3,7 @@
 
 <section data-controller="schedule-filter" data-schedule-filter-today-value="<%= today_key %>">
   <%= turbo_stream_from "schedule", I18n.locale %>
-  <div class="masthead">
-    <h1 class="headline disp">
-      <%= t(".headline_line1") %><br>
-      <em><%= t(".headline_emph") %></em> 🥤
-    </h1>
-    <p class="tagline">
-      <%= t(".tagline") %>
-      <%= link_to t(".what_is_cola"), about_path %>
-    </p>
-  </div>
-
-  <%= render "matches/predictions_promo" %>
-
-  <hr class="rule ink">
-
-  <div class="subtabs">
-    <% [ [ "matches", t(".tab_matches") ], [ "done", t(".tab_done") ] ].each_with_index do |(value, label), idx| %>
-      <button type="button"
-              class="<%= "on" if idx.zero? %>"
-              data-schedule-filter-target="tab"
-              data-filter="<%= value %>"
-              data-action="schedule-filter#select">
-        <%= label %>
-      </button>
-    <% end %>
-    <%= link_to t(".group_standings"), groups_path %>
-    <%= link_to t(".scorers"), scorers_path %>
-  </div>
+  <%= render "matches/home_header", active: nil %>
 
   <p class="schedule-empty" data-schedule-filter-target="empty" hidden
      style="padding:40px 0;text-align:center;color:var(--low);font-size:13px;">

@@ -1,0 +1,22 @@
+<%# Shared schedule/standings tab strip. On the schedule home (active is nil) the
+    比赛/已结束 tabs are JS filter buttons driven by schedule-filter; on the
+    standings & scorers boards they become plain links back home (honoring ?tab=),
+    and the matching board link carries the active underline. %>
+<div class="subtabs">
+  <% if active.nil? %>
+    <% [ [ "matches", t("matches.index.tab_matches") ], [ "done", t("matches.index.tab_done") ] ].each_with_index do |(value, label), idx| %>
+      <button type="button"
+              class="<%= "on" if idx.zero? %>"
+              data-schedule-filter-target="tab"
+              data-filter="<%= value %>"
+              data-action="schedule-filter#select">
+        <%= label %>
+      </button>
+    <% end %>
+  <% else %>
+    <%= link_to t("matches.index.tab_matches"), root_path %>
+    <%= link_to t("matches.index.tab_done"), root_path(tab: "done") %>
+  <% end %>
+  <%= link_to t("matches.index.group_standings"), groups_path, class: ("on" if active == "groups") %>
+  <%= link_to t("matches.index.scorers"), scorers_path, class: ("on" if active == "scorers") %>
+</div>

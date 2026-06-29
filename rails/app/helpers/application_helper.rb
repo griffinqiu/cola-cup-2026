@@ -5,12 +5,18 @@ module ApplicationHelper
     current_user if respond_to?(:current_user)
   end
 
-  # Mirrors the legacy Nav.isActive: the schedule tab also lights up on match
-  # detail pages; every other tab matches on path prefix.
+  # The schedule tab is the umbrella for the whole match-browsing flow, so it also
+  # lights up on match, standings, scorer, third-place and team pages reached from
+  # it. "/me" stays an exact match so the redeem tab doesn't also light up on the
+  # settings page (/me/settings), which owns its own tab; every other tab matches
+  # on path prefix.
   def nav_tab_active?(href)
     path = request.path
-    if href == "/"
-      path == "/" || path.start_with?("/matches")
+    case href
+    when "/"
+      path == "/" || path.start_with?("/matches", "/groups", "/scorers", "/third-place", "/teams")
+    when "/me"
+      path == "/me"
     else
       path.start_with?(href)
     end
