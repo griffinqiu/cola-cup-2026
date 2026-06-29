@@ -66,8 +66,12 @@ module Champion
   end
 
   # Betting on this team is allowed as soon as it's in the round of 16 (it has a
-  # deadline) and until that deadline. Golden boot shares the team's deadline.
+  # deadline) and until that deadline — but never once the team is knocked out
+  # (defends against a bracket where an already-eliminated team still carries a
+  # future deadline). Golden boot shares this gate (and the team's deadline).
   def open_for?(team_id)
+    return false if TournamentStatus.eliminated_team_ids.include?(team_id)
+
     deadline = deadline_for(team_id)
     deadline.present? && Time.current < deadline
   end

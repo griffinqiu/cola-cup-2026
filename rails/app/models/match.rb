@@ -201,6 +201,7 @@ class Match < ApplicationRecord
     update!(result: resolved, home_score: home_score, away_score: away_score, result_at: Time.current)
     AutoSettleJob.schedule(self)
     ChampionSettleJob.schedule(self) if knockout?
+    KnockoutAdvanceJob.schedule(self) if knockout?
   end
 
   # The advancing / eliminated side of a decided knockout match (knockout never
