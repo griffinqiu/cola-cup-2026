@@ -45,4 +45,34 @@ RSpec.describe Openfootball::ScheduleImport do
       expect(slot.away_label).to be_nil
     end
   end
+
+  describe "penalty shootout score" do
+    it "fills pen_home/pen_away from openfootball's score.p ([home, away])" do
+      germany = create(:team, name: "Germany")
+      paraguay = create(:team, name: "Paraguay")
+      slot = create(:match, stage: "r32", group_name: nil, external_key: "m:74",
+        home_team: germany, home_label: nil, away_team: paraguay, away_label: nil)
+
+      payload = ko_payload(74, "Round of 32", "Germany", "Paraguay")
+        .merge("score" => { "ft" => [ 1, 1 ], "p" => [ 3, 4 ] })
+      import([ payload ])
+
+      slot.reload
+      expect(slot.pen_home).to eq(3)
+      expect(slot.pen_away).to eq(4)
+    end
+
+    it "leaves pen scores nil for a match decided without a shootout" do
+      spain = create(:team, name: "Spain")
+      croatia = create(:team, name: "Croatia")
+      slot = create(:match, stage: "r32", group_name: nil, external_key: "m:83",
+        home_team: spain, home_label: nil, away_team: croatia, away_label: nil)
+
+      import([ ko_payload(83, "Round of 32", "Spain", "Croatia").merge("score" => { "ft" => [ 2, 1 ] }) ])
+
+      slot.reload
+      expect(slot.pen_home).to be_nil
+      expect(slot.pen_away).to be_nil
+    end
+  end
 end

@@ -73,4 +73,28 @@ RSpec.describe MatchesHelper, type: :helper do
       expect(helper.pick_label_font_px("波斯尼亚和黑塞哥维那")).to eq(11) # 10 chars
     end
   end
+
+  describe "score tokens with a penalty shootout" do
+    let(:label) { I18n.t("matches.penalty_score") }
+
+    it "shows just the score when there was no shootout" do
+      match = build_stubbed(:match, :knockout, :with_result, home_score: 2, away_score: 1)
+      expect(helper.match_score_token(match)).to eq("2–1")
+    end
+
+    it "appends the shootout digits to the card score token" do
+      match = build_stubbed(:match, :knockout, :with_result, home_score: 1, away_score: 1, pen_home: 2, pen_away: 3)
+      expect(helper.match_score_token(match)).to eq("1–1（#{label} 2:3）")
+    end
+
+    it "appends the shootout digits to the settled detail score token" do
+      match = build_stubbed(:match, :knockout, :settled, home_score: 1, away_score: 1, pen_home: 3, pen_away: 4)
+      expect(helper.detail_score_token(match)).to eq("1–1（#{label} 3:4）")
+    end
+
+    it "shows VS before any score is recorded" do
+      match = build_stubbed(:match, :knockout, home_score: nil, away_score: nil)
+      expect(helper.match_score_token(match)).to eq("VS")
+    end
+  end
 end

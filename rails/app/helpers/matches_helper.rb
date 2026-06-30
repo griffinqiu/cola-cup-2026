@@ -260,7 +260,7 @@ module MatchesHelper
   # it is recorded).
   def match_score_token(match)
     if match.home_score && match.away_score
-      "#{match.home_score}–#{match.away_score}"
+      "#{match.home_score}–#{match.away_score}#{penalty_token(match)}"
     else
       "VS"
     end
@@ -271,10 +271,19 @@ module MatchesHelper
   # isn't presented as final.
   def detail_score_token(match)
     if (match.settled? || match.live?) && match.home_score && match.away_score
-      "#{match.home_score}–#{match.away_score}"
+      "#{match.home_score}–#{match.away_score}#{penalty_token(match)}"
     else
       "VS"
     end
+  end
+
+  # "（点 2:3）" appended to a knockout score decided on penalties; "" otherwise.
+  # The level full-time score alone would read as an unresolved draw, so the
+  # shootout digits make the advancing side legible.
+  def penalty_token(match)
+    return "" unless match.pen_home && match.pen_away
+
+    "（#{t('matches.penalty_score')} #{match.pen_home}:#{match.pen_away}）"
   end
 
   # Font size (px) for a pick-button label, shrinking long names to one line.

@@ -47,6 +47,7 @@ ja:
       home: ホーム勝ち
       draw: 引き分け
       away: アウェイ勝ち
+    penalty_score: PK
     draw: 引き分け
     pending_settlement: 精算待ち
     odds_multiplier: オッズ %{odds}x

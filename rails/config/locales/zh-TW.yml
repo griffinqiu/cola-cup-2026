@@ -47,6 +47,7 @@ zh-TW:
       home: 主勝
       draw: 平局
       away: 客勝
+    penalty_score: 點
     draw: 平局
     pending_settlement: 待結算
     odds_multiplier: 賠率 %{odds}x

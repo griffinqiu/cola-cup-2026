@@ -55,6 +55,7 @@ en:
       home: Home win
       draw: Draw
       away: Away win
+    penalty_score: pens
     draw: Draw
     pending_settlement: Pending settlement
     odds_multiplier: Odds %{odds}x

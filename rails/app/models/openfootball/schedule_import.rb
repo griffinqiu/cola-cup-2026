@@ -136,7 +136,9 @@ module Openfootball
             home_label: home_id ? nil : match["team1"],
             away_label: away_id ? nil : match["team2"],
             venue: match["ground"],
-            kickoff_at: parse_kickoff(match["date"], match["time"])
+            kickoff_at: parse_kickoff(match["date"], match["time"]),
+            pen_home: penalty_score(match, 0),
+            pen_away: penalty_score(match, 1)
           )
           sync_goals(record, match, home_id, away_id) if match.key?("score")
         end
@@ -164,6 +166,15 @@ module Openfootball
       return if rows.empty?
 
       Goal.insert_all(rows.map { |row| row.merge(match_id: record.id) })
+    end
+
+    # A knockout decided on penalties carries the shootout score under score.p
+    # ([team1, team2] = [home, away], since team1 is always our home). football-data
+    # owns the result/winner; openfootball owns these shootout digits, shown beside
+    # the level full-time score. nil for any match without a shootout.
+    def penalty_score(match, index)
+      pens = match.dig("score", "p")
+      pens[index] if pens.is_a?(Array) && pens.size == 2
     end
 
     def goal_rows(goals, team_id)

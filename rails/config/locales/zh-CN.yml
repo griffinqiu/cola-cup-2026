@@ -56,6 +56,7 @@ zh-CN:
       home: "主胜"
       draw: "平局"
       away: "客胜"
+    penalty_score: "点"
     draw: "平局"
     pending_settlement: "待结算"
     odds_multiplier: "赔率 %{odds}x"
