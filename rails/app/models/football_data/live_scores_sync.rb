@@ -87,7 +87,7 @@ module FootballData
     def record_final_result(match, fd, fd_home_is_our_home, home_score, away_score)
       return :skipped if match.settled?
 
-      result = derive_result(fd, fd_home_is_our_home)
+      result = derive_result(fd, fd_home_is_our_home, knockout: match.knockout?)
       return :skipped if result.nil?
 
       home_score = match.home_score if home_score.nil?

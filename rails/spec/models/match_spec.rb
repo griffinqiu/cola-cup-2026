@@ -177,6 +177,13 @@ RSpec.describe Match do
       expect(match.reload.result).to eq("home")
     end
 
+    it "rejects an explicit draw for a knockout (a live-sync DRAW before the shootout winner posts)" do
+      match = create(:match, :knockout)
+      expect { match.record_result!(home_score: 1, away_score: 1, result: "draw") }
+        .to raise_error(Match::DomainError, "淘汰赛比分相同，请选择晋级方")
+      expect(match.reload.result).to be_nil
+    end
+
     it "refuses to re-record a settled match (use display-score edit instead)" do
       match = create(:match, :settled)
       expect { match.record_result!(home_score: 3, away_score: 0) }

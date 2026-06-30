@@ -32,12 +32,16 @@ module FootballData
 
     # Our-perspective result for a FINISHED fixture: prefer football-data's
     # winner (covers ET/penalties), fall back to the full-time score.
-    # fd_home_is_our_home maps their home/away to ours. nil when undecidable.
-    def derive_result(fd, fd_home_is_our_home)
+    # fd_home_is_our_home maps their home/away to ours. nil when undecidable —
+    # which for a knockout includes a level scoreline: a draw is impossible there,
+    # so we return nil and wait for football-data to post the shootout winner
+    # rather than freeze a premature "draw" (it briefly reports DRAW the instant a
+    # penalty match goes FINISHED before backfilling the winner).
+    def derive_result(fd, fd_home_is_our_home, knockout: false)
       case fd.dig("score", "winner")
       when "HOME_TEAM" then return fd_home_is_our_home ? "home" : "away"
       when "AWAY_TEAM" then return fd_home_is_our_home ? "away" : "home"
-      when "DRAW" then return "draw"
+      when "DRAW" then return knockout ? nil : "draw"
       end
 
       home, away = full_time_scores(fd)
@@ -48,7 +52,7 @@ module FootballData
       return "home" if our_home > our_away
       return "away" if our_home < our_away
 
-      "draw"
+      knockout ? nil : "draw"
     end
   end
 end

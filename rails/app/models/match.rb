@@ -194,6 +194,10 @@ class Match < ApplicationRecord
     raise DomainError, I18n.t("errors.match.already_settled") if settled?
 
     resolved = result.presence || derive_result_from_score(home_score, away_score)
+    # Knockout never draws: a tie there must resolve to an advancing side. Reject a
+    # "draw" from any caller (the live sync can momentarily derive one before the
+    # shootout winner is posted) so we never freeze an unsettleable result.
+    resolved = nil if knockout? && resolved == "draw"
     unless resolved
       raise DomainError, I18n.t(knockout? ? "errors.match.knockout_tie" : "errors.match.missing_score")
     end
