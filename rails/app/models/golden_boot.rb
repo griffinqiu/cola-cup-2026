@@ -1,7 +1,7 @@
-# Golden boot pool: bet "yes/no" on each round-of-16 team's player who has >= 3
+# Golden boot pool: bet "yes/no" on each knockout team's player who has >= 3
 # goals on whether they win the top-scorer race. Shares the champion timing —
-# opens when the field is set, each player locks 1h before their team's
-# round-of-16 match. Settles off goal data (Scorers.ranked), not match results:
+# opens when a team reaches the round of 32, and each player locks 1h before
+# their team's quarter-final. Settles off goal data (Scorers.ranked), not results:
 #  - sweep!: a candidate whose team is out and who already trails the leader can
 #    never be #1 → settle "no" early. Runs after each goal import.
 #  - open_final!: admin reveal once the final's goals are in — top scorer wins.
@@ -14,7 +14,7 @@ module GoldenBoot
 
   module_function
 
-  # >=3-goal players whose team reached the round of 16, ordered by goals.
+  # >=3-goal players whose team reached the round of 32, ordered by goals.
   def candidate_subjects
     rows = eligible_rows
     teams = Team.where(id: rows.filter_map(&:team_id)).index_by(&:id)
@@ -22,7 +22,7 @@ module GoldenBoot
   end
 
   def eligible_rows
-    alive = Champion.r16_team_ids
+    alive = Champion.knockout_team_ids
     Scorers.ranked.select { |row| row.goals >= MIN_GOALS && alive.include?(row.team_id) }
   end
 

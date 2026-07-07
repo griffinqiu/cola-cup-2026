@@ -26,6 +26,19 @@ RSpec.describe Champion do
       expect(entry.source_match_id).to eq(match.id)
     end
 
+    it "settles a round-of-32 loser's pool as 'no' (the market opens at the round of 32)" do
+      match = create(:match, home_team: home, away_team: away, stage: "r32",
+                     group_name: nil, result: "home", result_at: Time.current)
+      champ_pick(bettor, away, "yes")
+      champ_pick(other, away, "no")
+
+      described_class.settle_for_match(match)
+
+      entry = OutrightLedgerEntry.find_by(user: bettor, subject_key: "team:#{away.id}")
+      expect(entry.outcome).to eq("lost")
+      expect(entry.delta).to eq(-1.0)
+    end
+
     it "settles the final winner's pool as 'yes' (champion)" do
       match = create(:match, home_team: home, away_team: away, stage: "final",
                      group_name: nil, result: "home", result_at: Time.current)

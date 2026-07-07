@@ -1,7 +1,9 @@
 # Freezes each outright candidate as its own deadline (1h before that team's
-# round-of-16 match) passes: snapshots the champion market odds and purges its
-# one-sided pool. Per-team, not a single global cutoff. Idempotent — a frozen
-# subject (its OutrightCandidate row exists) is skipped. Runs every 10 minutes.
+# quarter-final) passes: snapshots the champion market odds and purges its
+# one-sided pool. Per-team — a team not yet slotted into a quarter-final has no
+# deadline and stays open. Idempotent — a frozen subject (its OutrightCandidate
+# row exists) or one that already settled (an eliminated team) is skipped. Runs
+# every 10 minutes.
 class OutrightLockJob < ApplicationJob
   queue_as :default
 
@@ -17,6 +19,7 @@ class OutrightLockJob < ApplicationJob
       deadline = deadlines[subject.team_id]
       next if deadline.nil? || now < deadline
       next if OutrightCandidate.exists?(market: subject.market, subject_key: subject.subject_key)
+      next if OutrightLedgerEntry.exists?(market: subject.market, subject_key: subject.subject_key)
 
       freeze_subject(subject, now, champion_probs)
       froze = true

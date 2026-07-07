@@ -7,7 +7,7 @@ class OutrightBoard
   # golden boot has none. Champion rows are ordered by it; golden boot keeps the
   # goals order from Scorers.ranked.
   Row = Struct.new(:subject, :tally, :my_pick, :my_stake, :my_entry, :outcome, :prob, :roster,
-                   :open, :deadline, keyword_init: true)
+                   :open, :deadline, :eliminated, keyword_init: true)
 
   def self.driver(market)
     market == GoldenBoot::MARKET ? GoldenBoot : Champion
@@ -39,12 +39,14 @@ class OutrightBoard
     # Frozen prob snapshot, written per team at its own lock (odds freeze at 封盘).
     frozen = OutrightCandidate.for_market(@market).index_by(&:subject_key)
     deadlines = Champion.deadlines_by_team
+    eliminated = TournamentStatus.eliminated_team_ids
     now = Time.current
 
     rows = subjects.map do |subject|
       mine = my_picks[subject.subject_key]
       outcome = outcomes[subject.subject_key]
       deadline = deadlines[subject.team_id]
+      is_eliminated = eliminated.include?(subject.team_id)
       Row.new(
         subject: subject,
         tally: tallies[subject.subject_key] || OutrightPick.empty_tally,
@@ -54,17 +56,21 @@ class OutrightBoard
         outcome: outcome,
         prob: frozen[subject.subject_key]&.meta&.dig("prob") || live_probs[subject.team_id],
         roster: rosters[subject.subject_key] || [],
-        open: outcome.nil? && deadline.present? && now < deadline,
-        deadline: deadline
+        # Open from the round of 32 until this team's own quarter-final; a team not
+        # yet slotted into one (nil deadline) stays open, an eliminated one never is.
+        open: outcome.nil? && !is_eliminated && (deadline.nil? || now < deadline),
+        deadline: deadline,
+        eliminated: is_eliminated
       )
     end
 
     order_rows(rows)
   end
 
-  # Eliminated candidates (settled "lost") are never dropped — they sink to the
-  # bottom. Above them: champion by Polymarket probability (unmatched last),
-  # golden boot by its incoming goals order. Ties keep the incoming order.
+  # Eliminated candidates (settled "lost", or knocked out before any bet) are
+  # never dropped — they sink to the bottom. Above them: champion by Polymarket
+  # probability (unmatched last), golden boot by its incoming goals order. Ties
+  # keep the incoming order.
   def order_rows(rows)
     rows.each_with_index.sort_by do |row, index|
       market_key = @market == Champion::MARKET ? (row.prob ? -row.prob : 1.0) : index
@@ -73,6 +79,6 @@ class OutrightBoard
   end
 
   def eliminated_rank(row)
-    row.outcome == "lost" ? 1 : 0
+    row.outcome == "lost" || row.eliminated ? 1 : 0
   end
 end

@@ -54,11 +54,16 @@
       <% end %>
     </div>
   <% elsif row.open %>
-    <%# Per-team window: locks 1h before this team's R16 match. Pick a side → a
-        popover asks how many bottles → that button submits. The popover is
-        absolutely positioned so it never shifts the card (no jitter). %>
-    <div class="ocard-live" data-controller="countdown" data-countdown-closes-at-value="<%= row.deadline.iso8601 %>">
-      <div class="ocard-deadline">⏳ <%= t(".until_lock") %> <b data-countdown-target="display"><%= outright_countdown_text(row.deadline) %></b> · <%= format_kickoff(row.deadline) %></div>
+    <%# Open from the round of 32 until this team's own quarter-final. A team not
+        yet slotted into a QF has no deadline, so it shows open without a countdown.
+        Pick a side → a popover asks how many bottles → that button submits. The
+        popover is absolutely positioned so it never shifts the card (no jitter). %>
+    <div class="ocard-live"<% if row.deadline %> data-controller="countdown" data-countdown-closes-at-value="<%= row.deadline.iso8601 %>"<% end %>>
+      <% if row.deadline %>
+        <div class="ocard-deadline">⏳ <%= t(".until_lock") %> <b data-countdown-target="display"><%= outright_countdown_text(row.deadline) %></b> · <%= format_kickoff(row.deadline) %></div>
+      <% else %>
+        <div class="ocard-deadline">🟢 <%= t(".open_until_qf") %></div>
+      <% end %>
       <%= form_with url: outright_picks_path, method: :post, class: "ocard-form" do %>
         <%= hidden_field_tag :market, market %>
         <%= hidden_field_tag :subject_key, subject.subject_key %>
@@ -95,6 +100,8 @@
         <% end %>
       </div>
     </div>
+  <% elsif row.eliminated %>
+    <div class="ocard-locked">🚫 <%= t(".eliminated") %></div>
   <% else %>
     <div class="ocard-locked">
       <% if row.my_pick %>

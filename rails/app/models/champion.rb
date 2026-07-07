@@ -1,19 +1,24 @@
-# Champion pool: bet "yes/no" on each of the 16 round-of-16 teams winning the
-# cup. Betting opens the moment the round-of-16 field is set and each team locks
-# 1h before *its own* round-of-16 match (not a single global cutoff). Settles
-# off match results: a team's pool settles the moment it's knocked out; the
-# final's winner settles "yes".
+# Champion pool: bet "yes/no" on each knockout team (from the round of 32 on)
+# winning the cup. Betting opens the moment a team reaches the round of 32 and
+# locks 1h before *that team's own* quarter-final. A team still alive but not yet
+# slotted into a quarter-final stays open (no countdown); an eliminated team is
+# closed and its pool settles "no". Settles off match results: a team's pool
+# settles the moment it's knocked out; the final's winner settles "yes".
 module Champion
   MARKET = "champion"
-  CHAMPION_STAGES = %w[r16 qf sf final].freeze
+  CHAMPION_STAGES = %w[r32 r16 qf sf final].freeze
+  # Betting opens as a team reaches OPEN_STAGE and locks 1h before its LOCK_STAGE match.
+  OPEN_STAGE = "r32"
+  LOCK_STAGE = "qf"
   LOCK_LEAD = 1.hour
 
   module_function
 
-  # The 16 round-of-16 teams as uniform subjects. Computed live — the field is
-  # fixed once set, and per-team deadlines (not a snapshot) govern locking.
+  # Every knockout team (round of 32 onward) as a uniform subject, ordered by
+  # kickoff. Eliminated teams stay in the list (shown closed); per-team
+  # quarter-final deadlines govern locking.
   def candidate_subjects
-    Match.where(stage: "r16").includes(:home_team, :away_team).order(:kickoff_at)
+    Match.where(stage: OPEN_STAGE).includes(:home_team, :away_team).order(:kickoff_at)
          .flat_map { |match| [ match.home_team, match.away_team ] }
          .compact.uniq.map { |team| subject_for(team) }
   end
@@ -28,36 +33,38 @@ module Champion
     "team:#{team_id}"
   end
 
-  # The market is live the moment the *first* round-of-16 team is known — you can
+  # The market is live the moment the *first* round-of-32 team is known — you can
   # bet each team as it's determined, no need to wait for the full field. Drives
   # whether the tab, promo and page appear.
   def available?
-    Match.where(stage: "r16").where("home_team_id IS NOT NULL OR away_team_id IS NOT NULL").exists?
+    Match.where(stage: OPEN_STAGE).where("home_team_id IS NOT NULL OR away_team_id IS NOT NULL").exists?
   end
 
-  def r16_team_ids
-    Match.where(stage: "r16").pluck(:home_team_id, :away_team_id).flatten.compact.to_set
+  # The knockout field (round-of-32 teams) — also the golden-boot candidate gate.
+  def knockout_team_ids
+    Match.where(stage: OPEN_STAGE).pluck(:home_team_id, :away_team_id).flatten.compact.to_set
   end
 
-  def r16_kickoff_for(team_id)
+  def qf_kickoff_for(team_id)
     return nil if team_id.nil?
 
-    Match.where(stage: "r16")
+    Match.where(stage: LOCK_STAGE)
          .where("home_team_id = :id OR away_team_id = :id", id: team_id)
          .minimum(:kickoff_at)
   end
 
-  # A team locks 1h before its own round-of-16 match.
+  # A team locks 1h before its own quarter-final. nil until it's slotted into one
+  # (still alive earlier in the bracket, or eliminated before reaching it).
   def deadline_for(team_id)
-    kickoff = r16_kickoff_for(team_id)
+    kickoff = qf_kickoff_for(team_id)
     kickoff && kickoff - LOCK_LEAD
   end
 
-  # { team_id => deadline } for every round-of-16 team, in one query — avoids an
-  # N+1 when the board scores open/locked for each candidate.
+  # { team_id => deadline } for every team already slotted into a quarter-final,
+  # in one query — avoids an N+1 when the board scores open/locked per candidate.
   def deadlines_by_team
     kickoffs = {}
-    Match.where(stage: "r16").pluck(:home_team_id, :away_team_id, :kickoff_at).each do |home, away, kickoff|
+    Match.where(stage: LOCK_STAGE).pluck(:home_team_id, :away_team_id, :kickoff_at).each do |home, away, kickoff|
       [ home, away ].compact.each do |team_id|
         kickoffs[team_id] = [ kickoffs[team_id], kickoff ].compact.min
       end
@@ -65,15 +72,15 @@ module Champion
     kickoffs.transform_values { |kickoff| kickoff - LOCK_LEAD }
   end
 
-  # Betting on this team is allowed as soon as it's in the round of 16 (it has a
-  # deadline) and until that deadline — but never once the team is knocked out
-  # (defends against a bracket where an already-eliminated team still carries a
-  # future deadline). Golden boot shares this gate (and the team's deadline).
+  # Betting on this team is allowed from the moment it reaches the round of 32
+  # until 1h before its own quarter-final — but never once it's knocked out. A
+  # team not yet slotted into a quarter-final has no deadline and stays open.
+  # Golden boot shares this gate (and the team's deadline).
   def open_for?(team_id)
     return false if TournamentStatus.eliminated_team_ids.include?(team_id)
 
     deadline = deadline_for(team_id)
-    deadline.present? && Time.current < deadline
+    deadline.nil? || Time.current < deadline
   end
 
   # Called when a knockout match's result is recorded (see ChampionSettleJob).

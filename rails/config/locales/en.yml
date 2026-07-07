@@ -534,7 +534,7 @@ en:
       warn_target_golden_boot: Golden Boot
       warn_target_champion: Champion
       warn_tail: there's only one, so most will miss — be careful not to spread too thin.
-      not_available: Outrights open once the Round of 16 is set — stay tuned.
+      not_available: Outrights open once the Round of 32 is set — stay tuned.
       empty_golden_boot: No players with ≥ 3 goals to bet on yet.
       empty_champion: No teams to bet on yet.
     candidate:
@@ -546,6 +546,8 @@ en:
       crowd_favor: Coworkers favor
       bet_verb: Bet
       until_lock: Until lock
+      open_until_qf: Open · locks 1h before its quarter-final
+      eliminated: Eliminated
       staked: Bet %{count} bottles
       will_champion: Will win the title
       will_golden_boot: Will win the Golden Boot
@@ -556,14 +558,14 @@ en:
       cancel: Cancel
       pick_hint: Tap "Yes" or "No" to bet
       locked_mine_html: Locked · you bet <b>%{pick}</b> %{count} bottles, settled by the result
-      locked_none: Locked · you didn't bet on this team (closes 1 hour before its Round of 16 match)
+      locked_none: Locked · you didn't bet on this team (closes 1 hour before its quarter-final)
       roster_summary: "%{count} people bet · see who bet what"
     status:
-      available_html: The Round of 16 fills in one by one — bet on each team as soon as it's set. Each team locks <b>1 hour before its own Round of 16 match</b> (see each card's countdown); after locking you can't change or cancel, and pools with no counterparty are refunded. Eliminated settles to "No"; winning the title / Golden Boot settles to "Yes".
-      unavailable: The Round of 16 isn't set yet. Once the first Round of 16 team is confirmed, you can bet "Yes/No" on it (and on players with ≥ 3 goals).
+      available_html: Bet on a team as soon as it reaches the Round of 32 (the knockouts). Each team locks <b>1 hour before its own quarter-final</b> (see each card's countdown; a team not yet slotted into a quarter-final stays open with no countdown); after locking you can't change or cancel, and pools with no counterparty are refunded. Eliminated can't be bet and settles to "No"; winning the title / Golden Boot settles to "Yes".
+      unavailable: The Round of 32 isn't set yet. Once the first knockout team is confirmed, you can bet "Yes/No" on it (and on players with ≥ 3 goals).
     rules:
       heading: How it works
-      champion_html: "<b>👑 Champion</b>: for every team that reaches the Round of 16, bet \"Yes (will win the title) / No\". One bet per team, 1 / 2 / 3 bottles."
+      champion_html: "<b>👑 Champion</b>: for every team that reaches the Round of 32 (the knockouts), bet \"Yes (will win the title) / No\". One bet per team, 1 / 2 / 3 bottles."
       settle_html: "<b>Settlement</b>: a team is eliminated → \"Yes\" backers pay \"No\" backers; the eventual champion → \"No\" backers pay \"Yes\" backers. Pari-mutuel — winners split the losers' bottles by stake."
-      golden_boot_html: "<b>⚽ Golden Boot</b>: among Round-of-16 players with ≥ 3 goals, bet whether they'll win it, ranked by current goals. A player whose team is out and who trails the leader settles to \"No\" early; the winner is revealed after the final's goals sync."
-      lock_html: "<b>Lock</b>: each team closes <b>1 hour before its own Round of 16 match</b>. After locking you can't change or cancel."
+      golden_boot_html: "<b>⚽ Golden Boot</b>: among knockout (Round-of-32) players with ≥ 3 goals, bet whether they'll win it, ranked by current goals. A player whose team is out and who trails the leader settles to \"No\" early; the winner is revealed after the final's goals sync."
+      lock_html: "<b>Lock</b>: each team closes <b>1 hour before its own quarter-final</b>. After locking you can't change or cancel."
